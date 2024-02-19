@@ -242,14 +242,24 @@ library(openxlsx)
 write.xlsx(md, "potato.export2.xlsx")
 ```
 
-Das Package `openxlsx` bietet die Möglichkeit, unterschiedliche Datensätze in mehreren Tabellenblättern in einer xlsx-Datei zu speichern. Hier mal exemplarisch, indem wir den potato-Datensatz mit dem oben generierten Datensatz in zwei Tabellenblättern in einer Datei speichern.
+Das Package `openxlsx` bietet die Möglichkeit, unterschiedliche Datensätze in mehreren Tabellenblättern in einer xlsx-Datei zu speichern. Hier mal exemplarisch, indem wir den potato-Datensatz mit einer summary statistics (siehe Kapitel Deskriptive Statistik) in zwei Tabellenblättern in einer Datei speichern.
+
+
+```{r, message=F}
+library(dplyr)
+md.sum=md %>% group_by(variety, method) %>% 
+  summarise(weight_avg=mean(weight, na.rm = TRUE),
+            weight_sd=sd(weight, na.rm = TRUE))
+md.sum
+```
+
 
 ```{r}
 wb <- createWorkbook()
 addWorksheet(wb, sheetName = "Kartoffeldaten")
 writeData(wb, "Kartoffeldaten", md) 
-addWorksheet(wb, sheetName = "Alter_Gewicht")
-writeData(wb, "Alter_Gewicht", md1) 
+addWorksheet(wb, sheetName = "summary statistics")
+writeData(wb, "summary statistics", md.sum) 
 saveWorkbook(wb, file = "potato.export3.xlsx", overwrite = TRUE)
 ```
 
