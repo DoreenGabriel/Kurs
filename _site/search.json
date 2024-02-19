@@ -12,5 +12,40 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "01 Allgemeines.html",
+    "href": "01 Allgemeines.html",
+    "title": "01 Allgemeines",
+    "section": "",
+    "text": "Crawley 2013: The R Book. 2nd Edition, E-Book unter http://onlinelibrary.wiley.com/book/10.1002/9781118448908\nCrawley 2013: Statistik mit R.\nDormann 2013: Parametrische Statistik.\nWollschläger 2012: Grundlagen der Datenanalyse.\nBurnham und Anderson 2002: Model Selection and Multimodel Inference.\n\n\n\n\n\nKursskripte der vorangegangenen Inhouse-Schulungen sowie der zentralen Biometriekurse des BMEL http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0\nviele Tutorien im Netz und auf YouTube\nMailing lists und archives auf http://www.r-project.org/\nhttp://de.wikibooks.org/wiki/GNU_R\nhttp://forum.r-statistik.de/\nhelp.start()\nHilefeseite öffnet sich durch ?Funktion z.B. ?mean\nVergleiche ?mean vs. ??mean\n\n\n\n\n\nentweder im Editor install.packages(\"Paketname\") z.B. install.packages(\"nlme\")\noder über das Fenster Packages/Install und dann Name des Package z.B. nlme eintragen und Install klicken\nLaden der Pakete einmal pro Session durch die Funktion library(\"Paketname\") z.B. library(\"nlme\")\n\n\n\n\n\nR unterscheidet zwischen Groß- und Kleinschreibung\nLeerzeichen werden normalerweise ignoriert, d.h. kein Unterschied 2+5 vs. 2 + 5\nKommentare werden mit # markiert und dadurch nicht als Befehl von R erkannt, sondern als Text\nZeilenumbruch bei langen Befehlen kein Problem (ein + erscheint in der nächsten Zeile)\nNormale Rechenoperationen + - * /\nAchtung ein : bedeutet nicht “geteilt durch”! Probier es aus 10:5\nlog(), log10(), exp(), sqrt(), 2^2, 2^0.5"
+  },
+  {
+    "objectID": "01 Allgemeines.html#literatur",
+    "href": "01 Allgemeines.html#literatur",
+    "title": "01 Allgemeines",
+    "section": "",
+    "text": "Crawley 2013: The R Book. 2nd Edition, E-Book unter http://onlinelibrary.wiley.com/book/10.1002/9781118448908\nCrawley 2013: Statistik mit R.\nDormann 2013: Parametrische Statistik.\nWollschläger 2012: Grundlagen der Datenanalyse.\nBurnham und Anderson 2002: Model Selection and Multimodel Inference."
+  },
+  {
+    "objectID": "01 Allgemeines.html#hilfe",
+    "href": "01 Allgemeines.html#hilfe",
+    "title": "01 Allgemeines",
+    "section": "",
+    "text": "Kursskripte der vorangegangenen Inhouse-Schulungen sowie der zentralen Biometriekurse des BMEL http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0\nviele Tutorien im Netz und auf YouTube\nMailing lists und archives auf http://www.r-project.org/\nhttp://de.wikibooks.org/wiki/GNU_R\nhttp://forum.r-statistik.de/\nhelp.start()\nHilefeseite öffnet sich durch ?Funktion z.B. ?mean\nVergleiche ?mean vs. ??mean"
+  },
+  {
+    "objectID": "01 Allgemeines.html#pakete-installieren-und-laden",
+    "href": "01 Allgemeines.html#pakete-installieren-und-laden",
+    "title": "01 Allgemeines",
+    "section": "",
+    "text": "entweder im Editor install.packages(\"Paketname\") z.B. install.packages(\"nlme\")\noder über das Fenster Packages/Install und dann Name des Package z.B. nlme eintragen und Install klicken\nLaden der Pakete einmal pro Session durch die Funktion library(\"Paketname\") z.B. library(\"nlme\")"
+  },
+  {
+    "objectID": "01 Allgemeines.html#grundlagen-programmiersprache-r",
+    "href": "01 Allgemeines.html#grundlagen-programmiersprache-r",
+    "title": "01 Allgemeines",
+    "section": "",
+    "text": "R unterscheidet zwischen Groß- und Kleinschreibung\nLeerzeichen werden normalerweise ignoriert, d.h. kein Unterschied 2+5 vs. 2 + 5\nKommentare werden mit # markiert und dadurch nicht als Befehl von R erkannt, sondern als Text\nZeilenumbruch bei langen Befehlen kein Problem (ein + erscheint in der nächsten Zeile)\nNormale Rechenoperationen + - * /\nAchtung ein : bedeutet nicht “geteilt durch”! Probier es aus 10:5\nlog(), log10(), exp(), sqrt(), 2^2, 2^0.5"
   }
 ]

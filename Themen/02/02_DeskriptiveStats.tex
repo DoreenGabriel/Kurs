@@ -1,0 +1,1858 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Datenmanagement und deskriptive Statistik},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Datenmanagement und deskriptive Statistik}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, interior hidden, breakable, boxrule=0pt, frame hidden, enhanced, sharp corners]}{\end{tcolorbox}}\fi
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{sec-pot}{%
+\subsection{Beispieldatensatz potato.xlsx}\label{sec-pot}}
+
+Diese Daten sind die leicht modifizierten und erweiterten
+\texttt{greenhouse}-Daten aus dem R-Paket \texttt{agricolae}.
+
+In einem Versuch wurden verschiedene Kartoffelsorten (\texttt{variety})
+in verschiedenen Anbaumethoden (\texttt{method}) kultiviert und die
+Anzahl Knollen (\texttt{tubers}), deren Gewicht (\texttt{weight}) und
+der Krankheitsbefall (\texttt{infection} 1=ja, 0=nein) ermittelt.
+
+Zunächst lesen wir den Datensatz \texttt{potato.xlsx} mit der Funktion
+\texttt{read.xlsx} aus der \texttt{library(openxlsx)} ein und benennen
+den \texttt{data.frame} mit \texttt{pot} und machen uns mit ihm
+vertraut.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(openxlsx)}
+\NormalTok{pot}\OtherTok{\textless{}{-}}\FunctionTok{read.xlsx}\NormalTok{(}\StringTok{"potato.xlsx"}\NormalTok{, }\AttributeTok{sheet=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(pot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   478 obs. of  6 variables:
+ $ variety  : chr  "Unica" "Unica" "Unica" "Unica" ...
+ $ method   : chr  "pot" "pot" "pot" "pot" ...
+ $ plant    : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ tubers   : num  9 3 4 4 2 2 3 6 9 6 ...
+ $ weight   : num  209.9 248.4 53.6 77.2 11.3 ...
+ $ infection: num  0 0 0 0 1 0 0 0 0 0 ...
+\end{verbatim}
+
+Der Datensatz hat 478 Zeilen (Beobachtungen) und 6 Spalten.
+
+\texttt{variety}, \texttt{method} und \texttt{infection} sind als
+\emph{character} eingelesen.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Unica"     "Mariva"    "Costanera"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{method)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "pot"        "bed"        "hydroponic" "aeroponic" 
+\end{verbatim}
+
+Diese können wir auch in Faktoren umwandeln (siehe
+Section~\ref{sec-mutate}).
+
+\hypertarget{datenmanagement-mit-dplyr}{%
+\subsection{Datenmanagement mit dplyr}\label{datenmanagement-mit-dplyr}}
+
+Eine gute Hilfestellung findet ihr unter:\\
+\url{https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html}
+
+Wir laden zunächst das Paket \texttt{dplyr} ein.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+Um den Output der folgenden Beispiele übersichtlicher zu gestalten,
+erstelle ich ein Subset aus dem Datensatz \texttt{pot}, der nur 24
+Beobachtungen enthält (zwei Beobachtungen für jede Kombination aus Sorte
+und Methode).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{pot.sub}\OtherTok{=}\NormalTok{pot}\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{group\_by}\NormalTok{(variety, method) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{slice\_sample}\NormalTok{(}\AttributeTok{n =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(pot.sub, }\AttributeTok{n=}\DecValTok{24}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic      1      5  24.1          0
+ 2 Costanera aeroponic      5      7  42            0
+ 3 Costanera bed            4      7 137.           1
+ 4 Costanera bed            3      5  78            1
+ 5 Costanera hydroponic     8      6  31.8          1
+ 6 Costanera hydroponic     4      5  42            1
+ 7 Costanera pot            5      3 110.           0
+ 8 Costanera pot            6      7 139.           0
+ 9 Mariva    aeroponic      7      6  99.2          0
+10 Mariva    aeroponic      5      5  72.6          0
+11 Mariva    bed            7      5  59.9          0
+12 Mariva    bed            8      5  77.3          0
+13 Mariva    hydroponic     9      2  10.8          0
+14 Mariva    hydroponic     9      1   7.85         0
+15 Mariva    pot            5      7 104.           0
+16 Mariva    pot            8      5  64.8          0
+17 Unica     aeroponic      6      2 112.           0
+18 Unica     aeroponic      7      4  50.1          0
+19 Unica     bed            9      4 124.           0
+20 Unica     bed            9      3  38            0
+21 Unica     hydroponic     6      2  17.1          0
+22 Unica     hydroponic     4      2  21.8          0
+23 Unica     pot            7      4  50.4          0
+24 Unica     pot            9      5  97.7          1
+\end{verbatim}
+
+\hypertarget{zeilen}{%
+\subsubsection{Zeilen}\label{zeilen}}
+
+Wir lernen nun Funtionen aus dem paket \texttt{dplyr} kennen, mit denen
+wir Beobachtungen, d.h. Zeilen unseres Datensatzes, auswählen oder
+umsortieren können.
+
+\hypertarget{filter}{%
+\paragraph{filter}\label{filter}}
+
+Mit der Funktion \texttt{filter} können wir ein Subset des Datensatzes
+erstellen. \texttt{pot.M} enthält mit folgendem Code nur noch
+Beobachtungen der Sorte \texttt{Mariva}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.M}\OtherTok{\textless{}{-}}\NormalTok{ pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(variety}\SpecialCharTok{==}\StringTok{"Mariva"}\NormalTok{)}
+\NormalTok{pot.M}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 8 x 6
+# Groups:   variety, method [4]
+  variety method     plant tubers weight infection
+  <chr>   <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+1 Mariva  aeroponic      7      6  99.2          0
+2 Mariva  aeroponic      5      5  72.6          0
+3 Mariva  bed            7      5  59.9          0
+4 Mariva  bed            8      5  77.3          0
+5 Mariva  hydroponic     9      2  10.8          0
+6 Mariva  hydroponic     9      1   7.85         0
+7 Mariva  pot            5      7 104.           0
+8 Mariva  pot            8      5  64.8          0
+\end{verbatim}
+
+\texttt{pot.BM} enthält mit folgendem Code nur noch Beobachtungen der
+Sorte \texttt{Mariva} und Methode \texttt{bed}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.MB}\OtherTok{\textless{}{-}}\NormalTok{ pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(variety}\SpecialCharTok{==}\StringTok{"Mariva"}\NormalTok{, method}\SpecialCharTok{==}\StringTok{"bed"}\NormalTok{)}
+\NormalTok{pot.MB  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 2 x 6
+# Groups:   variety, method [1]
+  variety method plant tubers weight infection
+  <chr>   <chr>  <dbl>  <dbl>  <dbl>     <dbl>
+1 Mariva  bed        7      5   59.9         0
+2 Mariva  bed        8      5   77.3         0
+\end{verbatim}
+
+Mehrere Ausprägungen einer Variable können mit \texttt{\%in\%}
+ausgewählt werden: \texttt{pot.MU} enthält mit folgendem Code nur noch
+Beobachtungen der Sorten \texttt{Mariva} und \texttt{Unica}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.MU}\OtherTok{\textless{}{-}}\NormalTok{ pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(variety}\SpecialCharTok{\%in\%}\FunctionTok{c}\NormalTok{(}\StringTok{"Mariva"}\NormalTok{, }\StringTok{"Unica"}\NormalTok{))}
+\NormalTok{pot.MU}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 16 x 6
+# Groups:   variety, method [8]
+   variety method     plant tubers weight infection
+   <chr>   <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Mariva  aeroponic      7      6  99.2          0
+ 2 Mariva  aeroponic      5      5  72.6          0
+ 3 Mariva  bed            7      5  59.9          0
+ 4 Mariva  bed            8      5  77.3          0
+ 5 Mariva  hydroponic     9      2  10.8          0
+ 6 Mariva  hydroponic     9      1   7.85         0
+ 7 Mariva  pot            5      7 104.           0
+ 8 Mariva  pot            8      5  64.8          0
+ 9 Unica   aeroponic      6      2 112.           0
+10 Unica   aeroponic      7      4  50.1          0
+11 Unica   bed            9      4 124.           0
+12 Unica   bed            9      3  38            0
+13 Unica   hydroponic     6      2  17.1          0
+14 Unica   hydroponic     4      2  21.8          0
+15 Unica   pot            7      4  50.4          0
+16 Unica   pot            9      5  97.7          1
+\end{verbatim}
+
+Alternativ können alle Beobachtungen bis auf Sorte \texttt{Mariva}
+selektiert werden.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.oM}\OtherTok{\textless{}{-}}\NormalTok{ pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(variety}\SpecialCharTok{!=}\NormalTok{(}\StringTok{"Mariva"}\NormalTok{))}
+\NormalTok{pot.oM }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 16 x 6
+# Groups:   variety, method [8]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic      1      5   24.1         0
+ 2 Costanera aeroponic      5      7   42           0
+ 3 Costanera bed            4      7  137.          1
+ 4 Costanera bed            3      5   78           1
+ 5 Costanera hydroponic     8      6   31.8         1
+ 6 Costanera hydroponic     4      5   42           1
+ 7 Costanera pot            5      3  110.          0
+ 8 Costanera pot            6      7  139.          0
+ 9 Unica     aeroponic      6      2  112.          0
+10 Unica     aeroponic      7      4   50.1         0
+11 Unica     bed            9      4  124.          0
+12 Unica     bed            9      3   38           0
+13 Unica     hydroponic     6      2   17.1         0
+14 Unica     hydroponic     4      2   21.8         0
+15 Unica     pot            7      4   50.4         0
+16 Unica     pot            9      5   97.7         1
+\end{verbatim}
+
+Hier werden alle Beobachtungen mit größer gleich 5 Knollen selektiert.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.T5 }\OtherTok{\textless{}{-}}\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(tubers}\SpecialCharTok{\textgreater{}=}\DecValTok{5}\NormalTok{)}
+\NormalTok{pot.T5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 14 x 6
+# Groups:   variety, method [8]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic      1      5   24.1         0
+ 2 Costanera aeroponic      5      7   42           0
+ 3 Costanera bed            4      7  137.          1
+ 4 Costanera bed            3      5   78           1
+ 5 Costanera hydroponic     8      6   31.8         1
+ 6 Costanera hydroponic     4      5   42           1
+ 7 Costanera pot            6      7  139.          0
+ 8 Mariva    aeroponic      7      6   99.2         0
+ 9 Mariva    aeroponic      5      5   72.6         0
+10 Mariva    bed            7      5   59.9         0
+11 Mariva    bed            8      5   77.3         0
+12 Mariva    pot            5      7  104.          0
+13 Mariva    pot            8      5   64.8         0
+14 Unica     pot            9      5   97.7         1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.T5}\SpecialCharTok{$}\NormalTok{tubers}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 5 7 7 5 6 5 7 6 5 5 5 7 5 5
+\end{verbatim}
+
+Hier werden alle Beobachtungen mit mehr als 5 Knollen selektiert.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.T5 }\OtherTok{\textless{}{-}}\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(tubers}\SpecialCharTok{\textgreater{}}\DecValTok{5}\NormalTok{)}
+\NormalTok{pot.T5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 6 x 6
+# Groups:   variety, method [6]
+  variety   method     plant tubers weight infection
+  <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+1 Costanera aeroponic      5      7   42           0
+2 Costanera bed            4      7  137.          1
+3 Costanera hydroponic     8      6   31.8         1
+4 Costanera pot            6      7  139.          0
+5 Mariva    aeroponic      7      6   99.2         0
+6 Mariva    pot            5      7  104.          0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.T5}\SpecialCharTok{$}\NormalTok{tubers}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 7 7 6 7 6 7
+\end{verbatim}
+
+zwei Bedingungen (Anzahl Knollen und Gewicht)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(tubers}\SpecialCharTok{\textgreater{}=}\DecValTok{5}\NormalTok{, weight }\SpecialCharTok{\textgreater{}} \DecValTok{80}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 5 x 6
+# Groups:   variety, method [5]
+  variety   method    plant tubers weight infection
+  <chr>     <chr>     <dbl>  <dbl>  <dbl>     <dbl>
+1 Costanera bed           4      7  137.          1
+2 Costanera pot           6      7  139.          0
+3 Mariva    aeroponic     7      6   99.2         0
+4 Mariva    pot           5      7  104.          0
+5 Unica     pot           9      5   97.7         1
+\end{verbatim}
+
+\hypertarget{arrange}{%
+\paragraph{arrange}\label{arrange}}
+
+Mit der Funktion \texttt{arrange} sortieren wir die Daten. Hier nach
+Anzahl \texttt{tubers} in aufsteigender Reihenfolge.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Mariva    hydroponic     9      1   7.85         0
+ 2 Mariva    hydroponic     9      2  10.8          0
+ 3 Unica     aeroponic      6      2 112.           0
+ 4 Unica     hydroponic     6      2  17.1          0
+ 5 Unica     hydroponic     4      2  21.8          0
+ 6 Costanera pot            5      3 110.           0
+ 7 Unica     bed            9      3  38            0
+ 8 Unica     aeroponic      7      4  50.1          0
+ 9 Unica     bed            9      4 124.           0
+10 Unica     pot            7      4  50.4          0
+# i 14 more rows
+\end{verbatim}
+
+und hier in absteigender Reihenfolge durch Funktion \texttt{desc()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(tubers))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic      5      7   42           0
+ 2 Costanera bed            4      7  137.          1
+ 3 Costanera pot            6      7  139.          0
+ 4 Mariva    pot            5      7  104.          0
+ 5 Costanera hydroponic     8      6   31.8         1
+ 6 Mariva    aeroponic      7      6   99.2         0
+ 7 Costanera aeroponic      1      5   24.1         0
+ 8 Costanera bed            3      5   78           1
+ 9 Costanera hydroponic     4      5   42           1
+10 Mariva    aeroponic      5      5   72.6         0
+# i 14 more rows
+\end{verbatim}
+
+und hier für zwei Kriterien (wobei letzteres Kriterium nur bei gleichen
+Werten in erstem Kriterium sortiert wird)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(tubers),}\FunctionTok{desc}\NormalTok{(weight))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera pot            6      7  139.          0
+ 2 Costanera bed            4      7  137.          1
+ 3 Mariva    pot            5      7  104.          0
+ 4 Costanera aeroponic      5      7   42           0
+ 5 Mariva    aeroponic      7      6   99.2         0
+ 6 Costanera hydroponic     8      6   31.8         1
+ 7 Unica     pot            9      5   97.7         1
+ 8 Costanera bed            3      5   78           1
+ 9 Mariva    bed            8      5   77.3         0
+10 Mariva    aeroponic      5      5   72.6         0
+# i 14 more rows
+\end{verbatim}
+
+\hypertarget{slice}{%
+\paragraph{slice}\label{slice}}
+
+Mit der Funktion \texttt{slice} selektieren wir die Zeilen. Hier Zeile 5
+bis 10 im Datensatz \texttt{pot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice}\NormalTok{(}\DecValTok{5}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  variety method plant tubers weight infection
+1   Unica    pot     5      2   11.3         1
+2   Unica    pot     6      2   17.8         0
+3   Unica    pot     7      3   28.1         0
+4   Unica    pot     8      6   33.0         0
+5   Unica    pot     9      9   81.5         0
+6   Unica    pot    10      6   71.1         0
+\end{verbatim}
+
+Die Funktion \texttt{slice\_head(n=3)} zeigt die ersten drei Zeilen des
+Datensatzes an.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  variety method plant tubers weight infection
+1   Unica    pot     1      9  209.9         0
+2   Unica    pot     2      3  248.4         0
+3   Unica    pot     3      4   53.6         0
+\end{verbatim}
+
+Die Funktion \texttt{slice\_tail(n=3)} zeigt die letzten drei Zeilen des
+Datensatzes an.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_tail}\NormalTok{(}\AttributeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety    method plant tubers weight infection
+1 Costanera aeroponic     8      6   29.1         1
+2 Costanera aeroponic     9      4   17.6         0
+3 Costanera aeroponic    10      7   36.9         0
+\end{verbatim}
+
+Alternativ könnte man auch die Funtionen \texttt{head(pot)} und
+\texttt{tail(pot)} nutzen.
+
+Die Funktion \texttt{slice\_sample(n=3)} wählt zufällig drei
+Beobachtungen aus.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_sample}\NormalTok{(}\AttributeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety     method plant tubers weight infection
+1     Unica        bed     3      2   18.2         1
+2 Costanera        bed     2      4  118.5         1
+3     Unica hydroponic     3      2   58.7         0
+\end{verbatim}
+
+Wenn man immer das gleiche Set an Proben zufällig auswählen möchte, d.h.
+ein reproduzierbares Ergebnis erzielen möchte, dann setzt man vorher den
+\texttt{seed}. Die Zahl (hier 123) kann beliebig gewählt werden.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_sample}\NormalTok{(}\AttributeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety     method plant tubers weight infection
+1    Mariva        bed     5      3   37.8         1
+2 Costanera hydroponic     3      7   18.6         1
+3    Mariva        bed     9      6   99.4         0
+\end{verbatim}
+
+Die Funktion \texttt{slice\_max(n=3)} wählt die drei Beobachtungen mit
+dem höchsten Gewicht aus.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_max}\NormalTok{(weight, }\AttributeTok{n=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  variety    method plant tubers weight infection
+1  Mariva aeroponic     6     13  323.3         0
+2   Unica aeroponic     9      5  265.4         0
+3   Unica       pot     2      3  248.4         0
+\end{verbatim}
+
+\hypertarget{spalten}{%
+\subsubsection{Spalten}\label{spalten}}
+
+Häufig arbeitet man mit großen Datensätzen und vielen Variablen.
+
+\hypertarget{select}{%
+\paragraph{select}\label{select}}
+
+Mit der Funktion \texttt{select} kann man Variablen auswählen, indem ich
+sie durch Komme getrennt aufliste:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(variety, method, tubers, weight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 4
+# Groups:   variety, method [12]
+   variety   method     tubers weight
+   <chr>     <chr>       <dbl>  <dbl>
+ 1 Costanera aeroponic       5   24.1
+ 2 Costanera aeroponic       7   42  
+ 3 Costanera bed             7  137. 
+ 4 Costanera bed             5   78  
+ 5 Costanera hydroponic      6   31.8
+ 6 Costanera hydroponic      5   42  
+ 7 Costanera pot             3  110. 
+ 8 Costanera pot             7  139. 
+ 9 Mariva    aeroponic       6   99.2
+10 Mariva    aeroponic       5   72.6
+# i 14 more rows
+\end{verbatim}
+
+oder von \texttt{variety} bis \texttt{weight}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(variety}\SpecialCharTok{:}\NormalTok{weight)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 5
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>
+ 1 Costanera aeroponic      1      5   24.1
+ 2 Costanera aeroponic      5      7   42  
+ 3 Costanera bed            4      7  137. 
+ 4 Costanera bed            3      5   78  
+ 5 Costanera hydroponic     8      6   31.8
+ 6 Costanera hydroponic     4      5   42  
+ 7 Costanera pot            5      3  110. 
+ 8 Costanera pot            6      7  139. 
+ 9 Mariva    aeroponic      7      6   99.2
+10 Mariva    aeroponic      5      5   72.6
+# i 14 more rows
+\end{verbatim}
+
+wie oben nur ohne \texttt{plant}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(variety}\SpecialCharTok{:}\NormalTok{weight)}\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\NormalTok{plant)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 4
+# Groups:   variety, method [12]
+   variety   method     tubers weight
+   <chr>     <chr>       <dbl>  <dbl>
+ 1 Costanera aeroponic       5   24.1
+ 2 Costanera aeroponic       7   42  
+ 3 Costanera bed             7  137. 
+ 4 Costanera bed             5   78  
+ 5 Costanera hydroponic      6   31.8
+ 6 Costanera hydroponic      5   42  
+ 7 Costanera pot             3  110. 
+ 8 Costanera pot             7  139. 
+ 9 Mariva    aeroponic       6   99.2
+10 Mariva    aeroponic       5   72.6
+# i 14 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{ends\_with}\NormalTok{(}\StringTok{".f"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{slice\_sample}\NormalTok{(}\AttributeTok{n=}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Dataframe mit 0 Spalten und 8 Zeilen
+\end{verbatim}
+
+\hypertarget{rename}{%
+\subsubsection{rename}\label{rename}}
+
+Variablen können umbenannt werden durch die Funktion \texttt{rename()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rename}\NormalTok{(}\AttributeTok{plant\_ID=}\NormalTok{plant)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant_ID tubers weight infection
+   <chr>     <chr>         <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic         1      5   24.1         0
+ 2 Costanera aeroponic         5      7   42           0
+ 3 Costanera bed               4      7  137.          1
+ 4 Costanera bed               3      5   78           1
+ 5 Costanera hydroponic        8      6   31.8         1
+ 6 Costanera hydroponic        4      5   42           1
+ 7 Costanera pot               5      3  110.          0
+ 8 Costanera pot               6      7  139.          0
+ 9 Mariva    aeroponic         7      6   99.2         0
+10 Mariva    aeroponic         5      5   72.6         0
+# i 14 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic      1      5   24.1         0
+ 2 Costanera aeroponic      5      7   42           0
+ 3 Costanera bed            4      7  137.          1
+ 4 Costanera bed            3      5   78           1
+ 5 Costanera hydroponic     8      6   31.8         1
+ 6 Costanera hydroponic     4      5   42           1
+ 7 Costanera pot            5      3  110.          0
+ 8 Costanera pot            6      7  139.          0
+ 9 Mariva    aeroponic      7      6   99.2         0
+10 Mariva    aeroponic      5      5   72.6         0
+# i 14 more rows
+\end{verbatim}
+
+Auch hire müssen wir die Daten in einem neuen
+\texttt{data.frame\ pot.sub1} speichern oder überschreiben
+(\texttt{pot.sub=pot.sub\ \%\textgreater{}\%\ rename(plant\_ID=plant)}),
+um auf die neue Variable zugreifen zu können.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub1}\OtherTok{=}\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rename}\NormalTok{(}\AttributeTok{plant\_ID=}\NormalTok{plant)}
+\NormalTok{pot.sub1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 6
+# Groups:   variety, method [12]
+   variety   method     plant_ID tubers weight infection
+   <chr>     <chr>         <dbl>  <dbl>  <dbl>     <dbl>
+ 1 Costanera aeroponic         1      5   24.1         0
+ 2 Costanera aeroponic         5      7   42           0
+ 3 Costanera bed               4      7  137.          1
+ 4 Costanera bed               3      5   78           1
+ 5 Costanera hydroponic        8      6   31.8         1
+ 6 Costanera hydroponic        4      5   42           1
+ 7 Costanera pot               5      3  110.          0
+ 8 Costanera pot               6      7  139.          0
+ 9 Mariva    aeroponic         7      6   99.2         0
+10 Mariva    aeroponic         5      5   72.6         0
+# i 14 more rows
+\end{verbatim}
+
+\hypertarget{mutate}{%
+\paragraph{mutate}\label{mutate}}
+
+Eine neue Variable kann durch die Funktion \texttt{mutate} berechnet und
+eingefügt werden.
+
+Beispielsweise könnten wir das Gewicht in kg statt g angeben. Es wird
+eine neue Variable erzeugt \texttt{weight\_kg} indem \texttt{weight}
+durch 1000 geteilt wird.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{weight\_kg=}\NormalTok{weight}\SpecialCharTok{/}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 7
+# Groups:   variety, method [12]
+   variety   method     plant tubers weight infection weight_kg
+   <chr>     <chr>      <dbl>  <dbl>  <dbl>     <dbl>     <dbl>
+ 1 Costanera aeroponic      1      5   24.1         0    0.0241
+ 2 Costanera aeroponic      5      7   42           0    0.042 
+ 3 Costanera bed            4      7  137.          1    0.137 
+ 4 Costanera bed            3      5   78           1    0.078 
+ 5 Costanera hydroponic     8      6   31.8         1    0.0318
+ 6 Costanera hydroponic     4      5   42           1    0.042 
+ 7 Costanera pot            5      3  110.          0    0.110 
+ 8 Costanera pot            6      7  139.          0    0.139 
+ 9 Mariva    aeroponic      7      6   99.2         0    0.0992
+10 Mariva    aeroponic      5      5   72.6         0    0.0726
+# i 14 more rows
+\end{verbatim}
+
+Damit diese neue Variable im Datensatz nicht nur erscheint, sondern auch
+zugreifbar ist, speichere ich den Datensatz unter einem neuen Namen ab.
+Man könnte ihn auch überschreiben. Ausserdem noch zwei Beispiele für
+eine log- und Wurzel-Transformation
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot.sub1}\OtherTok{=}\NormalTok{pot.sub }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{weight\_kg=}\NormalTok{weight}\SpecialCharTok{/}\DecValTok{1000}\NormalTok{,}
+         \AttributeTok{weight.sqrt=}\FunctionTok{sqrt}\NormalTok{(weight),}
+         \AttributeTok{weight.l=}\FunctionTok{log}\NormalTok{(weight),}
+         \AttributeTok{tubers.l=}\FunctionTok{log}\NormalTok{(tubers))}
+\NormalTok{pot.sub1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 24 x 10
+# Groups:   variety, method [12]
+   variety   method plant tubers weight infection weight_kg weight.sqrt weight.l
+   <chr>     <chr>  <dbl>  <dbl>  <dbl>     <dbl>     <dbl>       <dbl>    <dbl>
+ 1 Costanera aerop~     1      5   24.1         0    0.0241        4.91     3.18
+ 2 Costanera aerop~     5      7   42           0    0.042         6.48     3.74
+ 3 Costanera bed        4      7  137.          1    0.137        11.7      4.92
+ 4 Costanera bed        3      5   78           1    0.078         8.83     4.36
+ 5 Costanera hydro~     8      6   31.8         1    0.0318        5.64     3.46
+ 6 Costanera hydro~     4      5   42           1    0.042         6.48     3.74
+ 7 Costanera pot        5      3  110.          0    0.110        10.5      4.70
+ 8 Costanera pot        6      7  139.          0    0.139        11.8      4.93
+ 9 Mariva    aerop~     7      6   99.2         0    0.0992        9.96     4.60
+10 Mariva    aerop~     5      5   72.6         0    0.0726        8.52     4.28
+# i 14 more rows
+# i 1 more variable: tubers.l <dbl>
+\end{verbatim}
+
+\hypertarget{sec-mutate}{%
+\subparagraph{Character Variable in Faktor umwandeln}\label{sec-mutate}}
+
+Beim Importieren von Daten werden Variablen häufig als
+\texttt{character} eingelesen (oder als \texttt{numeric}), die für die
+spätere Analyse aber als Faktor benötigt werden. Wir können diese
+Variablen in Faktoren umwandeln, können diese überschreiben oder (wie
+unten gezeigt) geben ihnen einen neuen Namen mit dem Appendix ``.f''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot}\OtherTok{=}\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{variety.f=}\FunctionTok{as.factor}\NormalTok{(variety),}
+           \AttributeTok{method.f=}\FunctionTok{as.factor}\NormalTok{(method),}
+           \AttributeTok{infection.f=}\FunctionTok{as.factor}\NormalTok{(infection))}
+\end{Highlighting}
+\end{Shaded}
+
+alternativer Code zu oben:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot}\SpecialCharTok{$}\NormalTok{variety.f}\OtherTok{=}\FunctionTok{as.factor}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety)}
+\NormalTok{pot}\SpecialCharTok{$}\NormalTok{method.f}\OtherTok{=}\FunctionTok{as.factor}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{method)}
+\NormalTok{pot}\SpecialCharTok{$}\NormalTok{infection.f}\OtherTok{=}\FunctionTok{as.factor}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{infection)}
+\FunctionTok{str}\NormalTok{(pot)}
+\end{Highlighting}
+\end{Shaded}
+
+Mit \texttt{across(where(is.character),as.factor)} werden alle
+Variablen, die als Charakter eingelesen sind, in einen Faktor
+umgewandelt.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot2}\OtherTok{\textless{}{-}}\FunctionTok{read.xlsx}\NormalTok{(}\StringTok{"potato.xlsx"}\NormalTok{, }\AttributeTok{sheet=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(pot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   478 obs. of  6 variables:
+ $ variety  : chr  "Unica" "Unica" "Unica" "Unica" ...
+ $ method   : chr  "pot" "pot" "pot" "pot" ...
+ $ plant    : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ tubers   : num  9 3 4 4 2 2 3 6 9 6 ...
+ $ weight   : num  209.9 248.4 53.6 77.2 11.3 ...
+ $ infection: num  0 0 0 0 1 0 0 0 0 0 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot3}\OtherTok{\textless{}{-}}\NormalTok{ pot2 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.character),as.factor))}
+\FunctionTok{str}\NormalTok{(pot3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   478 obs. of  6 variables:
+ $ variety  : Factor w/ 3 levels "Costanera","Mariva",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ method   : Factor w/ 4 levels "aeroponic","bed",..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ plant    : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ tubers   : num  9 3 4 4 2 2 3 6 9 6 ...
+ $ weight   : num  209.9 248.4 53.6 77.2 11.3 ...
+ $ infection: num  0 0 0 0 1 0 0 0 0 0 ...
+\end{verbatim}
+
+Bitte beachten, dass \texttt{infection} damit nicht als Faktor
+umgewandelt wird, da es als numerische Variable eingelesen wurde. Wir
+müssen also immer nochmal die Struktur überprüfen und ggfls.
+nachjustieren.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot4}\OtherTok{\textless{}{-}}\NormalTok{ pot2 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.character),as.factor),}
+                       \AttributeTok{infection=}\FunctionTok{as.factor}\NormalTok{(infection))}
+\FunctionTok{str}\NormalTok{(pot4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   478 obs. of  6 variables:
+ $ variety  : Factor w/ 3 levels "Costanera","Mariva",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ method   : Factor w/ 4 levels "aeroponic","bed",..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ plant    : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ tubers   : num  9 3 4 4 2 2 3 6 9 6 ...
+ $ weight   : num  209.9 248.4 53.6 77.2 11.3 ...
+ $ infection: Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 1 1 ...
+\end{verbatim}
+
+Der große Vorteil von \texttt{dplyr} ist, dass ihr alle Schritte in
+einen Code schreiben und damit ihn gut nachvollziehen könnt.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot1}\OtherTok{=}\NormalTok{pot}\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(variety}\SpecialCharTok{==}\FunctionTok{c}\NormalTok{(}\StringTok{"Mariva"}\NormalTok{, }\StringTok{"Costanera"}\NormalTok{), tubers}\SpecialCharTok{\textgreater{}}\DecValTok{7}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{weight\_kg=}\NormalTok{weight}\SpecialCharTok{/}\DecValTok{1000}\NormalTok{, }
+         \AttributeTok{variety.f=}\FunctionTok{as.factor}\NormalTok{(variety),}
+         \AttributeTok{method.f=}\FunctionTok{as.factor}\NormalTok{(method),}
+         \AttributeTok{infection.f=}\FunctionTok{as.factor}\NormalTok{(infection)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{c}\NormalTok{(plant,infection, weight))}
+\NormalTok{pot1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     variety     method tubers variety.f   method.f infection.f weight_kg
+1     Mariva        bed      9    Mariva        bed           0    0.2274
+2     Mariva        bed     10    Mariva        bed           0    0.0338
+3     Mariva        bed      8    Mariva        bed           0    0.0948
+4  Costanera        pot      8 Costanera        pot           1    0.1624
+5  Costanera hydroponic      8 Costanera hydroponic           1    0.0486
+6  Costanera  aeroponic      9 Costanera  aeroponic           0    0.0781
+7     Mariva        pot     10    Mariva        pot           0    0.0773
+8     Mariva  aeroponic      8    Mariva  aeroponic           1    0.1205
+9  Costanera        pot      8 Costanera        pot           0    0.1449
+10 Costanera        pot      9 Costanera        pot           0    0.1391
+11    Mariva        bed     11    Mariva        bed           0    0.1182
+12    Mariva        bed      8    Mariva        bed           1    0.1250
+13    Mariva  aeroponic     10    Mariva  aeroponic           0    0.1883
+14    Mariva  aeroponic      8    Mariva  aeroponic           0    0.1656
+15    Mariva        pot     10    Mariva        pot           0    0.0644
+16    Mariva        bed     10    Mariva        bed           1    0.1069
+17    Mariva        bed      8    Mariva        bed           1    0.1332
+18    Mariva        bed     10    Mariva        bed           0    0.1183
+19    Mariva  aeroponic      9    Mariva  aeroponic           0    0.0759
+20    Mariva  aeroponic      8    Mariva  aeroponic           0    0.1684
+21 Costanera        pot      8 Costanera        pot           0    0.1531
+22 Costanera        bed      8 Costanera        bed           1    0.0494
+23 Costanera hydroponic      8 Costanera hydroponic           1    0.0253
+\end{verbatim}
+
+\hypertarget{deskriptive-statistik}{%
+\subsection{Deskriptive Statistik}\label{deskriptive-statistik}}
+
+\begin{itemize}
+\tightlist
+\item
+  Wir unterscheiden zwischen qualitativen (kategorialen) und
+  quantitativen (numerischen) Daten.
+\item
+  Qualitative Daten können weiter differenziert werden in
+
+  \begin{itemize}
+  \tightlist
+  \item
+    nominale Daten (ohne Rangordnung), z.B. Geschlecht (m, w),
+    Blutgruppe, Sorte und Augenfarbe
+  \item
+    ordinale Daten (mit Rangordnung), z.B. Eignung (gut, mittel,
+    schlecht), Platzierung bei einem Rennen, Boniturnoten
+  \end{itemize}
+\item
+  Quantitative Daten können weiter unterschieden werden in
+
+  \begin{itemize}
+  \tightlist
+  \item
+    diskrete (ganzzahlig) Daten, z.B. Anzahl Blattläuse, Anzahl
+    Nachkommen
+  \item
+    stetige Daten, z.B. Ertrag, pH-Wert, Körpergröße, Parasitierungsrate
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{qualitative-daten}{%
+\subsection{Qualitative Daten}\label{qualitative-daten}}
+
+Qualitative Variablen sind in unserem Beispiel die Sorte, der
+Krankheitsbefall und die Methode. Diese Daten beschreiben wir durch
+\emph{Häufigkeitstabellen (Kontingenztabellen)}, die angeben, wie häufig
+eine Merkmalsausprägung bzw. -kombination in unserem Datensatz vorkommt.
+Wir nutzen die Funktion \texttt{count()}aus dem Package \texttt{dplyr}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(variety)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety   n
+1 Costanera 158
+2    Mariva 160
+3     Unica 160
+\end{verbatim}
+
+oder die Funktion \texttt{table()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Costanera    Mariva     Unica 
+      158       160       160 
+\end{verbatim}
+
+Die Funktion \texttt{prop.table()} berechnet uns die relativen Anteile
+jeder Merkmalsausprägung bzw. -kombination.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(variety) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{prop =} \FunctionTok{prop.table}\NormalTok{(n))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety   n      prop
+1 Costanera 158 0.3305439
+2    Mariva 160 0.3347280
+3     Unica 160 0.3347280
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety)) }\CommentTok{\# relativ, i.e. Anteil der Beobachtungen an der Gesamtzahl der Beobachtungen }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Costanera    Mariva     Unica 
+0.3305439 0.3347280 0.3347280 
+\end{verbatim}
+
+Häufigkeitstabellen können für 2 Kombinationen (Merkmale) erstellt
+werden, indem man beide Variablen in der Funktion \texttt{count()} oder
+\texttt{table()} angibt.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(variety, infection) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{prop =} \FunctionTok{prop.table}\NormalTok{(n))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    variety infection   n       prop
+1 Costanera         0  77 0.16108787
+2 Costanera         1  81 0.16945607
+3    Mariva         0 119 0.24895397
+4    Mariva         1  41 0.08577406
+5     Unica         0 122 0.25523013
+6     Unica         1  38 0.07949791
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety, pot}\SpecialCharTok{$}\NormalTok{infection)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           
+              0   1
+  Costanera  77  81
+  Mariva    119  41
+  Unica     122  38
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety, pot}\SpecialCharTok{$}\NormalTok{infection)) }\CommentTok{\# relative Häufigkeit}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           
+                     0          1
+  Costanera 0.16108787 0.16945607
+  Mariva    0.24895397 0.08577406
+  Unica     0.25523013 0.07949791
+\end{verbatim}
+
+Häufigkeitstabelle für 3 Kombinationen
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(variety, method, infection) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{prop =} \FunctionTok{prop.table}\NormalTok{(n))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     variety     method infection  n       prop
+1  Costanera  aeroponic         0 28 0.05857741
+2  Costanera  aeroponic         1 12 0.02510460
+3  Costanera        bed         0  9 0.01882845
+4  Costanera        bed         1 31 0.06485356
+5  Costanera hydroponic         0 11 0.02301255
+6  Costanera hydroponic         1 27 0.05648536
+7  Costanera        pot         0 29 0.06066946
+8  Costanera        pot         1 11 0.02301255
+9     Mariva  aeroponic         0 27 0.05648536
+10    Mariva  aeroponic         1 13 0.02719665
+11    Mariva        bed         0 29 0.06066946
+12    Mariva        bed         1 11 0.02301255
+13    Mariva hydroponic         0 31 0.06485356
+14    Mariva hydroponic         1  9 0.01882845
+15    Mariva        pot         0 32 0.06694561
+16    Mariva        pot         1  8 0.01673640
+17     Unica  aeroponic         0 30 0.06276151
+18     Unica  aeroponic         1 10 0.02092050
+19     Unica        bed         0 31 0.06485356
+20     Unica        bed         1  9 0.01882845
+21     Unica hydroponic         0 32 0.06694561
+22     Unica hydroponic         1  8 0.01673640
+23     Unica        pot         0 29 0.06066946
+24     Unica        pot         1 11 0.02301255
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety, pot}\SpecialCharTok{$}\NormalTok{method, pot}\SpecialCharTok{$}\NormalTok{infection)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, ,  = 0
+
+           
+            aeroponic bed hydroponic pot
+  Costanera        28   9         11  29
+  Mariva           27  29         31  32
+  Unica            30  31         32  29
+
+, ,  = 1
+
+           
+            aeroponic bed hydroponic pot
+  Costanera        12  31         27  11
+  Mariva           13  11          9   8
+  Unica            10   9          8  11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ftable}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{variety, pot}\SpecialCharTok{$}\NormalTok{method, pot}\SpecialCharTok{$}\NormalTok{infection)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                       0  1
+                           
+Costanera aeroponic   28 12
+          bed          9 31
+          hydroponic  11 27
+          pot         29 11
+Mariva    aeroponic   27 13
+          bed         29 11
+          hydroponic  31  9
+          pot         32  8
+Unica     aeroponic   30 10
+          bed         31  9
+          hydroponic  32  8
+          pot         29 11
+\end{verbatim}
+
+\hypertarget{quantitative-daten}{%
+\subsection{Quantitative Daten}\label{quantitative-daten}}
+
+\begin{itemize}
+\tightlist
+\item
+  Arithmetischer Mittelwert \texttt{mean()}
+\item
+  Median \texttt{median()}: Wert, der an der mittleren (zentralen)
+  Stelle steht, wenn man die Werte der Größe nach sortiert
+\item
+  Median besser als arithmetischer Mittelwert bei:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ordinalskalierten Beobachtungen
+  \item
+    geringem Stichprobenumfang
+  \item
+    asymmetrischen Verteilungen
+  \item
+    Verdacht auf Ausreißer
+  \end{itemize}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{tubers\_avg=}\FunctionTok{mean}\NormalTok{(tubers))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  tubers_avg
+1   4.721757
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{tubers\_avg=}\FunctionTok{mean}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_med=}\FunctionTok{median}\NormalTok{(tubers))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  tubers_avg tubers_med
+1   4.721757          4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 4.721757
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 4
+\end{verbatim}
+
+Maße für die Streuung der Daten:
+
+\begin{itemize}
+\tightlist
+\item
+  Varianz \texttt{var()}
+\item
+  Standardabweichung \texttt{sd()}
+\item
+  Standardabweichung in gleicher Einheit wie Mittelwert
+\item
+  Wenn Mittelwert und Standardabweichung einer normalverteilten
+  Grundgesamtheit bekannt ist, kann die Wahrscheinlichkeit berechnet
+  werden, mit der ein Wert auftritt.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{tubers\_avg=}\FunctionTok{mean}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_med=}\FunctionTok{median}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_var=}\FunctionTok{var}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_sd=}\FunctionTok{sd}\NormalTok{(tubers))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  tubers_avg tubers_med tubers_var tubers_sd
+1   4.721757          4   5.190763  2.278324
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{var}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 5.190763
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 2.278324
+\end{verbatim}
+
+Der Standardfehler des Mittelwertes (sem) beschreibt die Genauigkeit der
+Berechnung des Stichproben-Mittelwertes.
+
+\begin{itemize}
+\tightlist
+\item
+  sem = sd/sqrt(n)
+\item
+  \texttt{std\ \textless{}-\ function(x)\ \{sd(x,\ na.rm=TRUE)/sqrt(length(na.omit(x)))\}}
+\item
+  kein Streuungsmaß der Stichprobe
+\item
+  je mehr Datenpunkte, desto genauer die Schätzung des Mittelwertes
+\item
+  Mittelwert ± 1 sem beschreibt den Wertebereich, in dem wir mit
+  68\%iger Wahrscheinlichkeit den wahren Mittelwert erwarten
+\item
+  Mittelwert ± 1,96 sem 95\% Wahrscheinlichkeit i.e.~Konfidenzintervall
+\item
+  Mittelwert ± 2 sem 95,5\%
+\item
+  Mittelwert ± 3 sem 99,7\%
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Funktion für den Standardfehler}
+\NormalTok{std }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}\FunctionTok{sd}\NormalTok{(x, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{length}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(x)))\} }\CommentTok{\#muss nur einmal definiert werden}
+\FunctionTok{std}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.1042081
+\end{verbatim}
+
+weitere Maße zur beschreibenden Statistik:
+
+\begin{itemize}
+\tightlist
+\item
+  Minimum \texttt{min()}
+\item
+  Maximum \texttt{max()}
+\item
+  Wertebereich \texttt{range()}
+\item
+  Quantile \texttt{quantile()}
+\item
+  Varianzkoeffizient = CV = sd/mean
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{min}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{max}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{range}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1]  0 13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  0%  25%  50%  75% 100% 
+   0    3    4    6   13 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(pot}\SpecialCharTok{$}\NormalTok{tubers, }\AttributeTok{p=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.05}\NormalTok{, }\FloatTok{0.1}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.75}\NormalTok{, }\FloatTok{0.90}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.99}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ 1%  5% 10% 25% 50% 75% 90% 95% 99% 
+  0   2   2   3   4   6   8   9  11 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Funktion für Variationskoeffizienten}
+\NormalTok{CV }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}\FunctionTok{sd}\NormalTok{(x, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{mean}\NormalTok{(x, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)\} }
+\end{Highlighting}
+\end{Shaded}
+
+q25 = \textasciitilde quantile(., 0.25),
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{tubers\_avg=}\FunctionTok{mean}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_med=}\FunctionTok{median}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_var=}\FunctionTok{var}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_sd=}\FunctionTok{sd}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_std=}\FunctionTok{std}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_min=}\FunctionTok{min}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_max=}\FunctionTok{max}\NormalTok{(tubers),}
+            \AttributeTok{tubers\_q25=}\FunctionTok{quantile}\NormalTok{(tubers, }\FloatTok{0.25}\NormalTok{),}
+            \AttributeTok{tubers\_q75=}\FunctionTok{quantile}\NormalTok{(tubers, }\FloatTok{0.75}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  tubers_avg tubers_med tubers_var tubers_sd tubers_std tubers_min tubers_max
+1   4.721757          4   5.190763  2.278324  0.1042081          0         13
+  tubers_q25 tubers_q75
+1          3          6
+\end{verbatim}
+
+\hypertarget{anwendungsbeispiele}{%
+\subsubsection{Anwendungsbeispiele}\label{anwendungsbeispiele}}
+
+Eine erste einfache Beschreibung der Daten kann mit der Funktion
+\texttt{summary()} erfolgen. Hier sieht man jetzt den Unterschied im
+Output zwischen variety (als \emph{character}) und variety.f (als
+\emph{factor}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(pot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   variety             method              plant           tubers      
+ Length:478         Length:478         Min.   : 1.00   Min.   : 0.000  
+ Class :character   Class :character   1st Qu.: 3.00   1st Qu.: 3.000  
+ Mode  :character   Mode  :character   Median : 5.00   Median : 4.000  
+                                       Mean   : 5.49   Mean   : 4.722  
+                                       3rd Qu.: 8.00   3rd Qu.: 6.000  
+                                       Max.   :10.00   Max.   :13.000  
+     weight         infection          variety.f         method.f   infection.f
+ Min.   :  0.00   Min.   :0.0000   Costanera:158   aeroponic :120   0:318      
+ 1st Qu.: 26.07   1st Qu.:0.0000   Mariva   :160   bed       :120   1:160      
+ Median : 61.00   Median :0.0000   Unica    :160   hydroponic:118              
+ Mean   : 72.77   Mean   :0.3347                   pot       :120              
+ 3rd Qu.:109.25   3rd Qu.:1.0000                                               
+ Max.   :323.30   Max.   :1.0000                                               
+\end{verbatim}
+
+Möchte man eine beschreibende Statistik für jede numerische Variable
+berechnen, kann die Funktion
+\texttt{summarise\_if(is.numeric,\ mean,\ na.rm\ =\ TRUE)} genutzt
+werden. Im Beispiel berechnen wir den Mittelwert für alle Variablen im
+\texttt{data.frame\ pot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise\_if}\NormalTok{(is.numeric, mean, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    plant   tubers   weight infection
+1 5.48954 4.721757 72.77259  0.334728
+\end{verbatim}
+
+Häufig möchte man die beschreibende Statistik für ein oder mehrere
+Gruppierungslevel berechnen. Bspw. das mittleres Gewicht je Sorte. Wir
+nutzen hierfür die Funktion \texttt{group\_by()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(variety) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{weight\_avg=}\FunctionTok{mean}\NormalTok{(weight, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 3 x 2
+  variety   weight_avg
+  <chr>          <dbl>
+1 Costanera       74.1
+2 Mariva          74.7
+3 Unica           69.6
+\end{verbatim}
+
+Bsp.: mittleres Gewicht je Sorte und Methode
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(variety, method) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{weight\_avg=}\FunctionTok{mean}\NormalTok{(weight, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+`summarise()` has grouped output by 'variety'. You can override using the
+`.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+# A tibble: 12 x 3
+# Groups:   variety [3]
+   variety   method     weight_avg
+   <chr>     <chr>           <dbl>
+ 1 Costanera aeroponic        40.2
+ 2 Costanera bed              87.5
+ 3 Costanera hydroponic       25.1
+ 4 Costanera pot             141. 
+ 5 Mariva    aeroponic        95.4
+ 6 Mariva    bed              96.8
+ 7 Mariva    hydroponic       14.3
+ 8 Mariva    pot              92.2
+ 9 Unica     aeroponic        88.5
+10 Unica     bed              69.1
+11 Unica     hydroponic       26.3
+12 Unica     pot              94.6
+\end{verbatim}
+
+Bsp.: Mittelwert und Standardabweichung von Gewicht je Sorte und Methode
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(variety, method) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{weight\_avg=}\FunctionTok{mean}\NormalTok{(weight, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+            \AttributeTok{weight\_sd=}\FunctionTok{sd}\NormalTok{(weight, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+`summarise()` has grouped output by 'variety'. You can override using the
+`.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+# A tibble: 12 x 4
+# Groups:   variety [3]
+   variety   method     weight_avg weight_sd
+   <chr>     <chr>           <dbl>     <dbl>
+ 1 Costanera aeroponic        40.2     16.6 
+ 2 Costanera bed              87.5     32.6 
+ 3 Costanera hydroponic       25.1      8.17
+ 4 Costanera pot             141.      22.2 
+ 5 Mariva    aeroponic        95.4     54.8 
+ 6 Mariva    bed              96.8     54.8 
+ 7 Mariva    hydroponic       14.3      9.34
+ 8 Mariva    pot              92.2     27.4 
+ 9 Unica     aeroponic        88.5     70.8 
+10 Unica     bed              69.1     36.4 
+11 Unica     hydroponic       26.3     14.1 
+12 Unica     pot              94.6     60.3 
+\end{verbatim}
+
+Hier ein Code für eine Übersichtstabelle zur Beschreibung der Daten:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyr)}
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric), }\AttributeTok{.fns =} 
+                     \FunctionTok{list}\NormalTok{(}\AttributeTok{min =}\NormalTok{ min,}
+                          \AttributeTok{median =}\NormalTok{ median,}
+                          \AttributeTok{mean =}\NormalTok{ mean,}
+                          \AttributeTok{stdev =}\NormalTok{ sd,}
+                          \AttributeTok{q25 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.25}\NormalTok{),}
+                          \AttributeTok{q75 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.75}\NormalTok{),}
+                          \AttributeTok{max =}\NormalTok{ max, }
+                          \AttributeTok{n=}\NormalTok{length))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_sep=}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{, }\AttributeTok{names\_to=}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}variable\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}.value\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 4 x 9
+  variable    min median   mean  stdev   q25   q75   max     n
+  <chr>     <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <int>
+1 plant         1      5  5.49   2.87    3      8    10    478
+2 tubers        0      4  4.72   2.28    3      6    13    478
+3 weight        0     61 72.8   53.6    26.1  109.  323.   478
+4 infection     0      0  0.335  0.472   0      1     1    478
+\end{verbatim}
+
+und hier nur für \texttt{tubers} und \texttt{weight}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tubers"}\NormalTok{, }\StringTok{"weight"}\NormalTok{), }\AttributeTok{.fns =} 
+                     \FunctionTok{list}\NormalTok{(}\AttributeTok{min =}\NormalTok{ min,}
+                          \AttributeTok{median =}\NormalTok{ median,}
+                          \AttributeTok{mean =}\NormalTok{ mean,}
+                          \AttributeTok{stdev =}\NormalTok{ sd,}
+                          \AttributeTok{q25 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.25}\NormalTok{),}
+                          \AttributeTok{q75 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.75}\NormalTok{),}
+                          \AttributeTok{max =}\NormalTok{ max, }
+                          \AttributeTok{n=}\NormalTok{length))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_sep=}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{, }\AttributeTok{names\_to=}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}variable\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}.value\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 2 x 9
+  variable   min median  mean stdev   q25   q75   max     n
+  <chr>    <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <int>
+1 tubers       0      4  4.72  2.28   3      6    13    478
+2 weight       0     61 72.8  53.6   26.1  109.  323.   478
+\end{verbatim}
+
+bzw. ohne \texttt{plant}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{!}\NormalTok{plant)}\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric), }\AttributeTok{.fns =} 
+                     \FunctionTok{list}\NormalTok{(}\AttributeTok{min =}\NormalTok{ min,}
+                          \AttributeTok{median =}\NormalTok{ median,}
+                          \AttributeTok{mean =}\NormalTok{ mean,}
+                          \AttributeTok{stdev =}\NormalTok{ sd,}
+                          \AttributeTok{q25 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.25}\NormalTok{),}
+                          \AttributeTok{q75 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.75}\NormalTok{),}
+                          \AttributeTok{max =}\NormalTok{ max, }
+                          \AttributeTok{n=}\NormalTok{length))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_sep=}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{, }\AttributeTok{names\_to=}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}variable\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}.value\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 3 x 9
+  variable    min median   mean  stdev   q25   q75   max     n
+  <chr>     <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <int>
+1 tubers        0      4  4.72   2.28    3      6    13    478
+2 weight        0     61 72.8   53.6    26.1  109.  323.   478
+3 infection     0      0  0.335  0.472   0      1     1    478
+\end{verbatim}
+
+für unterschiedliche Methoden:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pot }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{group\_by}\NormalTok{(method) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tubers"}\NormalTok{, }\StringTok{"weight"}\NormalTok{), }\AttributeTok{.fns =} 
+                     \FunctionTok{list}\NormalTok{(}\AttributeTok{min =}\NormalTok{ min,}
+                          \AttributeTok{median =}\NormalTok{ median,}
+                          \AttributeTok{mean =}\NormalTok{ mean,}
+                          \AttributeTok{stdev =}\NormalTok{ sd,}
+                          \AttributeTok{q25 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.25}\NormalTok{),}
+                          \AttributeTok{q75 =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{quantile}\NormalTok{(., }\FloatTok{0.75}\NormalTok{),}
+                          \AttributeTok{max =}\NormalTok{ max, }
+                          \AttributeTok{n=}\NormalTok{length))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \SpecialCharTok{{-}}\NormalTok{method,  }\AttributeTok{names\_sep=}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{, }\AttributeTok{names\_to=}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}variable\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}.value\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{arrange}\NormalTok{(variable)}\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{relocate}\NormalTok{(variable)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 8 x 10
+  variable method       min median   mean stdev   q25   q75   max     n
+  <chr>    <chr>      <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <int>
+1 tubers   aeroponic   0       5     4.76  2.29  3.75   6    13     120
+2 tubers   bed         1       5     5.55  2.37  4      7    13     120
+3 tubers   hydroponic  1       3     3.15  1.67  2      4     8     118
+4 tubers   pot         2       5     5.4   1.89  4      7    10     120
+5 weight   aeroponic   0      62.1  74.7  57.7  36.2   99.2 323.    120
+6 weight   bed        13.2    79.6  84.5  43.6  50.3  118.  227.    120
+7 weight   hydroponic  2.95   20.0  21.8  12.1  14.1   25.4  58.7   118
+8 weight   pot        11.3   111.  109.   45.9  72.7  143.  248.    120
+\end{verbatim}
+
+
+
+\end{document}

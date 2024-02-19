@@ -1,0 +1,288 @@
+---
+title: "Allgemeines"
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
+```
+
+## Literatur
+
+Diese Bücher sind teilweise etwas älter (was die R-Codes anbetrifft). Sie geben aber trotzdem einen guten Einblick in die Statistik und Anwendung von R.
+
+Crawley 2013: The R Book. 2nd Edition, E-Book unter [http://onlinelibrary.wiley.com/book/10.1002/9781118448908](http://onlinelibrary.wiley.com/book/10.1002/9781118448908){target="_blank"}\
+Crawley 2013: Statistik mit R.\
+Dormann 2013: Parametrische Statistik.\
+Burnham und Anderson 2002: Model Selection and Multimodel Inference.\
+James, Witten, Hastie & Tibshirani 2023: An Introduction to Statistical Learning with Applications in R. [https://hastie.su.domains/ISLR2/ISLRv2_corrected_June_2023.pdf.download.html](https://hastie.su.domains/ISLR2/ISLRv2_corrected_June_2023.pdf.download.html){target="_blank"} Hastie, Tibshirani & Friedman 2017: The Elements of Statistical Learning - Data Mining, Inference and Prediction [https://hastie.su.domains/ElemStatLearn/printings/ESLII_print12_toc.pdf](https://hastie.su.domains/ElemStatLearn/printings/ESLII_print12_toc.pdf){target="_blank"}
+
+------------------------------------------------------------------------
+
+## Webseiten
+
+-   Kursskripte der vorangegangenen Inhouse-Schulungen sowie der zentralen Biometriekurse des BMEL findet ihr im Intranet [http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0](http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0){target="_blank"}
+-   viele Tutorien im Netz und auf YouTube
+-   R Cookbook [https://rc2e.com/](https://rc2e.com/){target="_blank"}
+-   DSFAIR von Paul Schmidt [https://schmidtpaul.github.io/dsfair_quarto/](https://schmidtpaul.github.io/dsfair_quarto/){target="_blank"}
+-   Mailing lists und archives auf [http://www.r-project.org/](http://www.r-project.org/){target="_blank"}
+-   [http://de.wikibooks.org/wiki/GNU_R](http://de.wikibooks.org/wiki/GNU_R){target="_blank"}
+
+## Hilfe in R
+
+-   `help.start()`
+-   Hilefeseite öffnet sich durch `?Funktion` z.B. `?mean`
+-   Vergleiche `?mean` vs. `??mean`
+
+## Pakete installieren und laden
+
+-   entweder im Editor `install.packages("Paketname")` z.B. `install.packages("nlme")`
+-   oder über das Fenster *Packages/Install* und dann Name des Package z.B. nlme eintragen und *Install* klicken
+-   Laden der Pakete einmal pro Session durch die Funktion `library("Paketname")` z.B. `library("nlme")`
+
+## Grundlagen Programmiersprache R
+
+-   R unterscheidet zwischen Groß- und Kleinschreibung
+-   Leerzeichen werden normalerweise ignoriert, d.h. kein Unterschied `2+5` vs. `2 + 5`
+-   Kommentare werden mit \# markiert und dadurch nicht als Befehl von R erkannt, sondern als Text
+-   Zeilenumbruch bei langen Befehlen kein Problem (ein + erscheint in der nächsten Zeile)
+-   Normale Rechenoperationen + - \* /
+-   Achtung ein : bedeutet nicht "geteilt durch"! Probier es aus `10:5`
+-   `log()`, `log10()`, `exp()`, `sqrt()`, `2^2`, `2^0.5`
+
+## R ist objektorientiert
+
+```{r}
+a <- 5
+```
+
+Die 5 wird dem Objekt `a` zugewiesen
+
+```{r}
+b <- 3
+```
+
+Die 3 wird dem Objekt `b` zugewiesen
+
+```{r}
+c <- a + b
+```
+
+`c` ist die Summe aus `a` und `b`.
+
+```{r}
+c
+```
+
+## Datentypen
+
+Objekte können verschieden Datentypen zugehören.
+
+-   Numeric (Zahl)
+-   Character (Zeichenketten, z.B. "Messeweg")
+-   Logical (TRUE, FALSE)
+-   Factor (Kategoriale Daten mit verschiedenen *Levels*, z.B. hoch, mittel, niedrig oder rot, blau, gelb)
+
+## Datenstrukturen
+
+-   `vector` (eindimensionale Vektoren)
+-   `matrix` (zweidimensionale Matrizen)
+-   `array` (verallgemeinerte Matrizen mit auch mehr als zwei Dimensionen)
+-   `list` (Listen)
+-   `data.frame` (Datensätze i.e. Tabelle mit unterschiedlichen Datentypen je Spalte)
+-   `function` (Funktionen)
+
+## Funktionen
+
+Beim Aufruf von Funktionen sind die Werte, die der Funktion als Berechnungsgrundlage dienen, in runde Klammern einzuschließen: z.B.
+
+```{r}
+round(1.358) # runden einer Zahl
+```
+
+Die Argumentliste besteht aus Zuweisungen an Argumenten in der Form `Argumentname=Wert`, die der Funktion die notwendigen Eingangsinformationen liefern.
+
+```{r}
+round(1.358, digits=1)
+round(1.358, 1)# nur eine Kommastelle
+```
+
+Es können je nach Funktion ein oder mehrere durch Komma getrennte Argumente angegeben werden, die ihrerseits obligatorisch oder nur optional sein können. Funktionen können ineinander verschachtelt werden z.B.
+
+```{r}
+round(mean(c(3,6,2,8)), digits=1)
+```
+
+Auf eine Kommastelle gerundeter Mittelwert aus den Zahlen 3, 6, 2 und 8.
+
+Die Hilfeseite für eine Funktion öffnet sich durch `?round`.
+
+### Beispiel Funktion `seq` und `rep`
+
+```{r}
+seq(from = 2, to = 8, by = 2)
+seq(from = 2, to = 8, by= 0.5)
+seq(from = 0, to = 9, length = 4)
+rep(1:5, times = 2)
+rep(1:5, each = 2)
+rep(c("A","B"), times = 2)
+```
+
+## Daten einlesen
+
+-   Spaltenbenennung (Variablen) ohne Leerzeichen, keine Zahlen am Anfang, kein + - / % besser \_
+-   kurze, prägnante Variablennamen (Stickstoffduengermenge besser ND), Objektnamen (z.B. für den `data.frame` Stickstoffversuchsdaten besser ndat) und Pfadnamen (ohne ä, ö & ü)
+-   Missing Values in Excel leer lassen oder als NA in csv
+
+### Daten direkt aus Excel einlesen
+
+Diesen Datensatz können wir direkt mit der `library(openxlsx)` aus Excel einlesen.
+
+![](potato.png)
+
+```{r}
+library(openxlsx)
+md<-read.xlsx("potato.xlsx", sheet=1)
+str(md)
+# oder
+md<-read.xlsx("potato.xlsx", sheet="Tabelle1")
+```
+
+Solltet ihr mit RMarkdown arbeiten, dann werden die Daten (ohne Pfadangabe) aus dem Ordner in dem auch das .Rmd gespeichert ist eingelesen.
+
+-   alternativ könnt ihr den Pfad angeben:
+
+```{r, eval=FALSE}
+# entweder
+md<-read.xlsx("D:/R/Kartoffelversuch/potato.xlsx", sheet=1)
+# oder
+md<-read.xlsx("D:\\R\\Kartoffelversuch\\potato.xlsx", sheet=1)
+```
+
+oder
+
+-   ihr setzt das *working directory*\
+-   und lest dann die Daten ohne Angabe des Pfades ein
+
+```{r, eval=FALSE}
+setwd("D:/R/Kartoffelversuch") 
+md<-read.xlsx("potato.csv".xlsx", sheet=1)
+```
+
+Über das Argument `startRow` können Zeilen übersprungen werden. Wenn bspw. die erste Zeile die ausführliche Beschreibung der Spalteninformation enthält und erst in der zweiten Zeile die kurzen prägnanten Variablennamen stehen, dann kann mit `startRow=2` der Datensatz ab Zeile 2 eingelesen werden.
+
+![](potato_Zeile_2.png)
+
+```{r}
+md<-read.xlsx("potato_Zeile_2.xlsx", sheet=1, startRow=2)
+str(md)
+```
+
+*Missing values* in Excel leer lassen. R zeigt diese missing values als NA an. ![](potato_NA.png)
+
+```{r}
+md2<-read.xlsx("potato_NA.xlsx", sheet=1)
+head(md2)# zeigt die ersten 6 Zeilen an
+```
+
+### als .csv
+
+-   in Excel ein Tabellenblatt als .csv oder .txt speichern
+-   funktion `read.table` für .txt oder `read.csv` für .csv mit den Argumenten:
+    -   `header=TRUE` bedeutet, dass in der ersten Zeile die Variablenbezeichnungen stehen
+    -   `sep` ist der Separator, kann Komma, Semikolon oder Tab sein
+    -   `dec` ist das Dezimalzeichen, kann Komma oder Punkt sein
+    -   `read.csv()` für englische Excel-Einstellungen
+    -   `read.csv2()` für deutsche Excel-Einstellungen.
+
+```{r, eval=FALSE}
+md<-read.csv2("potato.csv", header=TRUE)
+# wenn csv unter englischen Excel-Einstellungen gespeichert wurde
+md<- read.csv("potato.csv", header = TRUE, sep = ",", dec = ".")  
+# wenn csv unter deutschen Excel-Einstellungen gespeichert wurde
+md<- read.csv2("potato.csv", header = TRUE, sep = ";", dec = ",") 
+```
+
+### als .txt
+
+```{r, eval=FALSE}
+md<- read.table("potato.txt", header = TRUE, sep = "", dec = ".")
+```
+
+### Dateneinlesen in R-Studio per Klick
+
+Eine weitere Alternative bietet R-Studio auf *Environment/Import Dataset*. Hier kann man sich durchklicken, um Daten zu importieren. Man sollte aber unbedingt den R-Code nach erfolgtem Import ins Skript kopieren, damit man ihn in der nächsten Sitzung ausführen kann. So behält man den Überblick, welche Daten zur Analyse genutzt wurden. Außerdem können nur so auch Dritte den Import der Daten nachvollziehen. Stichwort *reproducible research*.
+
+Der Datenimport aus anderen Statistikprogrammen (SPSS, Stata, SAS) ist mit dem Package `foreign` oder aus Datenbanken mit dem Package `RODBC` möglich.
+
+## Datenstruktur prüfen
+
+Nach erfolgtem Import sollte **immer** die Struktur der Daten durch die Funktion `str()` z.B. `str(md)` überprüft werden.
+
+```{r}
+str(md)
+```
+
+Wir sehen hier, dass die Sorte und Methode als `Character` eingelesen wurde und alle anderen Spalten numerisch sind. Schaut bitte zum Kapitel \[Beispieldatensatz potato.xlsx\], wie `Character` in Faktoren umgewandelt werden.
+
+Mit den Funktionen `head()`und `tail()` lässt man sich die ersten und letzten 6 Zeilen des Datensatzes anzeigen.
+
+```{r}
+head(md)
+tail(md)
+```
+
+## Datenexport
+
+Wir können die Daten exportieren.
+
+-   mit dem Package `openxlsx`:
+
+```{r}
+library(openxlsx)
+write.xlsx(md, "potato.export2.xlsx")
+```
+
+Das Package `openxlsx` bietet die Möglichkeit, unterschiedliche Datensätze in mehreren Tabellenblättern in einer xlsx-Datei zu speichern. Hier mal exemplarisch, indem wir den potato-Datensatz mit dem oben generierten Datensatz in zwei Tabellenblättern in einer Datei speichern.
+
+```{r}
+wb <- createWorkbook()
+addWorksheet(wb, sheetName = "Kartoffeldaten")
+writeData(wb, "Kartoffeldaten", md) 
+addWorksheet(wb, sheetName = "Alter_Gewicht")
+writeData(wb, "Alter_Gewicht", md1) 
+saveWorkbook(wb, file = "potato.export3.xlsx", overwrite = TRUE)
+```
+
+## Datenformat
+
+Das *flat format* ist gegenüber dem *wide format* zu bevorzugen.
+
+Bsp. *flat format*
+
+| Behandl | Ertrag |
+|---------|--------|
+| N0      | 3.5    |
+| N0      | 1.5    |
+| N0      | 2.8    |
+| N0      | 3.1    |
+| N100    | 6.4    |
+| N100    | 7.4    |
+| N100    | 5.8    |
+| N100    | 5.4    |
+| N200    | 5.9    |
+| N200    | 8.4    |
+| N200    | 7.7    |
+| N200    | 6.7    |
+
+Bsp. *wide format*
+
+| Kontrolle | N-Level 100 | N-Level 200 |
+|-----------|-------------|-------------|
+| 3.5       | 6.4         | 5.9         |
+| 1.5       | 7.4         | 8.4         |
+| 2.8       | 5.8         | 7.7         |
+| 3.1       | 5.4         | 6.7         |
+
+R kann vom *wide* zum *flat format* (und zurück) konvertieren, z.B. mit der Funktion `melt` aus der `library(reshape2)`. Siehe auch [http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/){target="_blank"}.
+
+------------------------------------------------------------------------

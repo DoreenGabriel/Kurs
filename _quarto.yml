@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "Quarto"
@@ -7,12 +8,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - text: Allgemeines
+        href: Themen/01/01_Allgemeines.qmd
+      - text: Deskriptive Statistik
+        href: Themen/02/02_DeskriptiveStats.qmd
 
 format:
   html:
     theme: cosmo
     css: styles.css
+    code-copy: true
     toc: true
 
 editor: visual

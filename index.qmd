@@ -1,11 +1,13 @@
 ---
-title: "Quarto"
+title: "Über diese Webseite"
 ---
 
-This is a Quarto website.
+Diese Webseite ist die Grundlage für meinen Kurs "Einführung in R", den ich für Wissenschaftler am JKI gebe.  Sie soll den Einstieg in die Arbeit mit R erleichtern und anhand von Beispielen Lösungswege und -möglichkeiten für häufig auftretende statistische Fragestellungen aufzeigen. Sie ist als eine Art Kochbuch zu verstehen. Man kann die Rezepte verwenden und selbst kreativ werden.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Der Inhalt wird kontinuierlich aktualisiert und erweitert. 
 
-```{r}
-1 + 1
-```
+Bei Fragen und Anmerkungen kontaktiert mich bitte:
+doreen.gabriel@julius-kuehn.de
+
+
+![](Word Art Teil1.png) 
