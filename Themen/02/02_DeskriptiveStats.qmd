@@ -193,14 +193,25 @@ wie oben nur ohne `plant`
 ```{r}
 pot.sub %>% 
   select(variety:weight)%>% 
-  select(!plant)
+  select(-plant)
+# oder so
+pot.sub %>% 
+  select(c(variety:weight,-plant))
+# aber nicht so
+pot.sub %>% 
+  select(c(-plant, variety:weight))
 ```
 
 ```{r}
+pot.sub %>% 
+  select(ends_with("t")) 
+```
+```{r}
 pot %>% 
-  select(ends_with(".f")) %>% 
+  select(ends_with("t")) %>% 
   slice_sample(n=8)
 ```
+
 
 ### rename
 
@@ -214,7 +225,7 @@ pot.sub %>% rename(plant_ID=plant)
 pot.sub
 ```
 
-Auch hire müssen wir die Daten in einem neuen `data.frame pot.sub1` speichern oder überschreiben (`pot.sub=pot.sub %>% rename(plant_ID=plant)`), um auf die neue Variable zugreifen zu können.
+Auch hier müssen wir die Daten in einem neuen `data.frame pot.sub1` speichern oder überschreiben (`pot.sub=pot.sub %>% rename(plant_ID=plant)`), um auf die neue Variable zugreifen zu können.
 
 ```{r}
 pot.sub1=pot.sub %>% rename(plant_ID=plant)
@@ -232,7 +243,7 @@ pot.sub %>%
   mutate(weight_kg=weight/1000)
 ```
 
-Damit diese neue Variable im Datensatz nicht nur erscheint, sondern auch zugreifbar ist, speichere ich den Datensatz unter einem neuen Namen ab. Man könnte ihn auch überschreiben. Ausserdem noch zwei Beispiele für eine log- und Wurzel-Transformation
+Damit diese neue Variable im Datensatz nicht nur erscheint, sondern auch zugreifbar ist, speichere ich den Datensatz unter einem neuen Namen ab. Man könnte ihn auch überschreiben. Ausserdem noch zwei Beispiele für eine log- und Wurzel-Transformation.
 
 ```{r}
 pot.sub1=pot.sub %>% 
@@ -281,7 +292,7 @@ str(pot4)
 
 ```
 
-Der große Vorteil von `dplyr` ist, dass ihr alle Schritte in einen Code schreiben und damit ihn gut nachvollziehen könnt.
+Der große Vorteil von `dplyr` ist, dass ihr alle Schritte in einen Code schreiben und  ihn damit gut nachvollziehen könnt.
 
 ```{r}
 pot1=pot%>% 
