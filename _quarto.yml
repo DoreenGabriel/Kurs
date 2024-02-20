@@ -12,6 +12,8 @@ website:
         href: Themen/01/01_Allgemeines.qmd
       - text: Deskriptive Statistik
         href: Themen/02/02_DeskriptiveStats.qmd
+      - text: Graphische Darstellungen
+        href: Themen/03/03_Graph.qmd
 
 format:
   html:
