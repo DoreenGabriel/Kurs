@@ -6,10 +6,7 @@ title: "Grafische Darstellungen"
 knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
 ```
 
-
-Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen.  Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich. 
-
-
+Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich.
 
 ```{r, message=FALSE}
 library(openxlsx)
@@ -22,10 +19,9 @@ pot=pot %>%
 str(pot)
 ```
 
-
 # ggplot
 
-Die folgenden Abbildungen werden mit der `library(ggplot2)` erstellt.  Einen Schummelzettel zur `library(ggplot2)` findet ihr unter:  
+Die folgenden Abbildungen werden mit der `library(ggplot2)` erstellt. Einen Schummelzettel zur `library(ggplot2)` findet ihr unter:\
 [https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf){target="_blank"}
 
 Zunächst müssen wir die `library(ggplot2)` laden.
@@ -34,28 +30,27 @@ Zunächst müssen wir die `library(ggplot2)` laden.
 library(ggplot2)
 ```
 
-Mit der Funktion `ggplot()` geben wir mit `data=pot` den `data.frame` an, in dem sich die Daten befinden und mit dem Argument `aes(x=weight, y=tubers)` die Variablen, die dargestellt werden sollen (aes steht für *aestetics*). Das Ergebnis ist eine Plotoberfläche. Wir können nun verschiedene Layer hinzufügen (z.B. einen Scatterplot) und so bestimmen, wie die Daten dargestellt werden.  
+Mit der Funktion `ggplot()` geben wir mit `data=pot` den `data.frame` an, in dem sich die Daten befinden und mit dem Argument `aes(x=weight, y=tubers)` die Variablen, die dargestellt werden sollen (aes steht für *aestetics*). Das Ergebnis ist eine Plotoberfläche. Wir können nun verschiedene Layer hinzufügen (z.B. einen Scatterplot) und so bestimmen, wie die Daten dargestellt werden.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers))
 ```
 
-## Scatterplot `geom_point()`
+# Scatterplot `geom_point()`
 
-+ zwei kontinuierliche Variablen
-+ `ggplot(data=pot, aes(x=Erklärungsvariable, y=Zielgröße)) + geom_point()`
+-   zwei kontinuierliche Variablen
+-   `ggplot(data=pot, aes(x=Erklärungsvariable, y=Zielgröße)) + geom_point()`
 
-Mit der Funktion `+ geom_point()` wird ein Scatterplot erzeugt, nachdem in der vorangegangenen Funktion `ggplot()` im Argument `aes(x=, y=)` die Variablen der x- und y-Achse gewählt wurden.  
+Mit der Funktion `+ geom_point()` wird ein Scatterplot erzeugt, nachdem in der vorangegangenen Funktion `ggplot()` im Argument `aes(x=, y=)` die Variablen der x- und y-Achse gewählt wurden.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()
 ```
 
+## Achsenbeschriftung `labs()`
 
-### Achsenbeschriftung  `labs()`
-
-Mit der Funktion `+ labs(title=" ", x=" ", y=" ")` werden in die " "  die Beschriftungen eingefügt.  
+Mit der Funktion `+ labs(title=" ", x=" ", y=" ")` werden in die " " die Beschriftungen eingefügt.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
@@ -63,27 +58,28 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   labs(x="Gewicht in g", y="Anzahl Kartoffelknollen")
 ```
 
-  
-###  Achsenlimitierung `coord_cartesian()`
+## Achsenlimitierung `coord_cartesian()`
 
-Mit der Funktion `coord_cartesian(xlim=c(,), ylim=c(,))` ändert man das Minimum und Maximum der x- und y-Achse.  
+Mit der Funktion `coord_cartesian(xlim=c(,), ylim=c(,))` ändert man das Minimum und Maximum der x- und y-Achse.
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   coord_cartesian(ylim=c(0,15), xlim = c(0,350))
 ```
 
-### alle Layer über + verbinden
+## alle Layer über + verbinden
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
-  labs(x="Gewicht in g", y="Anzahl Kartoffelknollen")+
+  labs(x="Gewicht in g", y="Anzahl Kartoffelknollen pro Pflanze")+
   coord_cartesian(ylim=c(0,15), xlim = c(0,350))
 ```
 
-### Plotsymbol `shape`
+## Plotsymbol `shape`
 
-Durch das Argument `shape=` in der Funktion `geom_point()` können die Plotsymbole geändert werden. Folgende Symbole werden durch die Zahlen 0 bis 24 abgebildet.     
+Durch das Argument `shape=` in der Funktion `geom_point()` können die Plotsymbole geändert werden. Folgende Symbole werden durch die Zahlen 0 bis 24 abgebildet.
 
 ```{r, fig.width=6, fig.height=2.75, echo=FALSE}
 shapes <- data.frame(
@@ -100,24 +96,21 @@ ggplot(shapes, aes(x, y)) +
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
-
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point(shape=1)
 ```
 
+## Plotsymbol entsprechend variety
 
-
-### Plotsymbol entsprechend variety
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, shape=variety)) +
   geom_point()
 ```
 
+## Plotsymbole manuel festlegen
 
-### Plotsymbole manuel festlegen 
-
-Mit `scale_shape_manual(values=c(1,2,3))` kann man manuell die Plotsymbole verändern, wobei die Werte 1, 2 und 3  dann für die 3 Sorten stehen. Hier kann man ganze Zahlen von 0 bis 24 wählen (siehe Abbildung zu den Plotsymbolen weiter oben). Wichtig ist nur, dass die Anzahl der Zahlen mit der Anzahl der unterschiedlichen Sorten übereinstimmt.     
+Mit `scale_shape_manual(values=c(1,2,3))` kann man manuell die Plotsymbole verändern, wobei die Werte 1, 2 und 3 dann für die 3 Sorten stehen. Hier kann man ganze Zahlen von 0 bis 24 wählen (siehe Abbildung zu den Plotsymbolen weiter oben). Wichtig ist nur, dass die Anzahl der Zahlen mit der Anzahl der unterschiedlichen Sorten übereinstimmt.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, shape=variety)) +
@@ -125,18 +118,16 @@ ggplot(data=pot, aes(x=weight, y=tubers, shape=variety)) +
   scale_shape_manual(values=c(1,2,3))
 ```
 
+## Größe des Plotsymbols `size`
 
-### Größe des Plotsymbols `size`
-
-`size=3` je höher die Zahl, desto größer die Symbole  
+`size=3` je höher die Zahl, desto größer die Symbole
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point(shape=2, size=3)
 ```
 
- 
-### Farbe des Plotsymbols `col`
+## Farbe des Plotsymbols `col`
 
 ```{r, fig.width=6, fig.height=1, echo=FALSE}
 colorsinR <- data.frame(col=1:7, x=1:7, y=1)
@@ -151,52 +142,46 @@ ggplot(colorsinR, aes(x, y, fill=factor(col))) +
   theme(legend.position="none")
 ```
 
-Mit `col=3` werden die Symbole grün dargestellt. Farben kann man durch die Zahlen 1 bis 7 wählen oder benennen z.B. "green", "darkgreen", "red". Alle möglichen Farben findet ihr mit der Funktion `colors()`oder auf [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf){target="_blank"}   
+Mit `col=3` werden die Symbole grün dargestellt. Farben kann man durch die Zahlen 1 bis 7 wählen oder benennen z.B. "green", "darkgreen", "red". Alle möglichen Farben findet ihr mit der Funktion `colors()`oder auf [http://www.stat.columbia.edu/\~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf){target="_blank"}
 
-
-```{r,echo=FALSE,  fig.width=10, fig.height=10}
+```{r,echo=T,  fig.width=10, fig.height=10}
 library(scales)
 show_col(colors()[1:100], ncol=10)
-show_col(colors()[101:200], ncol=10)
-show_col(colors()[201:300], ncol=10)
-show_col(colors()[301:400], ncol=10)
-show_col(colors()[401:500], ncol=10)
-show_col(colors()[501:600], ncol=10)
-show_col(colors()[601:657], ncol=10)
+show_col(colors()[152:253], ncol=10)
+show_col(pal_hue()(25))
+show_col(pal_viridis()(25))
 ```
-
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point(shape=20, size=3, col="tan")
 ```
 
-Auch RGB-Farben können gewählt werden. Hier ein Beispiel für das JKI blau:  
+Auch RGB-Farben können gewählt werden. Hier ein Beispiel für das JKI blau:
 
-+ R: 35
-+ G: 80
-+ B: 150
+-   R: 35
+-   G: 80
+-   B: 150
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point(shape=20, size=3, col=rgb(35,80,150, max = 255))
 ```
 
-
-### Die Farbe des Plotsymbols ensprechend der Faktorausprägung `variety`
+## Die Farbe des Plotsymbols ensprechend der Faktorausprägung `variety`
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   geom_point()
 ```
 
-
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   geom_point()+
   scale_color_manual(values=c("royalblue", "orange", "olivedrab"))
 ```
-Die Sorten entsprechend JKI-Farbwelt. 
+
+Die Sorten entsprechend JKI-Farbwelt.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
@@ -206,9 +191,10 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
                               rgb(240,215,35, max = 255)))
 
 ```
-Wenn keine Zuordnung der Werte zu den Farben erfolgt, dann werden die Farben entsprechend der Reihenfolge der Faktorlevels abgebildet (alphanumerisch). 
 
-Hier ein Beispiel mit Zuordnung. 
+Wenn keine Zuordnung der Werte zu den Farben erfolgt, dann werden die Farben entsprechend der Reihenfolge der Faktorlevels abgebildet (alphanumerisch).
+
+Hier ein Beispiel mit Zuordnung.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
@@ -218,11 +204,9 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
                               "Costanera"=rgb(240,215,35, max = 255)))
 ```
 
+## ein Plot für jede Sorte `facet_grid()` und `facet_wrap()`
 
-### ein Plot für jede Sorte `facet_grid()` und `facet_wrap()`
-
-Mit der Funktion `+ facet_grid(~ variety)` oder `+ facet_wrap(~ variety)` wird ein separater Plot für jedes Gruppierungslevel der `variety` erzeugt.  
-
+Mit der Funktion `+ facet_grid(~ variety)` oder `+ facet_wrap(~ variety)` wird ein separater Plot für jedes Gruppierungslevel der `variety` erzeugt.
 
 ```{r, fig.width=6.5}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
@@ -234,7 +218,7 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   facet_wrap(~variety)
 ```
 
-### Ein Plot für jede Sorte und mit und ohne Befall (Infection) 
+## Ein Plot für jede Sorte und mit und ohne Befall (Infection)
 
 ```{r, fig.width=6.5, fig.height=5}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
@@ -246,49 +230,47 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   facet_wrap(infection~variety, labeller = labeller(.multi_line = FALSE))
 ```
 
-
-### Regressionslinien einzeichnen
+## Regressionslinien einzeichnen
 
 Im Folgenden sehen wir Beispiele für unterschiedliche Modellfits. Diese dienen nur der Veranschaulichung und ersetzen nicht die statistischen Analysen mit Modelldiagnostik.
 
-#### LM fit (lineare Regression)
+### LM fit (lineare Regression)
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   geom_smooth(method=lm)
 ```
 
+### LM fit ohne Konfidenzintervall
 
-#### LM fit ohne Konfidenzintervall  
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   geom_smooth(method=lm, se=FALSE)
 ```
 
-  
-#### Polynomial zweiten Grades y= x + x² 
+### Polynomial zweiten Grades y= x + x²
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   geom_smooth(method=lm, formula=y ~ poly(x, 2)) # formula=y ~ x+I(x^2)
 ```
 
+### Polynomial dritten Grades y= x + x² + x³
 
-#### Polynomial dritten Grades y= x + x² + x³
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   geom_smooth(method=lm, formula=y ~ poly(x, 3)) # formula=y ~ x+I(x^2)+I(x^3)
 ```
 
+### GLM fit
 
+Wer sich über Generalsierte Lineare Modelle informieren möchte, kann im Intranet unter [http://intranet.julius-kuehn.de/forschungservice/biometrie](http://intranet.julius-kuehn.de/forschungservice/biometrie){target="_blank"} das Skript **Generalisierte Lineare Modelle in R** finden.
 
-#### GLM fit 
- Wer sich über Generalsierte Lineare Modelle informieren möchte, kann im Intranet unter  [http://intranet.julius-kuehn.de/forschungservice/biometrie](http://intranet.julius-kuehn.de/forschungservice/biometrie){target="_blank"}  das Skript **Generalisierte Lineare Modelle in R** finden. 
-
-
-##### Zähldaten: Poisson
+#### Zähldaten: Poisson
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
@@ -296,14 +278,16 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_smooth(method=glm, method.args = list(family = "poisson"))
 ```
 
-##### Zähldaten: Quasipoisson
+#### Zähldaten: Quasipoisson
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   geom_smooth(method=glm, method.args = list(family = "quasipoisson"))
 ```
 
-##### Zähldaten: Negativbinomial
+#### Zähldaten: Negativbinomial
+
 ```{r, warning=FALSE, message=FALSE}
 library(MASS)
 ggplot(data=pot, aes(x=weight, y=tubers)) +
@@ -311,8 +295,7 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_smooth(method="glm.nb")
 ```
 
-
-##### Streng positive kontinuierliche Daten: Gamma
+#### Streng positive kontinuierliche Daten: Gamma
 
 ```{r}
 pot1=pot[pot$weight>0,]
@@ -321,30 +304,29 @@ ggplot(data=pot1, aes(x=tubers, y=weight)) +
   geom_smooth(method="glm", method.args = list(family = Gamma(link = log)))
 ```
 
-##### presence/absence: binomial 
+#### presence/absence: binomial
 
-Wir plotten die Beziehung zwischen Infektion und  Luftfeuchtigkeit (`hum = humidity`). 
+Wir plotten die Beziehung zwischen Infektion und Luftfeuchtigkeit (`humidity`).
 
 Beispiele mit unterschiedlichen Links (logit, probit und cloglog)
+
 ```{r}
 #logit
-ggplot(data=pot, aes(x=hum, y=infection)) +
+ggplot(data=pot, aes(x=humidity, y=infection)) +
   geom_point()+
   geom_smooth(method="glm", method.args = list(family = binomial))
 #probit
-ggplot(data=pot, aes(x=hum, y=infection)) +
+ggplot(data=pot, aes(x=humidity, y=infection)) +
   geom_point()+
   geom_smooth(method="glm", method.args = list(family = binomial(link = probit)))
 #cloglog
-ggplot(data=pot, aes(x=hum, y=infection)) +
+ggplot(data=pot, aes(x=humidity, y=infection)) +
   geom_point()+
   geom_smooth(method="glm", method.args = list(family = binomial(link = cloglog)))
-```  
-  
+```
 
+### Modellfit für verschiedene Sorten
 
-
-#### Modellfit für verschiedene Sorten
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
   geom_point()+
@@ -352,6 +334,7 @@ ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
 ```
 
 und hier ein Modelfit ohne Berücksichtigung der farblich unterschiedlichen Sorten
+
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point(aes(colour=variety))+
@@ -361,7 +344,8 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
 ::: columns
 ::: {.column width="49%"}
 ```{r}
-ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
+ggplot(data=pot, 
+       aes(x=weight, y=tubers, colour=variety)) +
   geom_point()+
   geom_smooth(method=lm)
 ```
@@ -372,7 +356,8 @@ ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
 
 ::: {.column width="49%"}
 ```{r}
-ggplot(data=pot, aes(x=weight, y=tubers)) +
+ggplot(data=pot, 
+       aes(x=weight, y=tubers)) +
   geom_point(aes(colour=variety))+
   geom_smooth(method=lm)
 ```
@@ -386,9 +371,8 @@ ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
   facet_grid(~variety)
 ```
 
+## mögliche Abbildung der Daten
 
-
-### mögliche Abbildung der Daten
 ```{r, fig.width=6, fig.height=7}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   geom_point()+
@@ -399,49 +383,47 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-## Übung 3.1.
+# Übung 3.1.
+
 Lesen Sie die Daten Kursteilnehmer_2021.xlsx in R ein und benennen Sie Ihren data.frame mit md.
 
-Lernen Sie folgende Funktionen kennen:  	
+Lernen Sie folgende Funktionen kennen:
 
-+ `plot(md)` 
+-   `plot(md)`
 
-Plotten Sie: 
+Plotten Sie:
 
-+ den Zusammenhang zwischen Körpergröße und Schuhgröße mit 
-    + unterschiedlichen Farben für die Frauen und Männer und fügen Sie Regressionslinien ein  
-    
-Zusatzaufgabe:  
+-   den Zusammenhang zwischen Körpergröße und Schuhgröße mit
+    -   unterschiedlichen Farben für die Frauen und Männer und fügen Sie Regressionslinien ein
 
-+ verwenden Sie statt geom_point() die Funktion geom_count()
-+ finden Sie heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
+Zusatzaufgabe:
 
-Ende Übung 3.1.  
+-   verwenden Sie statt geom_point() die Funktion geom_count()
+-   finden Sie heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
 
-*** 
+Ende Übung 3.1.
 
+------------------------------------------------------------------------
 
-## Boxplot
+# Boxplot
 
-+ Verteilung einer kontinuierlichen Variable (y) in Relation zu einer kategorialen Variable (x)
-+ `ggplot(md, aes(x=Erklärungsvariable, y=Zielgröße)) + geom_boxplot()`  
-+ Abgebildet sind: 
-    + Median
-    + 25 % und 75 % Quantile
-    + Whisker (min und max oder 1,5*Interquantilabstand)
-    + Ausreißer (sind nicht *per se* Ausreißer, aber Punkte außerhalb des 1,5-fachen Interquantilabstandes)  
-
-
-+ geeignet für n > 10 - 20 pro Kategorie (x)
-+ vorsichtige Interpretation für n > 4 - 10
-+ nicht geeignet bei 4 Beobachtungen oder weniger
+-   Verteilung einer kontinuierlichen Variable (y) in Relation zu einer kategorialen Variable (x)
+-   `ggplot(md, aes(x=Erklärungsvariable, y=Zielgröße)) + geom_boxplot()`\
+-   Abgebildet sind:
+    -   Median
+    -   25 % und 75 % Quantile
+    -   Whisker (min und max oder 1,5\*Interquantilabstand)
+    -   Ausreißer (sind nicht *per se* Ausreißer, aber Punkte außerhalb des 1,5-fachen Interquantilabstandes)
+-   geeignet für n \> 10 - 20 pro Kategorie (x)
+-   vorsichtige Interpretation für n \> 4 - 10
+-   nicht geeignet bei 4 Beobachtungen oder weniger
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot()
 ```
 
-Wer gerne die Whisker mit einem Querstrich begrenzen möchte, nutzt zusätzlich `stat_boxplot()`. 
+Wer gerne die Whisker mit einem Querstrich begrenzen möchte, nutzt zusätzlich `stat_boxplot()`.
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight))+ 
@@ -450,12 +432,11 @@ ggplot(data=pot, aes(x=method, y=weight))+
   
 ```
 
+## jittered Boxplot
 
-### jittered Boxplot
+Bei einem jittered Boxplot werden die Messwerte zusätzlich über den Boxplot geplottet. Das gibt dem Betrachter ein umfangreicheres Verständnis über die Daten. Um eine überlappung der Daten zu verhindern, wird für jeden Messwert eine kleine Zufallszahl in x-Richtung (`width=0.25`) gezogen. Natürlich werden die Werte nicht in der y-Richtung verändert (`height=0`). Um mögliche Ausreißer nicht doppelt abzubilden, muss das Argument `outlier.shape=NA` in der Funktion `geom_boxplot()` gesetzt werden.
 
-Bei einem jittered Boxplot werden die Messwerte zusätzlich über den Boxplot geplottet. Das gibt dem Betrachter ein umfangreicheres Verständnis über die Daten. Um eine überlappung der Daten zu verhindern, wird für jeden Messwert eine kleine Zufallszahl in x-Richtung (`width=0.25`) gezogen. Natürlich werden die Werte nicht in der y-Richtung verändert (`height=0`). Um mögliche Ausreißer nicht doppelt abzubilden, muss das Argument `outlier.shape=NA` in der Funktion `geom_boxplot()` gesetzt werden.    
-
-Pallmann & Hothorn 2015: *Boxplots for grouped and clustered data in toxicology. Archives of Toxicology.* DOI 10.1007/s00204-015-1608-4  
+Pallmann & Hothorn 2015: *Boxplots for grouped and clustered data in toxicology. Archives of Toxicology.* DOI 10.1007/s00204-015-1608-4
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
@@ -463,9 +444,10 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   geom_jitter(width=0.25, height=0, shape=1)
 ```
 
+## zusätzliche Stats
 
-### zusätzliche Stats 
-#### Mittelwert
+### Mittelwert
+
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot(outlier.shape=NA) +
@@ -473,7 +455,8 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") # Mittelwert
 ```
 
-#### bootstrapped Konfidenzintervall
+### bootstrapped Konfidenzintervall
+
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot(outlier.shape=NA) +
@@ -481,10 +464,9 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   stat_summary(fun.data = "mean_cl_boot", colour = "red", size = 0.5)
 ```
 
+### Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe
 
-#### Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe
-
-https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot  
+https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot
 
 ```{r}
 give.n<-function(x)
@@ -499,8 +481,8 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   stat_summary(fun.data = give.n, geom="text", colour=2)
 ```
 
+## weight \~ method und variety
 
-###  weight ~ method und variety
 ```{r, fig.width=5.7}
 # 1)
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
@@ -535,8 +517,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 ```
 
-
-### jittered boxplot für weight ~ method und weight 
+## jittered boxplot für weight \~ method und weight
 
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
@@ -544,9 +525,8 @@ ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
   geom_jitter(shape=1, size=1)
 ```
 
-Noch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.  
-Mit dem Argument `position=position_jitterdodge()` können wir das ändern:  
-
+Noch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.\
+Mit dem Argument `position=position_jitterdodge()` können wir das ändern:
 
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
@@ -555,14 +535,14 @@ ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
               shape=1, size=1)
 ```
 
+## Transformation der Achsenabstände
 
-### Transformation der Achsenabstände
+Häufig weisen Daten eine (Rechts-) Schiefe auf, d.h. es gibt viele kleine und wenige große Werte. Dies ist bei Zähldaten häufig der Fall, die poisson oder negative binomial verteilt sein können oder bei streng positiven diskreten Daten, wie z.B. Biomasse, die gamma-verteilt sein kann. Dabei nimmt die Varianz (die Streuung) häufig mit steigendem Mittelwert zu.
 
-Häufig weisen Daten eine (Rechts-) Schiefe auf, d.h. es gibt viele kleine und wenige große Werte. Dies ist bei Zähldaten häufig der Fall, die poisson oder negative binomial verteilt sein können oder bei streng positiven diskreten Daten, wie z.B. Biomasse, die gamma-verteilt sein kann. Dabei nimmt die Varianz (die Streuung) häufig mit steigendem Mittelwert zu.  
+Für die Abbildung solcher Daten eignet sich eine Wurzel- oder Log-Transformation der Achsenabstände durch die die Funktion `scale_y_sqrt()` und `scale_y_log10()`.
 
-Für die Abbildung solcher Daten eignet sich eine Wurzel- oder Log-Transformation der Achsenabstände durch die die Funktion `scale_y_sqrt()` und `scale_y_log10()`. 
+Für die Wurzel-Transformation müssen die Werte \>= 0 sein:
 
-Für die Wurzel-Transformation müssen die Werte >= 0 sein: 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight))+ 
   stat_boxplot(geom ="errorbar", width = 0.5)+
@@ -570,17 +550,20 @@ ggplot(data=pot, aes(x=method, y=weight))+
   scale_y_sqrt()
 ```
 
-Für die logarithmische Skala müssen die Werte > 0 sein. 
+Für die logarithmische Skala müssen die Werte \> 0 sein.
+
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight))+ 
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot()+
   scale_y_log10()
 ```
-In diesem Datensatz sind Nullen enthalten und wir bekommen eine Warnmeldung, dass diese Werte nicht abgebildet werden. Hier hilft folgender Trick: 
 
-+ wir addieren eine kleine Konstante `y+1`
-+ und labeln die Skala bei `y+1` mit den Werten von `y` 
+In diesem Datensatz sind Nullen enthalten und wir bekommen eine Warnmeldung, dass diese Werte nicht abgebildet werden. Hier hilft folgender Trick:
+
+-   wir addieren eine kleine Konstante `y+1`
+-   labeln die Skala bei `y+1` mit den Werten von `y`
+-   benennen die Y-Achse `name="weight"`
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight+1))+ 
@@ -588,9 +571,11 @@ ggplot(data=pot, aes(x=method, y=weight+1))+
   geom_boxplot()+
   scale_y_log10(breaks=c(0,3, 10,25, 50, 100,250, 500)+1,
                 label=c(0,3, 10, 25, 50, 100,250, 500),
-                lim=c(0,500)+1)
+                lim=c(0,500)+1, name="weight")
 ```
-auch für die wurzeltransformierte Y-Achse können wir die Beschriftung der Achsenticks festlegen. Da wir keine Konstante addiert haben, werden die gleichen Informationen beim Argument `breaks` und `label` eingegeben: 
+
+Auch für die wurzeltransformierte Y-Achse können wir die Beschriftung der Achsenticks festlegen. Da wir keine Konstante addiert haben, werden die gleichen Informationen beim Argument `breaks` und `label` eingegeben:
+
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight))+ 
   stat_boxplot(geom ="errorbar", width = 0.5)+
@@ -600,11 +585,18 @@ ggplot(data=pot, aes(x=method, y=weight))+
                lim=c(0,400))
 ```
 
-### Theme
+```{r}
+ggplot(data=pot, aes(x=method, y=weight))+ 
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot()+
+  scale_y_sqrt(breaks=seq(0,20, by=5)^2, 
+               label=seq(0,20, by=5)^2,
+               lim=c(0,400))
+```
 
-Mit der Funktion `theme()´ können Gitterlinien, Beschriftungen, Legenden und vieles mehr angepasst werden. 
-https://ggplot2.tidyverse.org/reference/theme.html#ref-examples
+## Theme
 
+Mit der Funktion \`theme()´ können Gitterlinien, Beschriftungen, Legenden und vieles mehr angepasst werden. [https://ggplot2.tidyverse.org/reference/theme.html](https://ggplot2.tidyverse.org/reference/theme.html){target="_blank"}
 
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -618,23 +610,26 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
                                       face="bold"))
 ```
 
-Es gibt eine Reihe von abgestimmten `themes()`:  
+Es gibt eine Reihe von abgestimmten `themes()`:
 
-#### white background - weißer Hintergrund
+### white background - weißer Hintergrund
+
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot() +
   theme_bw()
 ```
 
-#### classic
+### classic
+
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot() +
   theme_classic()
 ```
 
-#### pubr
+### pubr
+
 ```{r, fig.width=5.7}
 library(ggpubr)
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -642,23 +637,26 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   theme_pubr(base_size = 12, border = TRUE)
 ```
 
-### Farbwahl für fill-Argument
-#### grey
+## Farbwahl für fill-Argument
+
+### grey
+
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot() +
   scale_fill_grey() 
 ```
 
-#### brewer blau
+### brewer blau
+
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot() +
   scale_fill_brewer(palette="Blues")
 ```
 
+## Abstand zwischen den Boxen
 
-### Abstand zwischen den Boxen
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot(position=position_dodge(0.8)) 
@@ -667,8 +665,8 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot(position=position_dodge(1)) 
 ```
 
+## Achsen
 
-### Achsen
 ```{r, fig.width=5.7}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot(position=position_dodge(0.85))+
@@ -679,8 +677,8 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   scale_y_sqrt(limits=c(0,400))
 ```
 
+# Alternative zum Boxplot: Dotplot
 
-## Alternative zum Boxplot: Dotplot
 ```{r, fig.width=6.5, fig.height=4}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_dotplot(binaxis="y", stackdir="center", binwidth = 5)+
@@ -689,48 +687,42 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
         axis.text.x=element_text(angle = 45, hjust = 1))
 ```
 
+# Übung 3.2.
 
+Plotten Sie:
 
-## Übung 3.2.
+-   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht
+-   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht und Augenfarbe
 
+Zusatzaufgabe:
 
-Plotten Sie: 
+-   Plotten Sie einen jittered Boxplot von Körpergröße in Relation zum Geschlecht
 
-+ einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht
-+ einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht und Augenfarbe
+Ende Übung 3.2.
 
-Zusatzaufgabe:  
+------------------------------------------------------------------------
 
-+ Plotten Sie einen jittered Boxplot von Körpergröße in Relation zum Geschlecht
+# Histogramm
 
+zur Darstellung einer kontinuierlichen Variablen
 
-Ende Übung 3.2.  
+-   Verteilung einer kontinuierlichen Variable
+-   Häufigkeitshistogramm, Dichtehistogramm
+-   Wertebereich
+-   Anzahl Proben im Wertebereich
+-   Schiefe der Verteilung
 
-***   
-
-## Histogramm
-
-zur Darstellung einer kontinuierlichen Variablen  
-
-+ Verteilung einer kontinuierlichen Variable
-+ Häufigkeitshistogramm, Dichtehistogramm
-+ Wertebereich
-+ Anzahl Proben im Wertebereich 
-+ Schiefe der Verteilung  
-  
-
-Wir nutzen die Funktion `+ geom_histogram()` 
+Wir nutzen die Funktion `+ geom_histogram()`
 
 ```{r}
 ggplot(data=pot, aes(weight)) + 
   geom_histogram()
 ```
 
+## mit bins und binwidth die Anzahl der Balken (Klassen) ändern
 
+Wir können nun die Anzahl der Klassen mit dem Argument `bins = 15` ändern, oder die Klassenbreite mit `binwidth = 25` wählen.
 
-### mit bins und binwidth die Anzahl der Balken (Klassen) ändern
-
-Wir können nun die Anzahl der Klassen mit dem Argument `bins = 15` ändern, oder die Klassenbreite  mit `binwidth = 25` wählen.    
 ```{r}
 ggplot(data=pot, aes(weight)) + 
   geom_histogram(bins = 15)
@@ -739,9 +731,9 @@ ggplot(data=pot, aes(weight)) +
   geom_histogram(binwidth = 25)
 ```
 
-### ein Histogramm von weight für die Sorten
+## ein Histogramm von weight für die Sorten
 
-Mit der Funktion `+ facet_wrap(~ variety)` oder `+ facet_grid(~ variety)` wird ein separater Plot (hier Histogramm) für jedes Gruppierungslevel der `variety` erzeugt.  
+Mit der Funktion `+ facet_wrap(~ variety)` oder `+ facet_grid(~ variety)` wird ein separater Plot (hier Histogramm) für jedes Gruppierungslevel der `variety` erzeugt.
 
 ```{r, fig.width=6.5}
 ggplot(data=pot, aes(weight)) + 
@@ -749,7 +741,8 @@ ggplot(data=pot, aes(weight)) +
   facet_wrap(~ variety)
 ```
 
-## Densityplot
+# Densityplot
+
 ```{r}
 ggplot(data=pot, aes(weight)) + 
   geom_density(adjust=.5)
@@ -760,7 +753,8 @@ ggplot(data=pot, aes(weight, colour=variety, fill=variety)) +
   geom_density(adjust=.5, alpha=.2)
 ```
 
-Das Paket `ggridges` bietet tolle Densityplots an.  
+Das Paket `ggridges` bietet tolle Densityplots an.
+
 ```{r}
 library(ggridges)
 ggplot(data=pot, aes(x = weight, y = method, fill = method)) +
@@ -768,7 +762,7 @@ ggplot(data=pot, aes(x = weight, y = method, fill = method)) +
   scale_fill_viridis_d(name = "weigth of method:", option = "D")# Farbschema über Option A bis H 
 ```
 
-Allerdings wird im Densityplot der Wertebereich weiter dargestellt als beobachtet. 
+Allerdings wird im Densityplot der Wertebereich weiter dargestellt als beobachtet.
 
 ```{r}
 ggplot(data=pot, aes(x = weight, y = method, col=method, fill=method)) +
@@ -792,7 +786,7 @@ ggplot(data=pot, aes(x = weight, y = method, col=method, fill=method)) +
    scale_fill_viridis_d(guide="none")
 ```
 
-zusammen mit einen Boxplot. 
+zusammen mit einen Boxplot.
 
 ```{r}
 ggplot(pot, aes(x = weight, y = method, fill = method)) +
@@ -805,14 +799,13 @@ ggplot(pot, aes(x = weight, y = method, fill = method)) +
   scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23, 24))
 ```
 
+# Mosaikplot mit `library(vcd)`
 
-## Mosaikplot mit `library(vcd)`
+-   zur Darstellung von kategorialen Daten
+-   Größe der Rechtecke entspricht beobachtete Häufigkeit eines Merkmals
+-   Farbe entspricht den Abweichungen zwischen beobachteten und erwarteten Häufigkeiten (Residuen)
 
-+ zur Darstellung von kategorialen Daten
-+ Größe der Rechtecke entspricht beobachtete Häufigkeit eines Merkmals
-+ Farbe entspricht den Abweichungen zwischen beobachteten und erwarteten Häufigkeiten (Residuen)  
-
-https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf  
+https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf
 
 ```{r, message=FALSE, fig.width=6, fig.height=5}
 library(vcd)
@@ -820,12 +813,11 @@ mosaic(~variety+method+infection, data=pot, shade = TRUE)
 mosaic(~variety+infection, data=pot, shade = TRUE)
 ```
 
+# Layout
 
-## Layout
-### Vier Plots in einer Graphik
+## Vier Plots in einer Graphik
 
-Um mehrere Plots in einer Graphik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. `p1` bis `p4`), um dann mit der Funktion  `grid.arrange(p1,p2,p3,p4, ncol=2)` der `library(gridExtra)` geplottet zu werden. Mit dem Argument `ncol` kann die Anzahl der Spalten bestimmt werden.    
-
+Um mehrere Plots in einer Graphik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. `p1` bis `p4`), um dann mit der Funktion `grid.arrange(p1,p2,p3,p4, ncol=2)` der `library(gridExtra)` geplottet zu werden. Mit dem Argument `ncol` kann die Anzahl der Spalten bestimmt werden.
 
 ```{r, fig.width=8, fig.height=6}
 library(gridExtra)
@@ -847,8 +839,7 @@ p4=ggplot(data=pot, aes(x=method, y=tubers, colour=method)) +
 grid.arrange(p1,p2,p3,p4, ncol=2)
 ```
 
-Das ist noch nicht wirklich schön. Die Legenden nehmen zu viel Platz ein. Alle Plots haben zudem die gleiche Legende. Diese Redundanz können wir entfernen, indem wir nur im ersten Plot eine Legende zeichnen und dabei diese durch das Argument `theme(legend.position=c(0.8,0.7))` in den Plot zeichnen. Bei den anderen Plots unterdrücken wir durch `theme(legend.position="none")` die Legende.   
-
+Das ist noch nicht wirklich schön. Die Legenden nehmen zu viel Platz ein. Alle Plots haben zudem die gleiche Legende. Diese Redundanz können wir entfernen, indem wir nur im ersten Plot eine Legende zeichnen und dabei diese durch das Argument `theme(legend.position=c(0.8,0.7))` in den Plot zeichnen. Bei den anderen Plots unterdrücken wir durch `theme(legend.position="none")` die Legende.
 
 ```{r, fig.width=8, fig.height=7.5}
 p1=ggplot(data=pot, aes(weight, colour=method, fill=method)) + 
@@ -872,11 +863,11 @@ p4=ggplot(data=pot, aes(x=method, y=tubers, colour=method)) +
 grid.arrange(p1,p2,p3,p4, ncol=2)
 ```
 
-Schon besser.  
+Schon besser.
 
-### Vier Plots in einer Graphik mit einer Legende mit `library(ggpubr)` 
+## Vier Plots in einer Graphik mit einer Legende mit `library(ggpubr)`
 
-Eine weitere Möglichkeit bietet die `library(ggpubr)` mit der Funktion `ggarrange()`.  Hier können auch die einzelnen Plots z.B. mit A, B, C, D beschriftet werden.    
+Eine weitere Möglichkeit bietet die `library(ggpubr)` mit der Funktion `ggarrange()`. Hier können auch die einzelnen Plots z.B. mit A, B, C, D beschriftet werden.
 
 ```{r, fig.width=8, fig.height=7.5, message=FALSE}
 library(ggpubr)
@@ -884,10 +875,9 @@ ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(
           common.legend = TRUE, legend = "bottom")
 ```
 
+## Beschriftung innerhalb `facet_grid()` und `facet_wrap()`
 
-### Beschriftung innerhalb `facet_grid()` und `facet_wrap()`
-
-#### labeller = label_both
+### labeller = label_both
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
@@ -896,7 +886,7 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-#### labeller = labeller(variety = Sorten.labs)
+### labeller = labeller(variety = Sorten.labs)
 
 ```{r}
 Sorten.labs <- c("a) Costanera", "b) Mariva", "c) Unica")
@@ -908,9 +898,10 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-#### Beschriftung im Plot
+### Beschriftung im Plot
 
 dabei bilden x und y die Koordinaten im Plot
+
 ```{r}
 abc=data.frame(label=c("a)", "b)", "c)"), 
                x=c(20,20,20), y=c(13,13, 13),
@@ -929,7 +920,7 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-### R-Logo im Plot
+## R-Logo im Plot
 
 ```{r}
 R_png <- png::readPNG("R_logo.png", native = TRUE)
@@ -942,12 +933,10 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
                 top = 0.99)
 ```
 
+# Abbildung speichern
 
+Alle Abbildungen, die mit `ggplot()` erstellt werden, können als pdf, tiff, jpg, eps usw. im *working directory* gespeichert werden. Zudem kann man über die Argumente die Größe und die Auflösung bestimmen. Das Argument `scale` skaliert die Punkte und Buchstaben relativ zur Plotgröße.
 
-## Abbildung speichern
-
-Alle Abbildungen, die mit `ggplot()` erstellt werden, können als pdf, tiff, jpg, eps usw. im *working directory* gespeichert werden. Zudem kann man über die Argumente die Größe und die Auflösung bestimmen. Das Argument `scale` skaliert die Punkte und Buchstaben relativ zur Plotgröße.      
-   
 ```{r, fig.width=6, fig.height=4.5}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
@@ -959,18 +948,16 @@ ggsave("plot2.2.pdf", width = 10, height = 8, units = "cm", scale=0.7)
 ggsave("plot3.tiff", dpi=600, width =10, height = 8, units = "cm", compression="lzw")
 ```
 
+# Übung 3.3.
 
+Plotten Sie:
 
-## Übung 3.3.
+-   ein Histogramm von Körpergröße
 
+-   ein Histogramm von Körpergröße getrennt für Frauen und Männer
 
-Plotten Sie: 
+-   Plotten Sie einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht
 
-+ ein Histogramm von Körpergröße
-+ ein Histogramm von Körpergröße getrennt für Frauen und Männer
+Ende Übung 3.3.
 
-+ Plotten Sie einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht  
-
-Ende Übung 3.3.  
-
-*** 
+------------------------------------------------------------------------

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="
 
 Diese Daten sind die leicht modifizierten und erweiterten `greenhouse`-Daten aus dem R-Paket `agricolae`.
 
-In einem Versuch wurden verschiedene Kartoffelsorten (`variety`) in verschiedenen Anbaumethoden (`method`) kultiviert und die Anzahl Knollen (`tubers`), deren Gewicht (`weight`) und der Krankheitsbefall (`infection` 1=ja, 0=nein) ermittelt.
+In einem Versuch wurden verschiedene Kartoffelsorten (`variety`) in verschiedenen Anbaumethoden (`method`) kultiviert und die Anzahl Knollen (`tubers`), deren Gewicht (`weight`), der Krankheitsbefall (`infection` 1=ja, 0=nein) und die mittlere Luftfeuchte (`humidity`) ermittelt.
 
 Zunächst lesen wir den Datensatz `potato.xlsx` mit der Funktion `read.xlsx` aus der `library(openxlsx)` ein und benennen den `data.frame` mit `pot` und machen uns mit ihm vertraut.
 
@@ -20,17 +20,16 @@ pot<-read.xlsx("potato.xlsx", sheet=1)
 str(pot)
 ```
 
-Der Datensatz hat 478 Zeilen (Beobachtungen) und 6 Spalten.
+Der Datensatz hat 478 Zeilen (Beobachtungen) und 7 Spalten.
 
-`variety` und` method` sind als *character* eingelesen.
+`variety` und`method` sind als *character* eingelesen.
 
 ```{r}
 unique(pot$variety)
 unique(pot$method)
 ```
 
-Diese können wir auch in Faktoren umwandeln (siehe @sec-mutate).
-Alle anderen Variablen sind numerisch. 
+Diese können wir auch in Faktoren umwandeln (siehe @sec-mutate). Alle anderen Variablen sind numerisch.
 
 # Datenmanagement mit dplyr
 
@@ -206,12 +205,12 @@ pot.sub %>%
 pot.sub %>% 
   select(ends_with("t")) 
 ```
+
 ```{r}
 pot %>% 
   select(ends_with("t")) %>% 
   slice_sample(n=8)
 ```
-
 
 ### rename
 
@@ -254,7 +253,7 @@ pot.sub1=pot.sub %>%
 pot.sub1
 ```
 
-#### Character Variable in Faktor umwandeln {#sec-mutate}
+#### Variable in Faktor umwandeln {#sec-mutate}
 
 Beim Importieren von Daten werden Variablen häufig als `character` eingelesen (oder als `numeric`), die für die spätere Analyse aber als Faktor benötigt werden. Wir können diese Variablen in Faktoren umwandeln, können diese überschreiben oder (wie unten gezeigt) geben ihnen einen neuen Namen mit dem Appendix ".f".
 
@@ -292,7 +291,7 @@ str(pot4)
 
 ```
 
-Der große Vorteil von `dplyr` ist, dass ihr alle Schritte in einen Code schreiben und  ihn damit gut nachvollziehen könnt.
+Der große Vorteil von `dplyr` ist, dass ihr alle Schritte in einen Code schreiben und ihn damit gut nachvollziehen könnt.
 
 ```{r}
 pot1=pot%>% 
