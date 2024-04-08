@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quarto - Datenmanagement und deskriptive Statistik</title>
+<title>Einführung in R - Datenmanagement und deskriptive Statistik</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Quarto</span>
+    <span class="navbar-title">Einführung in R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -162,12 +162,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#rename" id="toc-rename" class="nav-link" data-scroll-target="#rename">rename</a></li>
   <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate">mutate</a></li>
   </ul></li>
+  <li><a href="#übung-2.1." id="toc-übung-2.1." class="nav-link" data-scroll-target="#übung-2.1.">Übung 2.1.</a></li>
   </ul></li>
   <li><a href="#deskriptive-statistik" id="toc-deskriptive-statistik" class="nav-link" data-scroll-target="#deskriptive-statistik">Deskriptive Statistik</a>
   <ul class="collapse">
   <li><a href="#qualitative-daten" id="toc-qualitative-daten" class="nav-link" data-scroll-target="#qualitative-daten">Qualitative Daten</a></li>
   <li><a href="#quantitative-daten" id="toc-quantitative-daten" class="nav-link" data-scroll-target="#quantitative-daten">Quantitative Daten</a></li>
   <li><a href="#anwendungsbeispiele" id="toc-anwendungsbeispiele" class="nav-link" data-scroll-target="#anwendungsbeispiele">Anwendungsbeispiele</a></li>
+  <li><a href="#übung-2.2." id="toc-übung-2.2." class="nav-link" data-scroll-target="#übung-2.2.">Übung 2.2.</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -956,6 +958,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
+<section id="übung-2.1." class="level2">
+<h2 class="anchored" data-anchor-id="übung-2.1.">Übung 2.1.</h2>
+<p>Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx" target="_blank">Kursteilnehmer.xlsx</a> in R und benenne den data.frame mit <code>md</code>.</p>
+<p>Erstelle einen neuen Datensatz mit Beobachtungen von Kursteilnehmern mit jeweils:</p>
+<ul>
+<li>blauen Augen (<code>md1</code>)</li>
+<li>Körpergröße größer 1,70 m (<code>md2</code>)</li>
+<li>blauen und grünen Augen (<code>md3</code>)</li>
+<li>ohne Schuhgröße (<code>md4</code>)</li>
+</ul>
+<p>Ende Übung 2.1.</p>
+</section>
 </section>
 <section id="deskriptive-statistik" class="level1">
 <h1>Deskriptive Statistik</h1>
@@ -1458,6 +1472,21 @@ Unica     aeroponic   30 10
 8 weight   pot        11.3   111.  109.   45.9  72.7  143.  248.    120</code></pre>
 </div>
 </div>
+</section>
+<section id="übung-2.2." class="level2">
+<h2 class="anchored" data-anchor-id="übung-2.2.">Übung 2.2.</h2>
+<p>Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx" target="_blank">Kursteilnehmer.xlsx</a> in R und benenne den data.frame mit <code>md</code>.</p>
+<ul>
+<li>Nutze die Funktion <code>summary(md)</code>, um die Daten zu beschreiben.</li>
+<li>Ermittele die Anzahl Frauen und Männer für jede Augenfarbe.</li>
+<li>Berechne die mittlere Körpergröße für Männer und Frauen.</li>
+<li>Berechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.</li>
+<li>Exportiere die Daten z.B. mit <code>write.xlsx()</code>.</li>
+</ul>
+<p>Zusatzaufgabe</p>
+<ul>
+<li>Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einen xlsx-file mit zwei Tabellenblätter.</li>
+</ul>
 
 
 </section>

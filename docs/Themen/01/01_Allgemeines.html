@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quarto - Allgemeines</title>
+<title>Einführung in R - Allgemeines</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Quarto</span>
+    <span class="navbar-title">Einführung in R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -169,6 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#datenstruktur-prüfen" id="toc-datenstruktur-prüfen" class="nav-link" data-scroll-target="#datenstruktur-prüfen">Datenstruktur prüfen</a></li>
   <li><a href="#datenexport" id="toc-datenexport" class="nav-link" data-scroll-target="#datenexport">Datenexport</a></li>
   <li><a href="#datenformat" id="toc-datenformat" class="nav-link" data-scroll-target="#datenformat">Datenformat</a></li>
+  <li><a href="#übung-1" id="toc-übung-1" class="nav-link" data-scroll-target="#übung-1">Übung 1</a></li>
   </ul>
 </nav>
     </div>
@@ -634,6 +635,27 @@ James, Witten, Hastie &amp; Tibshirani 2023: An Introduction to Statistical Lear
 </table>
 <p>R kann vom <em>wide</em> zum <em>flat format</em> (und zurück) konvertieren, z.B. mit der Funktion <code>melt</code> aus der <code>library(reshape2)</code>. Siehe auch <a href="http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/" target="_blank">http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/</a>.</p>
 <hr>
+</section>
+<section id="übung-1" class="level2">
+<h2 class="anchored" data-anchor-id="übung-1">Übung 1</h2>
+<p>Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx" target="_blank">Kursteilnehmer.xlsx</a> in R und benenne den data.frame mit <code>md</code>.</p>
+<p>Lernt die Daten und folgende Funktionen kennen:</p>
+<ul>
+<li>str(md)</li>
+<li>names(md)</li>
+<li>head(md)</li>
+<li>tail(md)</li>
+<li>md[,]</li>
+<li>md[1,]</li>
+<li>md[,3]</li>
+<li>md[,-3]</li>
+<li>md[1:3,]</li>
+<li>md[,1:3]<br>
+</li>
+<li>md[2,2:4]</li>
+<li>md[,c(2,4)]</li>
+</ul>
+<p>Ende Übung 1</p>
 
 
 </section>

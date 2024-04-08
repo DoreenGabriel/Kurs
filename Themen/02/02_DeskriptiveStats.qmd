@@ -304,6 +304,19 @@ pot1=pot%>%
 pot1
 ```
 
+## Übung 2.1.
+
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+
+Erstelle einen neuen Datensatz mit Beobachtungen von Kursteilnehmern mit jeweils: 
+
++ blauen Augen (`md1`)
++ Körpergröße größer 1,70 m (`md2`)
++ blauen und grünen Augen (`md3`)
++ ohne Schuhgröße (`md4`)
+
+Ende Übung 2.1.
+
 # Deskriptive Statistik
 
 -   Wir unterscheiden zwischen qualitativen (kategorialen) und quantitativen (numerischen) Daten.
@@ -445,7 +458,7 @@ quantile(pot$tubers, p=c(0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.90, 0.95, 0.99))
 CV <- function(x) {sd(x, na.rm=TRUE)/mean(x, na.rm=TRUE)} 
 ```
 
-q25 = \~quantile(., 0.25),
+
 
 ```{r}
 pot %>% 
@@ -457,7 +470,8 @@ pot %>%
             tubers_min=min(tubers),
             tubers_max=max(tubers),
             tubers_q25=quantile(tubers, 0.25),
-            tubers_q75=quantile(tubers, 0.75))
+            tubers_q75=quantile(tubers, 0.75),
+            tubers_CV=CV(tubers))
 ```
 
 ## Anwendungsbeispiele
@@ -562,3 +576,17 @@ pot %>%  group_by(method) %>%
   arrange(variable)%>% 
   relocate(variable)
 ```
+
+
+## Übung 2.2.
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+
++ Nutze die Funktion `summary(md)`, um die Daten zu beschreiben.
++ Ermittele die Anzahl Frauen und Männer für jede Augenfarbe.
++ Berechne die mittlere Körpergröße für Männer und Frauen.
++ Berechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.
++ Exportiere die Daten z.B. mit `write.xlsx()`.
+
+Zusatzaufgabe
+
++ Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einen xlsx-file mit zwei Tabellenblätter.

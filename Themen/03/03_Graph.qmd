@@ -148,13 +148,14 @@ Mit `col=3` werden die Symbole grün dargestellt. Farben kann man durch die Zahl
 library(scales)
 show_col(colors()[1:100], ncol=10)
 show_col(colors()[152:253], ncol=10)
-show_col(pal_hue()(25))
-show_col(pal_viridis()(25))
+show_col(pal_hue()(49))
+show_col(pal_viridis()(49))
+show_col(topo.colors(49))
 ```
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
-  geom_point(shape=20, size=3, col="tan")
+  geom_point(shape=20, size=3, col="#287C8EFF")
 ```
 
 Auch RGB-Farben können gewählt werden. Hier ein Beispiel für das JKI blau:
@@ -341,28 +342,6 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_smooth(method=lm)
 ```
 
-::: columns
-::: {.column width="49%"}
-```{r}
-ggplot(data=pot, 
-       aes(x=weight, y=tubers, colour=variety)) +
-  geom_point()+
-  geom_smooth(method=lm)
-```
-:::
-
-::: {.column width="2%"}
-:::
-
-::: {.column width="49%"}
-```{r}
-ggplot(data=pot, 
-       aes(x=weight, y=tubers)) +
-  geom_point(aes(colour=variety))+
-  geom_smooth(method=lm)
-```
-:::
-:::
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
@@ -383,23 +362,26 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
+
 # Übung 3.1.
 
-Lesen Sie die Daten Kursteilnehmer_2021.xlsx in R ein und benennen Sie Ihren data.frame mit md.
 
-Lernen Sie folgende Funktionen kennen:
+
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`. 
+
+Lerne folgende Funktionen kennen:
 
 -   `plot(md)`
 
-Plotten Sie:
+Plotte:
 
 -   den Zusammenhang zwischen Körpergröße und Schuhgröße mit
     -   unterschiedlichen Farben für die Frauen und Männer und fügen Sie Regressionslinien ein
 
 Zusatzaufgabe:
 
--   verwenden Sie statt geom_point() die Funktion geom_count()
--   finden Sie heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
+-   verwende statt geom_point() die Funktion geom_count()
+-   finde heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
 
 Ende Übung 3.1.
 
@@ -411,7 +393,7 @@ Ende Übung 3.1.
 -   `ggplot(md, aes(x=Erklärungsvariable, y=Zielgröße)) + geom_boxplot()`\
 -   Abgebildet sind:
     -   Median
-    -   25 % und 75 % Quantile
+    -   unteres und oberes Quartil (1. und 3. Quartil = 25 % und 75 % Perzentil)
     -   Whisker (min und max oder 1,5\*Interquantilabstand)
     -   Ausreißer (sind nicht *per se* Ausreißer, aber Punkte außerhalb des 1,5-fachen Interquantilabstandes)
 -   geeignet für n \> 10 - 20 pro Kategorie (x)
@@ -440,6 +422,7 @@ Pallmann & Hothorn 2015: *Boxplots for grouped and clustered data in toxicology.
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
+   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, height=0, shape=1)
 ```
@@ -450,6 +433,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, height=0, shape=1)+
   stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") # Mittelwert
@@ -459,6 +443,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, height=0, shape=1)+
   stat_summary(fun.data = "mean_cl_boot", colour = "red", size = 0.5)
@@ -475,42 +460,48 @@ give.n<-function(x)
   }
 
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, shape=1)+
   stat_summary(fun = "mean", colour = "red", size = 2, geom = "point")+ # Mittelwert
-  stat_summary(fun.data = give.n, geom="text", colour=2)
+  stat_summary(fun.data = give.n, geom="text", colour="gray10")
 ```
 
 ## weight \~ method und variety
 
-```{r, fig.width=5.7}
+```{r}
 # 1)
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() 
 # 2) 
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() 
 
 ```
 
-```{r, fig.width=6.5}
+```{r}
 # 3) 
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot() +
   facet_grid(~variety)
 ```
 
 In diesem Beispiel ist die Beschriftung der x-Achsenlevels sehr lang. Mit `\n` können wir einen Zeilenumbruch erzeugen:
 
-```{r, fig.width=6.5}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot() +
   facet_grid(~variety)+
   scale_x_discrete(labels =c("aero-\nponic", "bed", "hydro-\nponic", "pot"))
 ```
 
-```{r, fig.width=6.5}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot() +
   facet_grid(~variety)+
   scale_x_discrete(labels =c("aero-\nponic", "bed", "hydro-\nponic", "pot"))+
@@ -519,8 +510,9 @@ ggplot(data=pot, aes(x=method, y=weight)) +
 
 ## jittered boxplot für weight \~ method und weight
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(shape=1, size=1)
 ```
@@ -528,8 +520,9 @@ ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
 Noch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.\
 Mit dem Argument `position=position_jitterdodge()` können wir das ändern:
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, dodge.width=0.75), 
               shape=1, size=1)
@@ -550,6 +543,12 @@ ggplot(data=pot, aes(x=method, y=weight))+
   scale_y_sqrt()
 ```
 
+```{r}
+ggplot(data=pot, aes(x=method, y=weight)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
+  geom_boxplot() +
+  scale_y_sqrt(limits=c(0,400))
+```
 Für die logarithmische Skala müssen die Werte \> 0 sein.
 
 ```{r}
@@ -580,8 +579,8 @@ Auch für die wurzeltransformierte Y-Achse können wir die Beschriftung der Achs
 ggplot(data=pot, aes(x=method, y=weight))+ 
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot()+
-  scale_y_sqrt(breaks=c(0,20, 50, 100, 200, 300), 
-               label=c(0,20, 50, 100, 200, 300), 
+  scale_y_sqrt(breaks=c(0,20, 50, 100, 200, 400), 
+               label=c(0,20, 50, 100, 200, 400), 
                lim=c(0,400))
 ```
 
@@ -598,8 +597,9 @@ ggplot(data=pot, aes(x=method, y=weight))+
 
 Mit der Funktion \`theme()´ können Gitterlinien, Beschriftungen, Legenden und vieles mehr angepasst werden. [https://ggplot2.tidyverse.org/reference/theme.html](https://ggplot2.tidyverse.org/reference/theme.html){target="_blank"}
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   theme(panel.border = element_blank(),
         panel.grid.major = element_blank(),
@@ -614,25 +614,28 @@ Es gibt eine Reihe von abgestimmten `themes()`:
 
 ### white background - weißer Hintergrund
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   theme_bw()
 ```
 
 ### classic
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   theme_classic()
 ```
 
 ### pubr
 
-```{r, fig.width=5.7}
+```{r}
 library(ggpubr)
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   theme_pubr(base_size = 12, border = TRUE)
 ```
@@ -641,45 +644,43 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
 
 ### grey
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   scale_fill_grey() 
 ```
 
 ### brewer blau
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+  stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot() +
   scale_fill_brewer(palette="Blues")
 ```
 
 ## Abstand zwischen den Boxen
 
-```{r, fig.width=5.7}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+   stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.6))+
+  geom_boxplot(position=position_dodge(0.6))
+
+ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+   stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.8))+
   geom_boxplot(position=position_dodge(0.8)) 
 
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
+   stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=1))+
   geom_boxplot(position=position_dodge(1)) 
 ```
 
-## Achsen
 
-```{r, fig.width=5.7}
-ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
-  geom_boxplot(position=position_dodge(0.85))+
-  scale_y_sqrt()
-
-ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
-  geom_boxplot(position=position_dodge(0.85))+
-  scale_y_sqrt(limits=c(0,400))
-```
 
 # Alternative zum Boxplot: Dotplot
 
-```{r, fig.width=6.5, fig.height=4}
+```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_dotplot(binaxis="y", stackdir="center", binwidth = 5)+
   facet_grid(~variety)+
@@ -689,14 +690,14 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
 
 # Übung 3.2.
 
-Plotten Sie:
+Plotte:
 
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht und Augenfarbe
 
 Zusatzaufgabe:
 
--   Plotten Sie einen jittered Boxplot von Körpergröße in Relation zum Geschlecht
+-   Plotte einen jittered Boxplot von Körpergröße in Relation zum Geschlecht
 
 Ende Übung 3.2.
 
@@ -805,7 +806,7 @@ ggplot(pot, aes(x = weight, y = method, fill = method)) +
 -   Größe der Rechtecke entspricht beobachtete Häufigkeit eines Merkmals
 -   Farbe entspricht den Abweichungen zwischen beobachteten und erwarteten Häufigkeiten (Residuen)
 
-https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf
+[https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf](https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf){target="_blank"}
 
 ```{r, message=FALSE, fig.width=6, fig.height=5}
 library(vcd)
@@ -814,6 +815,7 @@ mosaic(~variety+infection, data=pot, shade = TRUE)
 ```
 
 # Layout
+
 
 ## Vier Plots in einer Graphik
 
@@ -950,13 +952,13 @@ ggsave("plot3.tiff", dpi=600, width =10, height = 8, units = "cm", compression="
 
 # Übung 3.3.
 
-Plotten Sie:
+Plotte:
 
 -   ein Histogramm von Körpergröße
 
 -   ein Histogramm von Körpergröße getrennt für Frauen und Männer
 
--   Plotten Sie einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht
+-   Plotte einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht
 
 Ende Übung 3.3.
 

@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Quarto"
+  title: "Einführung in R"
   navbar:
     left:
       - href: index.qmd
@@ -12,9 +12,9 @@ website:
         href: Themen/01/01_Allgemeines.qmd
       - text: Deskriptive Statistik
         href: Themen/02/02_DeskriptiveStats.qmd
-      - text: Graphische Darstellungen
+      - text: Grafische Darstellungen
         href: Themen/03/03_Graph.qmd
-
+ 
 format:
   html:
     theme: cosmo
