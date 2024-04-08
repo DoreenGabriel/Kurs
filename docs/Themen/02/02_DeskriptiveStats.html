@@ -167,7 +167,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#deskriptive-statistik" id="toc-deskriptive-statistik" class="nav-link" data-scroll-target="#deskriptive-statistik">Deskriptive Statistik</a>
   <ul class="collapse">
   <li><a href="#qualitative-daten" id="toc-qualitative-daten" class="nav-link" data-scroll-target="#qualitative-daten">Qualitative Daten</a></li>
-  <li><a href="#quantitative-daten" id="toc-quantitative-daten" class="nav-link" data-scroll-target="#quantitative-daten">Quantitative Daten</a></li>
+  <li><a href="#quantitative-daten" id="toc-quantitative-daten" class="nav-link" data-scroll-target="#quantitative-daten">Quantitative Daten</a>
+  <ul class="collapse">
+  <li><a href="#mittelwert-und-median" id="toc-mittelwert-und-median" class="nav-link" data-scroll-target="#mittelwert-und-median">Mittelwert und Median</a></li>
+  <li><a href="#varianz-und-standardabweichung" id="toc-varianz-und-standardabweichung" class="nav-link" data-scroll-target="#varianz-und-standardabweichung">Varianz und Standardabweichung</a></li>
+  <li><a href="#standardfehler-des-mittelwertes-sem" id="toc-standardfehler-des-mittelwertes-sem" class="nav-link" data-scroll-target="#standardfehler-des-mittelwertes-sem">Standardfehler des Mittelwertes (sem)</a></li>
+  <li><a href="#weitere-maße-zur-beschreibenden-statistik" id="toc-weitere-maße-zur-beschreibenden-statistik" class="nav-link" data-scroll-target="#weitere-maße-zur-beschreibenden-statistik">weitere Maße zur beschreibenden Statistik:</a></li>
+  </ul></li>
   <li><a href="#anwendungsbeispiele" id="toc-anwendungsbeispiele" class="nav-link" data-scroll-target="#anwendungsbeispiele">Anwendungsbeispiele</a></li>
   <li><a href="#übung-2.2." id="toc-übung-2.2." class="nav-link" data-scroll-target="#übung-2.2.">Übung 2.2.</a></li>
   </ul></li>
@@ -1130,6 +1136,8 @@ Unica     aeroponic   30 10
 </section>
 <section id="quantitative-daten" class="level2">
 <h2 class="anchored" data-anchor-id="quantitative-daten">Quantitative Daten</h2>
+<section id="mittelwert-und-median" class="level3">
+<h3 class="anchored" data-anchor-id="mittelwert-und-median">Mittelwert und Median</h3>
 <ul>
 <li>Arithmetischer Mittelwert <code>mean()</code></li>
 <li>Median <code>median()</code>: Wert, der an der mittleren (zentralen) Stelle steht, wenn man die Werte der Größe nach sortiert</li>
@@ -1168,7 +1176,10 @@ Unica     aeroponic   30 10
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
-<p>Maße für die Streuung der Daten:</p>
+</section>
+<section id="varianz-und-standardabweichung" class="level3">
+<h3 class="anchored" data-anchor-id="varianz-und-standardabweichung">Varianz und Standardabweichung</h3>
+<p>sind Maße, die die Streuung der Daten beschreiben.</p>
 <ul>
 <li>Varianz <code>var()</code></li>
 <li>Standardabweichung <code>sd()</code></li>
@@ -1196,7 +1207,10 @@ Unica     aeroponic   30 10
 <pre><code>[1] 2.278324</code></pre>
 </div>
 </div>
-<p>Der Standardfehler des Mittelwertes (sem) beschreibt die Genauigkeit der Berechnung des Stichproben-Mittelwertes.</p>
+</section>
+<section id="standardfehler-des-mittelwertes-sem" class="level3">
+<h3 class="anchored" data-anchor-id="standardfehler-des-mittelwertes-sem">Standardfehler des Mittelwertes (sem)</h3>
+<p>beschreibt die Genauigkeit der Berechnung des Stichproben-Mittelwertes.</p>
 <ul>
 <li>sem = sd/sqrt(n)</li>
 <li><code>std &lt;- function(x) {sd(x, na.rm=TRUE)/sqrt(length(na.omit(x)))}</code></li>
@@ -1215,13 +1229,15 @@ Unica     aeroponic   30 10
 <pre><code>[1] 0.1042081</code></pre>
 </div>
 </div>
-<p>weitere Maße zur beschreibenden Statistik:</p>
+</section>
+<section id="weitere-maße-zur-beschreibenden-statistik" class="level3">
+<h3 class="anchored" data-anchor-id="weitere-maße-zur-beschreibenden-statistik">weitere Maße zur beschreibenden Statistik:</h3>
 <ul>
 <li>Minimum <code>min()</code></li>
 <li>Maximum <code>max()</code></li>
 <li>Wertebereich <code>range()</code></li>
 <li>Quantile <code>quantile()</code></li>
-<li>Varianzkoeffizient = CV = sd/mean</li>
+<li>Varianzkoeffizient: CV = sd/mean</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(pot<span class="sc">$</span>tubers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1268,6 +1284,7 @@ Unica     aeroponic   30 10
 1          3          6 0.4825162</code></pre>
 </div>
 </div>
+</section>
 </section>
 <section id="anwendungsbeispiele" class="level2">
 <h2 class="anchored" data-anchor-id="anwendungsbeispiele">Anwendungsbeispiele</h2>
