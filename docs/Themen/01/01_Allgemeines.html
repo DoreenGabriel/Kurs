@@ -352,7 +352,7 @@ James, Witten, Hastie &amp; Tibshirani 2023: An Introduction to Statistical Lear
 </ul>
 <section id="daten-direkt-aus-excel-einlesen" class="level3">
 <h3 class="anchored" data-anchor-id="daten-direkt-aus-excel-einlesen">Daten direkt aus Excel einlesen</h3>
-<p>Diesen Datensatz können wir direkt mit der <code>library(openxlsx)</code> aus Excel einlesen.</p>
+<p>Diesen Datensatz <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/01/potato.xlsx" target="_blank">potato.xlsx</a> können wir direkt mit der <code>library(openxlsx)</code> aus Excel einlesen.</p>
 <p><img src="potato.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
@@ -389,7 +389,7 @@ James, Witten, Hastie &amp; Tibshirani 2023: An Introduction to Statistical Lear
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:/R/Kartoffelversuch"</span>) </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>md<span class="ot">&lt;-</span><span class="fu">read.xlsx</span>(<span class="st">"potato.csv"</span>.xlsx<span class="st">", sheet=1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>md<span class="ot">&lt;-</span><span class="fu">read.xlsx</span>(<span class="st">"potato.xlsx"</span>, <span class="at">sheet=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Über das Argument <code>startRow</code> können Zeilen übersprungen werden. Wenn bspw. die erste Zeile die ausführliche Beschreibung der Spalteninformation enthält und erst in der zweiten Zeile die kurzen prägnanten Variablennamen stehen, dann kann mit <code>startRow=2</code> der Datensatz ab Zeile 2 eingelesen werden.</p>
 <p><img src="potato_Zeile_2.png" class="img-fluid"></p>

@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Beispieldatensatz potato.xlsx</h1>
 <p>Diese Daten sind die leicht modifizierten und erweiterten <code>greenhouse</code>-Daten aus dem R-Paket <code>agricolae</code>.</p>
 <p>In einem Versuch wurden verschiedene Kartoffelsorten (<code>variety</code>) in verschiedenen Anbaumethoden (<code>method</code>) kultiviert und die Anzahl Knollen (<code>tubers</code>), deren Gewicht (<code>weight</code>), der Krankheitsbefall (<code>infection</code> 1=ja, 0=nein) und die mittlere Luftfeuchte (<code>humidity</code>) ermittelt.</p>
-<p>Zunächst lesen wir den Datensatz <code>potato.xlsx</code> mit der Funktion <code>read.xlsx</code> aus der <code>library(openxlsx)</code> ein und benennen den <code>data.frame</code> mit <code>pot</code> und machen uns mit ihm vertraut.</p>
+<p>Zunächst lesen wir den Datensatz <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/potato.xlsx" target="_blank">potato.xlsx</a> mit der Funktion <code>read.xlsx</code> aus der <code>library(openxlsx)</code> ein und benennen den <code>data.frame</code> mit <code>pot</code> und machen uns mit ihm vertraut.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pot<span class="ot">&lt;-</span><span class="fu">read.xlsx</span>(<span class="st">"potato.xlsx"</span>, <span class="at">sheet=</span><span class="dv">1</span>)</span>

@@ -187,9 +187,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#transformation-der-achsenabstände" id="toc-transformation-der-achsenabstände" class="nav-link" data-scroll-target="#transformation-der-achsenabstände">Transformation der Achsenabstände</a></li>
   <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme">Theme</a>
   <ul class="collapse">
-  <li><a href="#white-background---weißer-hintergrund" id="toc-white-background---weißer-hintergrund" class="nav-link" data-scroll-target="#white-background---weißer-hintergrund">white background - weißer Hintergrund</a></li>
-  <li><a href="#classic" id="toc-classic" class="nav-link" data-scroll-target="#classic">classic</a></li>
-  <li><a href="#pubr" id="toc-pubr" class="nav-link" data-scroll-target="#pubr">pubr</a></li>
+  <li><a href="#theme_bw" id="toc-theme_bw" class="nav-link" data-scroll-target="#theme_bw">theme_bw</a></li>
+  <li><a href="#theme_classic" id="toc-theme_classic" class="nav-link" data-scroll-target="#theme_classic">theme_classic</a></li>
+  <li><a href="#theme_pubr" id="toc-theme_pubr" class="nav-link" data-scroll-target="#theme_pubr">theme_pubr</a></li>
   </ul></li>
   <li><a href="#farbwahl-für-fill-argument" id="toc-farbwahl-für-fill-argument" class="nav-link" data-scroll-target="#farbwahl-für-fill-argument">Farbwahl für fill-Argument</a>
   <ul class="collapse">
@@ -209,8 +209,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mosaikplot-mit-libraryvcd" id="toc-mosaikplot-mit-libraryvcd" class="nav-link" data-scroll-target="#mosaikplot-mit-libraryvcd">Mosaikplot mit <code>library(vcd)</code></a></li>
   <li><a href="#layout" id="toc-layout" class="nav-link" data-scroll-target="#layout">Layout</a>
   <ul class="collapse">
-  <li><a href="#vier-plots-in-einer-graphik" id="toc-vier-plots-in-einer-graphik" class="nav-link" data-scroll-target="#vier-plots-in-einer-graphik">Vier Plots in einer Graphik</a></li>
-  <li><a href="#vier-plots-in-einer-graphik-mit-einer-legende-mit-libraryggpubr" id="toc-vier-plots-in-einer-graphik-mit-einer-legende-mit-libraryggpubr" class="nav-link" data-scroll-target="#vier-plots-in-einer-graphik-mit-einer-legende-mit-libraryggpubr">Vier Plots in einer Graphik mit einer Legende mit <code>library(ggpubr)</code></a></li>
+  <li><a href="#vier-plots-in-einer-grafik" id="toc-vier-plots-in-einer-grafik" class="nav-link" data-scroll-target="#vier-plots-in-einer-grafik">Vier Plots in einer Grafik</a></li>
+  <li><a href="#vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr" id="toc-vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr" class="nav-link" data-scroll-target="#vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr">Vier Plots in einer Grafik mit einer Legende mit <code>library(ggpubr)</code></a></li>
   <li><a href="#beschriftung-innerhalb-facet_grid-und-facet_wrap" id="toc-beschriftung-innerhalb-facet_grid-und-facet_wrap" class="nav-link" data-scroll-target="#beschriftung-innerhalb-facet_grid-und-facet_wrap">Beschriftung innerhalb <code>facet_grid()</code> und <code>facet_wrap()</code></a>
   <ul class="collapse">
   <li><a href="#labeller-label_both" id="toc-labeller-label_both" class="nav-link" data-scroll-target="#labeller-label_both">labeller = label_both</a></li>
@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich.</p>
+<p>Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich. Wir nutzen hierfür den Datensatz <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx" target="_blank">potato.xlsx</a>, wie schon in der vorherigen Kapiteln.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -271,8 +271,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ggplot" class="level1">
 <h1>ggplot</h1>
 <p>Die folgenden Abbildungen werden mit der <code>library(ggplot2)</code> erstellt. Einen Schummelzettel zur <code>library(ggplot2)</code> findet ihr unter:<br>
-<a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf" target="_blank">https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf</a></p>
-<p>Zunächst müssen wir die <code>library(ggplot2)</code> laden.</p>
+<a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf" target="_blank">https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf</a> Und ein ganzes Buch mit Erklärungen gibt es unter (https://ggplot2-book.org/)<span target="_blank">https://ggplot2-book.org/</span></p>
+<p>Zunächst laden wir die <code>library(ggplot2)</code> ein.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -705,10 +705,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers, <span class="at">color=</span>variety)) <span class="sc">+</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm)<span class="sc">+</span></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen"</span>)<span class="sc">+</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">15</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">350</span>))<span class="sc">+</span></span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(method<span class="sc">~</span>variety)<span class="sc">+</span></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">190</span>,<span class="dv">210</span>,<span class="dv">35</span>, <span class="at">max =</span> <span class="dv">255</span>), </span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">rgb</span>(<span class="dv">35</span>,<span class="dv">80</span>,<span class="dv">150</span>, <span class="at">max =</span> <span class="dv">255</span>), </span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">rgb</span>(<span class="dv">240</span>,<span class="dv">215</span>,<span class="dv">35</span>, <span class="at">max =</span> <span class="dv">255</span>)))<span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen"</span>)<span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">15</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">350</span>))<span class="sc">+</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(method<span class="sc">~</span>variety)<span class="sc">+</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -817,7 +820,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="stichprobenumfang-bzw.-anzahl-wiederholungen-je-gruppe" class="level3">
 <h3 class="anchored" data-anchor-id="stichprobenumfang-bzw.-anzahl-wiederholungen-je-gruppe">Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe</h3>
-<p>https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot</p>
+<p><a href="https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot" target="_blank">https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>give.n<span class="ot">&lt;-</span><span class="cf">function</span>(x)</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  {</span>
@@ -875,6 +878,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="03_Graph_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>oder wir drehen die X-Achsenbeschriftungslevels um 45 Grad.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight)) <span class="sc">+</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -904,8 +908,9 @@ Mit dem Argument <code>position=position_jitterdodge()</code> können wir das ä
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">colour=</span>variety)) <span class="sc">+</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position=</span><span class="fu">position_jitterdodge</span>(<span class="at">jitter.width =</span> <span class="fl">0.1</span>, <span class="at">jitter.height =</span> <span class="dv">0</span>, <span class="at">dodge.width=</span><span class="fl">0.75</span>), </span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position=</span><span class="fu">position_jitterdodge</span>(<span class="at">jitter.width =</span> <span class="fl">0.1</span>, <span class="at">jitter.height =</span> <span class="dv">0</span>, </span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">dodge.width=</span><span class="fl">0.75</span>), </span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03_Graph_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1014,8 +1019,9 @@ Removed 8 rows containing non-finite outside the scale range
 </div>
 </div>
 <p>Es gibt eine Reihe von abgestimmten <code>themes()</code>:</p>
-<section id="white-background---weißer-hintergrund" class="level3">
-<h3 class="anchored" data-anchor-id="white-background---weißer-hintergrund">white background - weißer Hintergrund</h3>
+<section id="theme_bw" class="level3">
+<h3 class="anchored" data-anchor-id="theme_bw">theme_bw</h3>
+<p>white background - weißer Hintergrund und schwarze Gitterlinien</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
@@ -1026,8 +1032,8 @@ Removed 8 rows containing non-finite outside the scale range
 </div>
 </div>
 </section>
-<section id="classic" class="level3">
-<h3 class="anchored" data-anchor-id="classic">classic</h3>
+<section id="theme_classic" class="level3">
+<h3 class="anchored" data-anchor-id="theme_classic">theme_classic</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
@@ -1038,8 +1044,8 @@ Removed 8 rows containing non-finite outside the scale range
 </div>
 </div>
 </section>
-<section id="pubr" class="level3">
-<h3 class="anchored" data-anchor-id="pubr">pubr</h3>
+<section id="theme_pubr" class="level3">
+<h3 class="anchored" data-anchor-id="theme_pubr">theme_pubr</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
@@ -1077,6 +1083,7 @@ Removed 8 rows containing non-finite outside the scale range
 <p><img src="03_Graph_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>weitere Beispiele <a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" target="_blank">https://ggplot2.tidyverse.org/reference/scale_brewer.html</a></p>
 </section>
 </section>
 <section id="abstand-zwischen-den-boxen" class="level2">
@@ -1281,9 +1288,9 @@ Removed 8 rows containing non-finite outside the scale range
 </section>
 <section id="layout" class="level1">
 <h1>Layout</h1>
-<section id="vier-plots-in-einer-graphik" class="level2">
-<h2 class="anchored" data-anchor-id="vier-plots-in-einer-graphik">Vier Plots in einer Graphik</h2>
-<p>Um mehrere Plots in einer Graphik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. <code>p1</code> bis <code>p4</code>), um dann mit der Funktion <code>grid.arrange(p1,p2,p3,p4, ncol=2)</code> der <code>library(gridExtra)</code> geplottet zu werden. Mit dem Argument <code>ncol</code> kann die Anzahl der Spalten bestimmt werden.</p>
+<section id="vier-plots-in-einer-grafik" class="level2">
+<h2 class="anchored" data-anchor-id="vier-plots-in-einer-grafik">Vier Plots in einer Grafik</h2>
+<p>Um mehrere Plots in einer Grafik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. <code>p1</code> bis <code>p4</code>), um dann mit der Funktion <code>grid.arrange(p1,p2,p3,p4, ncol=2)</code> der <code>library(gridExtra)</code> geplottet zu werden. Mit dem Argument <code>ncol</code> kann die Anzahl der Spalten bestimmt werden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1345,8 +1352,8 @@ i Please use the `legend.position.inside` argument of `theme()` instead.</code><
 </div>
 <p>Schon besser.</p>
 </section>
-<section id="vier-plots-in-einer-graphik-mit-einer-legende-mit-libraryggpubr" class="level2">
-<h2 class="anchored" data-anchor-id="vier-plots-in-einer-graphik-mit-einer-legende-mit-libraryggpubr">Vier Plots in einer Graphik mit einer Legende mit <code>library(ggpubr)</code></h2>
+<section id="vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr" class="level2">
+<h2 class="anchored" data-anchor-id="vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr">Vier Plots in einer Grafik mit einer Legende mit <code>library(ggpubr)</code></h2>
 <p>Eine weitere Möglichkeit bietet die <code>library(ggpubr)</code> mit der Funktion <code>ggarrange()</code>. Hier können auch die einzelnen Plots z.B. mit A, B, C, D beschriftet werden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
