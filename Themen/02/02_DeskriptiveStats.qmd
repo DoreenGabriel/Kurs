@@ -12,7 +12,7 @@ Diese Daten sind die leicht modifizierten und erweiterten `greenhouse`-Daten aus
 
 In einem Versuch wurden verschiedene Kartoffelsorten (`variety`) in verschiedenen Anbaumethoden (`method`) kultiviert und die Anzahl Knollen (`tubers`), deren Gewicht (`weight`), der Krankheitsbefall (`infection` 1=ja, 0=nein) und die mittlere Luftfeuchte (`humidity`) ermittelt.
 
-Zunächst lesen wir den Datensatz `potato.xlsx` mit der Funktion `read.xlsx` aus der `library(openxlsx)` ein und benennen den `data.frame` mit `pot` und machen uns mit ihm vertraut.
+Zunächst lesen wir den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/potato.xlsx){target="_blank"}  mit der Funktion `read.xlsx` aus der `library(openxlsx)` ein und benennen den `data.frame` mit `pot` und machen uns mit ihm vertraut.
 
 ```{r}
 library(openxlsx)
@@ -378,6 +378,7 @@ ftable(pot$variety, pot$method, pot$infection)
 
 ## Quantitative Daten
 
+### Mittelwert und Median
 -   Arithmetischer Mittelwert `mean()`
 -   Median `median()`: Wert, der an der mittleren (zentralen) Stelle steht, wenn man die Werte der Größe nach sortiert
 -   Median besser als arithmetischer Mittelwert bei:
@@ -402,7 +403,8 @@ mean(pot$tubers)
 median(pot$tubers)
 ```
 
-Maße für die Streuung der Daten:
+### Varianz und Standardabweichung 
+sind Maße, die die Streuung der Daten beschreiben. 
 
 -   Varianz `var()`
 -   Standardabweichung `sd()`
@@ -422,7 +424,8 @@ var(pot$tubers)
 sd(pot$tubers)
 ```
 
-Der Standardfehler des Mittelwertes (sem) beschreibt die Genauigkeit der Berechnung des Stichproben-Mittelwertes.
+### Standardfehler des Mittelwertes (sem) 
+beschreibt die Genauigkeit der Berechnung des Stichproben-Mittelwertes.
 
 -   sem = sd/sqrt(n)
 -   `std <- function(x) {sd(x, na.rm=TRUE)/sqrt(length(na.omit(x)))}`
@@ -439,13 +442,13 @@ std <- function(x) {sd(x, na.rm=TRUE)/sqrt(length(na.omit(x)))} #muss nur einmal
 std(pot$tubers)
 ```
 
-weitere Maße zur beschreibenden Statistik:
+### weitere Maße zur beschreibenden Statistik:
 
 -   Minimum `min()`
 -   Maximum `max()`
 -   Wertebereich `range()`
 -   Quantile `quantile()`
--   Varianzkoeffizient = CV = sd/mean
+-   Varianzkoeffizient: CV = sd/mean
 
 ```{r}
 min(pot$tubers)

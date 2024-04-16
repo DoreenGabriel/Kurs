@@ -7,6 +7,7 @@ knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="
 ```
 
 Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich.
+Wir nutzen hierfür den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx){target="_blank"}, wie schon in der vorherigen Kapiteln.  
 
 ```{r, message=FALSE}
 library(openxlsx)
@@ -23,8 +24,9 @@ str(pot)
 
 Die folgenden Abbildungen werden mit der `library(ggplot2)` erstellt. Einen Schummelzettel zur `library(ggplot2)` findet ihr unter:\
 [https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf){target="_blank"}
+Und ein ganzes Buch mit Erklärungen gibt es unter  [https://ggplot2-book.org/](https://ggplot2-book.org/){target="_blank"}
 
-Zunächst müssen wir die `library(ggplot2)` laden.
+Zunächst laden wir die `library(ggplot2)` ein.
 
 ```{r, warning=FALSE}
 library(ggplot2)
@@ -356,6 +358,9 @@ ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   geom_point()+
   geom_smooth(method=lm)+
+  scale_color_manual(values=c(rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255), 
+                              rgb(240,215,35, max = 255)))+
   labs(x="Gewicht in g", y="Anzahl Kartoffelknollen")+
   coord_cartesian(ylim=c(0,15), xlim = c(0,350))+
   facet_grid(method~variety)+
@@ -451,7 +456,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
 
 ### Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe
 
-https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot
+[https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot](https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot){target="_blank"}  
 
 ```{r}
 give.n<-function(x)
@@ -499,6 +504,8 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   scale_x_discrete(labels =c("aero-\nponic", "bed", "hydro-\nponic", "pot"))
 ```
 
+oder wir drehen die X-Achsenbeschriftungslevels um 45 Grad. 
+
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
   stat_boxplot(geom ="errorbar", width = 0.5)+
@@ -524,11 +531,12 @@ Mit dem Argument `position=position_jitterdodge()` können wir das ändern:
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
   stat_boxplot(geom ="errorbar", width = 0.5, position = position_dodge(width=0.75))+
   geom_boxplot(outlier.shape=NA) +
-  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, dodge.width=0.75), 
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, 
+                                            dodge.width=0.75), 
               shape=1, size=1)
 ```
 
-## Transformation der Achsenabstände
+## Transformation der Achsenabstände scale_._()
 
 Häufig weisen Daten eine (Rechts-) Schiefe auf, d.h. es gibt viele kleine und wenige große Werte. Dies ist bei Zähldaten häufig der Fall, die poisson oder negative binomial verteilt sein können oder bei streng positiven diskreten Daten, wie z.B. Biomasse, die gamma-verteilt sein kann. Dabei nimmt die Varianz (die Streuung) häufig mit steigendem Mittelwert zu.
 
@@ -593,6 +601,30 @@ ggplot(data=pot, aes(x=method, y=weight))+
                lim=c(0,400))
 ```
 
+## Komma statt Punkte in Y-Achse
+
+Wenn wir Abbildungen in Deutsch verfassen, sollten die Dezimalstellen als Komma dargestellt werden.  
+
+```{r}
+ggplot(data=pot, aes(x=method, y=weight/1000))+ 
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot()+
+  scale_y_continuous()
+```
+
+Hierfür gibt es die Möglichkeit über das Argument `labels` und die Funktion `number_format()` der `library(scales)` das Dezimalzeichen als Kommas anzeigen zu lassen.
+
+
+```{r}
+ggplot(data=pot, aes(x=method, y=weight/1000))+ 
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot()+
+  scale_y_continuous(labels=scales::number_format(accuracy = 0.01, 
+                                                  decimal.mark =","))+
+  ylab("Gewicht in kg")+
+  xlab("Methode")
+```
+
 ## Theme
 
 Mit der Funktion \`theme()´ können Gitterlinien, Beschriftungen, Legenden und vieles mehr angepasst werden. [https://ggplot2.tidyverse.org/reference/theme.html](https://ggplot2.tidyverse.org/reference/theme.html){target="_blank"}
@@ -612,7 +644,10 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
 
 Es gibt eine Reihe von abgestimmten `themes()`:
 
-### white background - weißer Hintergrund
+### theme_bw
+
+white background - weißer Hintergrund und schwarze Gitterlinien
+
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -621,7 +656,7 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   theme_bw()
 ```
 
-### classic
+### theme_classic
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -630,7 +665,7 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   theme_classic()
 ```
 
-### pubr
+### theme_pubr
 
 ```{r}
 library(ggpubr)
@@ -659,6 +694,9 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot() +
   scale_fill_brewer(palette="Blues")
 ```
+
+weitere Beispiele [https://ggplot2.tidyverse.org/reference/scale_brewer.html](https://ggplot2.tidyverse.org/reference/scale_brewer.html){target="_blank"} 
+
 
 ## Abstand zwischen den Boxen
 
@@ -817,9 +855,9 @@ mosaic(~variety+infection, data=pot, shade = TRUE)
 # Layout
 
 
-## Vier Plots in einer Graphik
+## Vier Plots in einer Grafik
 
-Um mehrere Plots in einer Graphik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. `p1` bis `p4`), um dann mit der Funktion `grid.arrange(p1,p2,p3,p4, ncol=2)` der `library(gridExtra)` geplottet zu werden. Mit dem Argument `ncol` kann die Anzahl der Spalten bestimmt werden.
+Um mehrere Plots in einer Grafik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. `p1` bis `p4`), um dann mit der Funktion `grid.arrange(p1,p2,p3,p4, ncol=2)` der `library(gridExtra)` geplottet zu werden. Mit dem Argument `ncol` kann die Anzahl der Spalten bestimmt werden.
 
 ```{r, fig.width=8, fig.height=6}
 library(gridExtra)
@@ -867,7 +905,7 @@ grid.arrange(p1,p2,p3,p4, ncol=2)
 
 Schon besser.
 
-## Vier Plots in einer Graphik mit einer Legende mit `library(ggpubr)`
+## Vier Plots in einer Grafik mit einer Legende mit `library(ggpubr)`
 
 Eine weitere Möglichkeit bietet die `library(ggpubr)` mit der Funktion `ggarrange()`. Hier können auch die einzelnen Plots z.B. mit A, B, C, D beschriftet werden.
 

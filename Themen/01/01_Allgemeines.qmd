@@ -135,7 +135,7 @@ rep(c("A","B"), times = 2)
 
 ### Daten direkt aus Excel einlesen
 
-Diesen Datensatz können wir direkt mit der `library(openxlsx)` aus Excel einlesen.
+Diesen Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/01/potato.xlsx){target="_blank"} können wir direkt mit der `library(openxlsx)` aus Excel einlesen.
 
 ![](potato.png)
 
@@ -165,7 +165,7 @@ oder
 
 ```{r, eval=FALSE}
 setwd("D:/R/Kartoffelversuch") 
-md<-read.xlsx("potato.csv".xlsx", sheet=1)
+md<-read.xlsx("potato.xlsx", sheet=1)
 ```
 
 Über das Argument `startRow` können Zeilen übersprungen werden. Wenn bspw. die erste Zeile die ausführliche Beschreibung der Spalteninformation enthält und erst in der zweiten Zeile die kurzen prägnanten Variablennamen stehen, dann kann mit `startRow=2` der Datensatz ab Zeile 2 eingelesen werden.
