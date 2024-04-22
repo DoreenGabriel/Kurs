@@ -7,7 +7,8 @@ knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="
 ```
 
 Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich.
-Wir nutzen hierfür den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx){target="_blank"}, wie schon in der vorherigen Kapiteln.  
+Wir nutzen hierfür den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx){target="_blank"}, wie schon in der vorherigen Kapiteln. 
+Ich füge zusätzlich für die als `character` eingelesenen Spalten, Variablen als Faktoren ein (`variety.f`, `method.f`, `infection.f`) und ändere für `variety.f2` die Reihenfolge der Faktorlevels, i.e. `Unica` ist nun das erste Level.   
 
 ```{r, message=FALSE}
 library(openxlsx)
@@ -16,7 +17,8 @@ pot<-read.xlsx("potato.xlsx", sheet=1)
 pot=pot %>% 
     mutate(variety.f=as.factor(variety),
            method.f=as.factor(method),
-           infection.f=as.factor(infection))
+           infection.f=as.factor(infection),
+           variety.f2=factor(variety, levels=c("Unica" , "Costanera", "Mariva")))
 str(pot)
 ```
 
@@ -493,7 +495,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot() +
   facet_grid(~variety)
 ```
-
+## x-Achsenlevels
 In diesem Beispiel ist die Beschriftung der x-Achsenlevels sehr lang. Mit `\n` können wir einen Zeilenumbruch erzeugen:
 
 ```{r}
@@ -511,11 +513,11 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot() +
   facet_grid(~variety)+
-  scale_x_discrete(labels =c("aero-\nponic", "bed", "hydro-\nponic", "pot"))+
+  scale_x_discrete(labels =c("aeronponic", "bed", "hydronponic", "pot"))+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 ```
 
-## jittered boxplot für weight \~ method und weight
+## jittered boxplot für weight \~ method und variety
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
@@ -624,6 +626,71 @@ ggplot(data=pot, aes(x=method, y=weight/1000))+
   ylab("Gewicht in kg")+
   xlab("Methode")
 ```
+## `facet_grid()` und `facet_wrap()`
+### Reihenfolge ändern
+Die Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert.  Ich habe nun nach dem Einlesen der Daten den Faktor `variety.f2` mit dem Code `variety.f2=factor(variety, levels=c("Unica" , "Costanera", "Mariva"))` in der Funktion `mutate()` eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne `mutate()` `pot$variety.f2=factor(pot$variety, levels=c("Unica" , "Costanera", "Mariva"))`
+Weitere tolle Möglichkeiten, um Fakoren zu manuipulieren, bietet die `library(forcats)` [https://forcats.tidyverse.org/](https://forcats.tidyverse.org/){target="_blank"}.  
+
+```{r}
+ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
+  geom_point()+
+  facet_grid(~variety.f2)+
+  theme(legend.position="bottom")
+```
+alternativer Code mit der `library(forcats)` und der Funktion `fct_relevel()`.  
+```{r}
+library(forcats)
+pot %>% 
+  ggplot(aes(x=weight, y=tubers, color=variety)) +
+  geom_point()+
+  facet_grid(~fct_relevel(variety, "Unica", "Mariva"))+# hier neue Reihenfolge eingeben
+  theme(legend.position="bottom")
+```
+
+### labeller = label_both
+
+```{r}
+ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
+  geom_point()+
+  facet_grid(~variety, labeller = label_both)+
+  theme(legend.position="bottom")
+```
+
+### labeller = labeller(variety = Sorten.labs)
+
+```{r}
+Sorten.labs <- c("a) Costanera", "b) Mariva", "c) Unica")
+names(Sorten.labs) <- c("Costanera", "Mariva" ,   "Unica" )
+
+ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
+  geom_point()+
+  facet_grid(~variety, labeller = labeller(variety = Sorten.labs))+
+  theme(legend.position="bottom")
+```
+
+### Beschriftung im Plot
+
+dabei bilden x und y die Koordinaten im Plot
+
+```{r}
+abc=data.frame(label=c("a)", "b)", "c)"), 
+               x=c(20,20,20), y=c(13,13, 13),
+               variety=c(levels(pot$variety.f)))
+abc
+```
+
+die Beschrifftung erfolgt dann über die Funktion `geom_text()`
+
+```{r}
+ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
+  geom_point()+
+  facet_grid(~variety)+
+  geom_text(data  = abc,
+            aes(x = x, y = y, label = label), col=1)+
+  theme(legend.position="bottom")
+```
+
+
 
 ## Theme
 
@@ -716,7 +783,8 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
 
 
 
-# Alternative zum Boxplot: Dotplot
+# Alternative zum Boxplot
+## Dotplot
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -724,6 +792,16 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   facet_grid(~variety)+
   theme(legend.position="none", 
         axis.text.x=element_text(angle = 45, hjust = 1))
+```
+## Violinplot
+
+[http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization](http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization){target="_blank"}
+
+```{r}
+ggplot(data=pot, aes(x=method, y=weight))+ 
+  geom_violin()
+ggplot(data=pot, aes(x=method, y=weight))+ 
+  geom_violin(trim=F)
 ```
 
 # Übung 3.2.
@@ -907,7 +985,7 @@ Schon besser.
 
 ## Vier Plots in einer Grafik mit einer Legende mit `library(ggpubr)`
 
-Eine weitere Möglichkeit bietet die `library(ggpubr)` mit der Funktion `ggarrange()`. Hier können auch die einzelnen Plots z.B. mit A, B, C, D beschriftet werden.
+Eine weitere Möglichkeit bietet die `library(ggpubr)` mit der Funktion `ggarrange()`. Hier können auch die einzelnen Plots z.B. mit a), b), c) und d) beschriftet werden.
 
 ```{r, fig.width=8, fig.height=7.5, message=FALSE}
 library(ggpubr)
@@ -915,49 +993,17 @@ ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(
           common.legend = TRUE, legend = "bottom")
 ```
 
-## Beschriftung innerhalb `facet_grid()` und `facet_wrap()`
+Das Argument `align="hv"` richtet die Plots horizontal und vertikal aus (vgl. a) und c) oben mit dieser Grafik unten). 
 
-### labeller = label_both
-
-```{r}
-ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
-  geom_point()+
-  facet_grid(~variety, labeller = label_both)+
-  theme(legend.position="bottom")
+```{r, fig.width=8, fig.height=7.5, message=FALSE}
+ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(face="plain"),
+          common.legend = TRUE, legend = "bottom", align="hv")
 ```
 
-### labeller = labeller(variety = Sorten.labs)
-
-```{r}
-Sorten.labs <- c("a) Costanera", "b) Mariva", "c) Unica")
-names(Sorten.labs) <- c("Costanera", "Mariva" ,   "Unica" )
-
-ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
-  geom_point()+
-  facet_grid(~variety, labeller = labeller(variety = Sorten.labs))+
-  theme(legend.position="bottom")
-```
-
-### Beschriftung im Plot
-
-dabei bilden x und y die Koordinaten im Plot
-
-```{r}
-abc=data.frame(label=c("a)", "b)", "c)"), 
-               x=c(20,20,20), y=c(13,13, 13),
-               variety=c(levels(pot$variety.f)))
-abc
-```
-
-die Beschrifftung erfolgt dann über die Funktion `geom_text()`
-
-```{r}
-ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
-  geom_point()+
-  facet_grid(~variety)+
-  geom_text(data  = abc,
-            aes(x = x, y = y, label = label), col=1)+
-  theme(legend.position="bottom")
+Ausserdem kann auch die relative Breite der Plots geändert werden. 
+```{r, fig.width=8, fig.height=7.5, message=FALSE}
+ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(face="plain"),
+          common.legend = TRUE, legend = "bottom", align="hv", widths = c(0.6,0.4))
 ```
 
 ## R-Logo im Plot
@@ -977,7 +1023,7 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
 
 Alle Abbildungen, die mit `ggplot()` erstellt werden, können als pdf, tiff, jpg, eps usw. im *working directory* gespeichert werden. Zudem kann man über die Argumente die Größe und die Auflösung bestimmen. Das Argument `scale` skaliert die Punkte und Buchstaben relativ zur Plotgröße.
 
-```{r, fig.width=6, fig.height=4.5}
+```{r, fig.width=6, fig.height=4.5, eval=FALSE}
 ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_point()+
   labs(x="Gewicht in g", y="Anzahl Kartoffelknollen")

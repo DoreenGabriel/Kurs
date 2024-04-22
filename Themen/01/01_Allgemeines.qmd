@@ -237,7 +237,7 @@ Wir können die Daten exportieren.
 
 -   mit dem Package `openxlsx`:
 
-```{r}
+```{r, eval=FALSE}
 library(openxlsx)
 write.xlsx(md, "potato.export2.xlsx")
 ```
@@ -252,7 +252,7 @@ md.sum=md %>% group_by(variety, method) %>%
 md.sum
 ```
 
-```{r}
+```{r, eval=FALSE}
 wb <- createWorkbook()
 addWorksheet(wb, sheetName = "Kartoffeldaten")
 writeData(wb, "Kartoffeldaten", md) 

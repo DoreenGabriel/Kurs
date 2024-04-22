@@ -1,0 +1,479 @@
+---
+title: "ANOVA"
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
+```
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+library(ggfortify)
+```
+
+### Unterscheiden sich die Gruppen?
+
+```{r, echo=FALSE, fig.width=6.5, fig.height=3.5, message=F, warning=FALSE}
+n=1000
+set.seed(12345)
+dat=data.frame(Y=c(rnorm(n, 10, 2), rnorm(n, 20, 2), rnorm(n, 10, 5), rnorm(n, 20, 5), 
+                   rnorm(n, 10, 5), rnorm(n, 30, 5)), 
+               Behandlung=rep(c("A","B"), each=n, times=3), 
+               Experiment=factor(rep(c("Exp 1", "Exp 2", "Exp 3"), each=2*n)))
+dat2=dat %>% 
+  group_by(Behandlung, Experiment) %>% 
+  summarize(min=min(Y), 
+            max=max(Y), 
+            sd=sd(Y), 
+            mean=mean(Y)) 
+dat2$Y=0.22
+ggplot(data=dat, aes(colour=Behandlung, fill=Behandlung)) + 
+  geom_density(aes(Y), adjust=1, alpha=.2)+
+  geom_errorbarh(data=dat2, aes(y=Y, x=0, xmax = mean+sd, xmin = mean-sd, height = .01))+
+  geom_point(data=dat2, aes(y=Y, x=mean))+
+  facet_grid(~Experiment)+
+  coord_cartesian(ylim=c(0,0.23))+
+  theme(legend.position = "none")
+
+ggplot(data=dat, aes(y=Y, x=Behandlung, colour=Behandlung)) + 
+  geom_boxplot()+
+#+
+  #geom_errorbarh(data=dat2, aes(y=Y, x=0, xmax = mean+sd, xmin = mean-sd, height = .01))+
+ # geom_point(data=dat2, aes(y=Y, x=mean))+
+  facet_grid(~Experiment)+
+  #coord_cartesian(ylim=c(0,0.23))+
+  theme(legend.position = "none")
+```
+
+```{r results='asis', echo=F}
+knitr::kable(dat %>% 
+  group_by(Experiment,Behandlung ) %>% 
+  summarize(MW=round(mean(Y),0), SD=round(sd(Y),1), N=length(Y)))
+```
+
+### Beispieldaten ANOVA in Anlehnung an Carsten Dormann "Parametrische Statistik" S. 191ff
+
+```{r, echo=FALSE, message=FALSE, fig.width=6.5, fig.height=3.5}
+
+dat=data.frame(AZ=c(5,8,7,9,9,12,23,15,18,20), Pos= c(seq(0.7,1.3, length=5), seq(1.7,2.3, length=5)), Gruppe= rep(c("A", "B"), each=5))
+dat=dat %>% group_by(Gruppe) %>% mutate(AZ.m = mean(AZ), min=min(Pos), max=max(Pos))
+p1=ggplot(dat, aes(x=Pos, y=AZ, colour=Gruppe)) +
+  geom_segment(aes(x=Pos, xend=Pos, y=AZ, yend=mean(AZ)), linewidth=1, data=dat, colour="grey70") +
+  geom_hline(yintercept = mean(dat$AZ), colour="grey70") + 
+  geom_point(size=2)+ 
+  ggtitle("SS Total")+
+  scale_x_continuous(breaks=c(1,2), labels=levels(dat$Gruppe), name ="Behandlung")
+
+p2=ggplot(dat, aes(x=Pos, y=AZ, colour=Gruppe)) +
+  geom_segment(aes(x=Pos, xend=Pos, y=AZ.m, yend=mean(AZ), colour=Gruppe), linewidth=1, data=dat) +
+  geom_segment(aes(x=min, xend=max, y=AZ.m, yend=AZ.m, colour=Gruppe), linewidth=1, data=dat) +
+  geom_hline(yintercept = mean(dat$AZ), colour="grey70") + 
+  geom_point(size=2)+ 
+  ggtitle("SS Effekt")+
+  scale_x_continuous(breaks=c(1,2), labels=levels(dat$Gruppe), name ="Behandlung")
+
+p3=ggplot(dat, aes(x=Pos, y=AZ, colour=Gruppe)) +
+  geom_segment(aes(x=Pos, xend=Pos, y=AZ, yend=AZ.m), linewidth=1, data=dat, colour="grey70") +
+  geom_segment(aes(x=min, xend=max, y=AZ.m, yend=AZ.m, colour=Gruppe), linewidth=1, data=dat) +
+  geom_point(size=2)+
+  ggtitle("SS Residuen")+
+  scale_x_continuous(breaks=c(1,2), labels=levels(dat$Gruppe), name ="Behandlung")
+ggarrange(p1, p2, p3, labels = c("A", "B", "C"), nrow=1, ncol=3, common.legend = F, legend = "none")
+
+```
+
+A)  Gesamtvarianz der Daten = Abweichungsquadrate zum Gesamtmittelwert = SS Total
+B)  Abweichungsquadrate der Gruppen zum Gesamtmittelwert = SS Effekt
+C)  Abweichungsquadrate zum Mittelwert der beiden Gruppen = SS Residuen
+
+SS~Total~ = SS~Effekt~ + SS~Residuen~\
+F-Wert = (SS~Effekt~/df~Effekt~)/(SS~Residuen~/df~Residuen~)
+
+df~Effekt~ = k-1, wobei k die Anzahl der Gruppen (Faktorlevels) ist\
+df~Residuen~ = n-k, wobei n der Stichprobenumfang ist
+
+F-Wert = MS~Effekt~/MS~Residuen~
+
+aus dem F-Wert und den `degrees of freedom` resultiert dann der p-Wert
+
+R² = SS~Effekt~/SS~Total~ \* 100
+
+entsprechend können *signifikante Unterschiede* verschiedene Ursachen haben:
+
+-   große Mittelwertsdifferenzen zwischen den Gruppen (hohe SS~Effekt~)
+-   geringe Variabilität innerhalb der Gruppen (niedrige SS~Residuen~)
+-   hoher Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe (erhöht df~Residuen~ und senkt damit MS~Residuen~)
+
+Varianzanalyse (*Analysis of Variance*)
+
+-   `mod<-aov(Abhängige ~ Erklärungsvariable, data=md)`
+-   Abhängige ist kontinuierlich
+-   Erklärungsvariable ist ein Faktor
+
+Voraussetzungen:
+
+-   zufällige Stichprobennahme (unabhängige Fehler)
+-   Varianzhomogenität/Homoskedastizität
+-   annähernde Normalverteilung der Fehler (Residuen), und **nicht** der Abhängigen!
+
+## Beispiel ANOVA Proteingehalt
+
+Die Proteingehalte von jeweils 8 zufällig ausgewählten Weizenproben der 4 Qualitätsklassen E, A, B und C wurden ermittelt. Unterscheiden sich die Qualitätsklassen im Proteingehalt?
+
+```{r, echo=F}
+n=8
+set.seed(12345)
+md=data.frame( ID=1:(n*4),
+               Quali=rep(c("E","A","B","C"), each=n),
+               Prot=c(rnorm(n, 14.5, 1.5), rnorm(n, 13.0, 1.5), 
+                      rnorm(n, 12.2, 1.5), rnorm(n, 11, 1.5)))
+#md
+library(openxlsx)
+write.xlsx(md, "Protein.xlsx")
+```
+
+## Daten einlesen, kennenlernen und plotten
+
+[Protein.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Protein.xlsx){target="_blank"}
+
+```{r}
+md<-read.xlsx("Protein.xlsx")
+```
+
+### Struktur der eingelesenen Daten überprüfen
+
+```{r}
+str(md)
+unique(md$Quali)
+md$Quali=as.factor(md$Quali)# Erklärungsvariable muss als Faktor deklariert sein
+levels(md$Quali)
+```
+
+### Daten plotten (Ausreißer, Eingabefehler, Varianzhomogenität visuell überprüfen)
+
+```{r}
+ggplot(md, aes(x=Quali, y=Prot)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") 
+```
+
+## Modell formulieren
+
+Wichtig ist, dass die Abhängige kontinuierlich und die Erklärungsvariable ein Faktor ist.
+
+```{r}
+mod<-lm(Prot ~ Quali, data=md) # Prot ist die Abhängige, Quali die Erklärungsvariable
+anova(mod)
+```
+
+`Quali` hat einen signifikanten Effekt auf den Proteingehalt.
+
+## Modellinterpretation
+
+```{r}
+summary(mod) 
+```
+
+-   R² ist `r round(summary.lm(mod)$r.sq*100,1)` %. Adjusted R² ist `r round(summary.lm(mod)$adj.r.sq*100,1)` %.
+-   Hinter dem Intercept verbirgt sich das erste Level von `Quali`, i.e. `A`. `A` hat demnach einen geschätzten mittleren Proteingehalt von `r round(coef(mod)[1],1)`.
+-   Um den geschätzten mittleren Proteingehalt für `B` zu ermitteln, müssen wir Intercept + Estimate `QualiB` rechnen, d.h. `r round(coef(mod)[1],1)` `r round(coef(mod)[2],1)` = `r round(coef(mod)[1]+coef(mod)[2],1)`
+-   Um den geschätzten mittleren Proteingehalt für `C` zu ermitteln, müssen wir Intercept + Estimate `QualiC` rechnen, d.h. `r round(coef(mod)[1],1)` `r round(coef(mod)[3],1)` = `r round(coef(mod)[1]+coef(mod)[3],1)`
+-   und für E `r round(coef(mod)[1],1)` + `r round(coef(mod)[4],1)` = `r round(coef(mod)[1]+coef(mod)[4],1)`
+
+### alternative Funktion aov
+
+... kommt zu den gleichen Ergebnissen und ist hier nur der Vollständigkeit halber erwähnt.
+
+```{r}
+mod.a<-aov(Prot ~ Quali, data=md) # 
+summary(mod.a)
+summary.lm(mod.a)
+```
+
+## Modelldiagnostik
+
+Wir überprüfen die Annahmen der ANOVA visuell auf:
+
+-   annähernde Normalverteilung der Fehler (i.e. Residuen)
+-   Varianzhomogenität
+
+Ich nutze hierfür die `library(DHARMa)`. 
+
+[https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html){target="_blank"}
+
+```{r}
+library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+plot(simulationOutput)
+```
+
+
+-   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen` und sagt uns etwas über die Normalverteilung der Residuen aus. Verlaufen die Punkte in etwa auf der Winkelhalbierenden (die rote Linie), dann ist alles ok. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt. 
+
+- Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die Null sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E.  noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).  
+
+- Um die Varianzhomogenität zwischen den Gruppen zu prüfen, sollten wir die Residuen gegen die Erklärungsvariablen plotten. 
+
+```{r}
+plotResiduals(simulationOutput, form = md$Quali)
+```
+Solange alle Tests nicht signifikant sind (und keine roten Linien oder Boxen angezeigt werden), ist alles (mehr oder weniger) gut.  ABER es sei angemerkt, dass die Teststärke (Power) der Tests  von der Anzahl der Beobachtungen abhängt. Je mehr Beobachtungen wir haben, umso höher ist die Power des Tests. Damit werden häufig  signifikante Unterschiede z.B. der Varianzen bei großem Stichprobenumfang beobachtet, obwohl diese praktisch nicht relevant sind. Außerdem werden häufig keine signifikanten Unterschiede bei kleinem Stichprobenumfang beobachtet, obwohl gravierende Unterschiede vorhanden sind. 
+
+Die *visuelle* Modelldiagnostik wird daher häufig als wichtiger angesehen als die p-Wert-basierten Tests auf Normalverteilung und Varianzhomogenität (Cochran, Bartlett und Levenes Test).
+
+```{r, message=FALSE}
+#Tests zur Varianzhomogenität
+var.test(md$Prot[md$Quali=="E"], md$Prot[md$Quali=="B"] )
+bartlett.test(Prot ~ Quali, data=md)
+library(car)
+leveneTest(Prot ~ Quali, data=md) 
+library(outliers)
+cochran.test(Prot ~ Quali, data=md)
+```
+
+In unserem Beispiel ist alles ok. Sowohl visuell als auch nach Aussage der Tests.
+
+#### Hier ein Beispiel für Varianzheterogenität mit veränderten Daten.
+
+```{r}
+md$Prot2= md$Prot
+set.seed(1309)
+md$Prot2[md$Quali=="E"] =rnorm(8, 14.5, 13)
+ggplot(md, aes(x=Quali, y=Prot2)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") 
+```
+
+```{r}
+mod2<-lm(Prot2 ~ Quali, data=md)
+simulationOutput <- simulateResiduals(fittedModel = mod2, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form = md$Quali)
+```
+
+Die Residuen weisen eine größere Streuung auf mit größer werdenden `fitted values`. Um dem zu entgegnen könnte man die Analyse mit    transformieren Daten durchführen oder *besser* einen Funktion für die unterschiedliche Varianz in den Gruppen anpassen (dies ist  mit der Funktion `glmmTMB()` und `lme` möglich).
+
+
+
+## Post-hoc Test
+
+Die ANOVA zeigte uns einen signifikanten Effekt von `Quali` auf `Prot`, jedoch wissen wir nicht, welche Weizenqualitätsklassen sich voneinander unterscheiden. Bei Faktoren mit mehr als 2 Ausprägungen wird daher ein Post-hoc Test durchgeführt. Dieser korrigiert die Irrtumswahrscheinlichkeit um die Anzahl der Vergleiche, da man bei z.B. 100 Ausprägungen, schon per Zufall 5 signifikante Unterschiede aufweisen können.
+
+### Bespiel für multiples Testen ohne und mit Adjustierung des p-Wertes
+
+```{r}
+pairwise.t.test(md$Prot, md$Quali, p.adj = "none") # p-Werte werden nicht korrigiert, nicht gut! 
+
+# Bonferroni-Korrektur (Bonferroni multipliziert p mit der Anzahl Tests, sehr konservativ)
+pairwise.t.test(md$Prot, md$Quali, p.adj = "bonferroni") # besser
+```
+
+### Post-hoc Test: package `emmeans`
+
+Die `library(emmeans)` mit der Funktion `emmeans()` bietet eine Vielzahl an Möglichkeiten um einen Post-hoc Test am gefitteten Modell (hier die ANOVA) durchzuführen. Mit dem Argument `method="pairwise"` kann man alle Behandlungen miteinander per Tukey-Test vergleichen, i.e. paarweise. 
+
+```{r, message=FALSE, warning=FALSE}
+library(emmeans)
+contrast(emmeans(mod, ~Quali), method="pairwise")
+```
+
+Mit `method="trt.vs.ctrl"` wird ein Dunnett-Test durchgeführt, der alle Behandlungen gegen **eine** Kontrolle testet. Die p-Werte werden automatisch um die Anzahl der Tests korrigiert.
+
+```{r, message=FALSE, warning=FALSE}
+contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl")
+```
+
+Hier wird immer gegen die Qualität A gepürft, weil diese das erste Level der Variable `Quali`ist.
+
+Mit dem Argument `ref` kann ich ein anderes Level wählen. Hier die E-Qualität. 
+
+
+```{r, message=FALSE, warning=FALSE}
+contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl", ref=4)
+```
+
+Alternativ kann ich bereits im `data.frame` die Faktorenlevels entsprechend meiner Interpretation ändern und damit das Modell anpassen. (siehe dazu Reihenfolge ändern in Kap. Grafik)
+
+
+Interessant sind auch die Konfidenzintervalle. Wenn Konfidenzintervalle sich nicht überlappen, geht man in der Regel von signifikanten Unterschieden aus. Es kann auch sein, dass Konfidenzintervalle leicht überlappen, und trotzdem signifikante Unterschiede vorliegen. [https://core.ac.uk/download/pdf/82702323.pdf](https://core.ac.uk/download/pdf/82702323.pdf){target="_blank"} Hier sollte man immer auf die p-Werte des Tests schauen.
+
+```{r, fig.height=3, fig.width=4}
+summary(emmeans(mod, ~Quali)) #Konfidenzintervalle
+plot(emmeans(mod, ~Quali))
+```
+
+Um Gruppenunterschiede leicht verständlich anzugeben bzw. zu visualisieren, kann das *compact letter display* genutzt werden. Hierfür benötigen wir die `library(multcompView)` und `library(multcomp)`.
+
+```{r, message=FALSE}
+library(multcompView)
+library(multcomp)
+cld(emmeans(mod, ~Quali), Letters=letters) # Compact letter display für Gruppenunterschiede 
+```
+
+Gruppen, die keinen Buchstaben gemeinsam haben, sind im Mittelwert signifikant unterschiedlich. Qualitätsklasse `E` hat einen signifikant höheren Proteingehalt im Vergleich zu `B` und `C`, während  `E`  und `A` sich nicht signifikant unterscheiden. 
+
+## Präsentation der Ergebnisse
+
+So könnte man die Daten und die Ergebnisse des Modells präsentieren. Ich speichere das Konfidenzintervall als Objekt `CI` und plotte es dann in den jittered Boxplot. Das Einzeichnen der Buchstaben muss nicht sein. Der Vollständigkeit halber soll es hier aber gezeigt werden.
+
+```{r}
+CIs=cld(emmeans(mod, ~Quali), sort = FALSE, Letters=letters)
+CIs$.group # hier sind noch Leerzeichen enthalten, die die Zentrierung der Buchstaben erschwert
+CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)# entfernen der Leerzeichen
+CIs$.group # besser
+str(CIs)
+ggplot(md, aes(x=Quali, y=Prot)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  geom_point(data=CIs, aes(y=emmean), 
+             shape=16,  size=2, col=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.1, col=2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 20, label =.group))+
+  theme_bw() 
+```
+
+Im Text sollte man erwähnen, dass
+
+-   `Quali` einen signifikanten Einfluss auf `Prot` hat. Nutze die Funktion `anova(mod)` und gibt den p-Wert zusammen mit den `degrees of freedom` und `F-Wert` an.
+-   der Post-hoc Test gezeigt hat, dass `E` mit im Mittel `r round(CIs$emmean[CIs$Quali=="E"],1)` % einen signifikant höheren Proteingehalt hatte als `B` und `C` mit `r round(CIs$emmean[CIs$Quali=="B"],1)` % und `r round(CIs$emmean[CIs$Quali=="C"],1)` % , während `E` und `A` sich nicht unterscheiden. Die Proteingehalte von `A`, `B` und `C` unterscheiden sich nicht signifikant (p>0.05). Hierzu nutzt du die Funktion `contrast(emmeans(mod, c("Quali")), method="pairwise")`. 
+-   das R² des Modells `r round(summary(mod)$r.sq*100,1)` beträgt. `summary(mod)$r.sq`
+-   die Modellannahmen für die ANOVA (Varianzhomogenität und annähernde Normalverteilung der Residuen) visuell mit dem Paket `DHARMa` überprüft wurden. 
+
+
+### add on: Faktorlevels in Grafik umsortieren
+
+Schöner wäre es, die Qualitäten in absteigender Reihenfolge darzustellen. E steht für Elite und ist die beste Qualität. 
+```{r}
+library(forcats)
+md %>% 
+ggplot(aes(x=fct_relevel(Quali, "E"), y=Prot)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  geom_point(data=CIs, aes(y=emmean), 
+           shape=16,  size=2, col=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.1, col=2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 20, label =.group))+
+  theme_bw()
+```
+
+oder in aufsteigender Reihenfolge, basierend auf den Messwerten. 
+
+```{r}
+CIs$Prot=CIs$emmean
+md %>% 
+ggplot(aes(x=fct_reorder(Quali, Prot), y=Prot)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  geom_point(data=CIs, aes(y=emmean), 
+           shape=16,  size=2, col=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.1, col=2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 20, label =.group))+
+  theme_bw() 
+```
+
+
+
+
+## Übung 4
+
+
+In einem Gefäßversuch wurde die pflanzenliche Biomasse (`BM`) in den 4 Düngemittelvarianten (`DM`: Kontrolle, Düngemittel A, B und C) an jeweils 10 Proben gemessen.
+
+-   Importiere bitte die Daten [Gefaessversuch.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Gefaessversuch.xlsx){target="_blank"} in R und mach Dich mit dem Datensatz vertraut.
+-   Unterscheidet sich die Biomasse zwischen den Varianten?
+-   Sind die Voraussetzung für eine ANOVA gegeben? Prüfe die Residuen. 
+
+
+
+```{r, eval=FALSE, echo=F}
+n=10
+set.seed(12345)
+g=data.frame( ID=1:(n*4),
+               DM=factor(rep(c("K","A","B","C"), each=n)),
+               BM=c(rnorm(n, 10, 1.5), rnorm(n, 11.0, 1.5), 
+                      rnorm(n, 14, 1.5), rnorm(n, 18, 1.5))^2)
+write.xlsx(g, "Gefaessversuch.xlsx")
+
+ggplot(g, aes(x=DM, y=BM)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") 
+# Kontrolle als erstes Level
+
+g$DM=fct_relevel(g$DM, "K")
+
+mod<-lm(BM ~ DM, data=g)
+anova(mod)
+cld(emmeans(mod, ~DM), Letters=letters)
+#library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form = g$DM)
+
+ggplot(g, aes(x=DM, y=BM)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") +
+  scale_y_sqrt()
+
+# entweder
+# g$BM.sq=sqrt(g$BM)
+# mod<-lm(BM.sq ~ DM, data=g)
+# und dann für emmean und lower und upper CI Abbildung zurücktransformieren
+# oder
+
+mod<-lm(sqrt(BM) ~ DM, data=g)
+anova(mod)
+cld(emmeans(mod, ~DM), Letters=letters)
+cld(emmeans(mod, ~DM, type="response"), Letters=letters)
+
+#library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form = g$DM)
+
+
+CIs=cld(emmeans(mod, ~DM, type = "response" ), sort = FALSE, Letters=letters)
+
+CIs$.group # hier sind noch Leerzeichen enthalten, die die Zentrierung der Buchstaben erschwert
+CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)# entfernen der Leerzeichen
+CIs$.group # besser
+str(CIs)
+
+
+ggplot(g, aes(x=DM, y=BM)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  geom_point(data=CIs, aes(y=response), 
+             shape=16,  size=2, col=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=response, ymin=lower.CL, ymax=upper.CL), 
+                width=0.1, col=2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 550, label =.group))+
+  theme_bw() +
+  scale_y_sqrt(breaks=c(50, 100,200,300,400))
+```
+
+
+
+
+Ende Übung 4

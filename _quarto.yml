@@ -14,6 +14,11 @@ website:
         href: Themen/02/02_DeskriptiveStats.qmd
       - text: Grafische Darstellungen
         href: Themen/03/03_Graph.qmd
+      - text: ANOVA
+        href: Themen/04/04_Anova.qmd
+      - text: Regression
+        href: Themen/05/05_Regression.qmd
+ 
  
 format:
   html:
