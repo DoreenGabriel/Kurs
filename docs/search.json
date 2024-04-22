@@ -1,5 +1,68 @@
 [
   {
+    "objectID": "Themen/05/05_Regression.html",
+    "href": "Themen/05/05_Regression.html",
+    "title": "Regression",
+    "section": "",
+    "text": "library(ggplot2)\nlibrary(dplyr)\nlibrary(gridExtra)\nlibrary(ggpubr)\nlibrary(ggfortify)\nlibrary(DHARMa)\nLineare Regression\nAnnahmen:\nmod.Bsp1=lm(yn~x)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod.Bsp1, plot = F)\nplot(simulationOutput)\n\n\n\nmod.Bsp2=lm(yh~x)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod.Bsp2, plot = F)\nplot(simulationOutput)\nNur für das erste Beispiel treffen die Annahmen für eine Regression zu. Im zweiten Beispiel tritt der Trompeteneffekt auf (Heteroskedastizität)."
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#beispiel-trade-off-zwischen-ertrag-und-proteingehalt",
+    "href": "Themen/05/05_Regression.html#beispiel-trade-off-zwischen-ertrag-und-proteingehalt",
+    "title": "Regression",
+    "section": "Beispiel Trade-off zwischen Ertrag und Proteingehalt",
+    "text": "Beispiel Trade-off zwischen Ertrag und Proteingehalt\nBei gleicher N-Düngung beobachtet man im Weizen aufgrund unterschiedlicher Sorteneigenschaften häufig einen Trade-off zwischen Ertrag und Proteingehalt.\nFrage: Wie stark reduziert sich der Proteingehalt mit steigendem Ertrag?"
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#daten-einlesen-kennenlernen-und-plotten",
+    "href": "Themen/05/05_Regression.html#daten-einlesen-kennenlernen-und-plotten",
+    "title": "Regression",
+    "section": "Daten einlesen, kennenlernen und plotten",
+    "text": "Daten einlesen, kennenlernen und plotten\n\nlibrary(openxlsx)\nreg&lt;-read.xlsx(\"Trade-off.xlsx\")\nstr(reg)\n\n'data.frame':   10 obs. of  2 variables:\n $ Ert : num  90.5 101.3 93.3 102 72 ...\n $ Prot: num  10.9 12.5 12.3 11.6 13.3 ...\n\nsummary(reg)\n\n      Ert              Prot      \n Min.   : 51.65   Min.   :10.51  \n 1st Qu.: 72.88   1st Qu.:11.73  \n Median : 90.70   Median :12.89  \n Mean   : 84.93   Mean   :13.12  \n 3rd Qu.: 99.30   3rd Qu.:14.07  \n Max.   :109.28   Max.   :16.80  \n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()"
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#modell-formulieren",
+    "href": "Themen/05/05_Regression.html#modell-formulieren",
+    "title": "Regression",
+    "section": "Modell formulieren",
+    "text": "Modell formulieren\n\nmod&lt;-lm(Prot~Ert, data=reg)\nsummary(mod)\n\n\nCall:\nlm(formula = Prot ~ Ert, data = reg)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-1.64733 -0.49234  0.00472  0.60021  1.54734 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 21.26794    1.55972  13.636 8.05e-07 ***\nErt         -0.09590    0.01798  -5.335 0.000699 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.008 on 8 degrees of freedom\nMultiple R-squared:  0.7806,    Adjusted R-squared:  0.7531 \nF-statistic: 28.46 on 1 and 8 DF,  p-value: 0.0006987\n\n\nMit jeder dt/ha steigendem Ertrag sinkt der Proteingehalt um -0.1 %. Das R² des Modells 78.1 beträgt."
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#signifikanztest-der-modellparameter",
+    "href": "Themen/05/05_Regression.html#signifikanztest-der-modellparameter",
+    "title": "Regression",
+    "section": "Signifikanztest der Modellparameter",
+    "text": "Signifikanztest der Modellparameter\n\ndrop1(mod, test=\"F\")\n\nSingle term deletions\n\nModel:\nProt ~ Ert\n       Df Sum of Sq    RSS     AIC F value    Pr(&gt;F)    \n&lt;none&gt;               8.128  1.9277                      \nErt     1    28.914 37.043 15.0948  28.458 0.0006987 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nSignifikanter Zusammenhang zwischen Ertrag und Proteingehalt."
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#modelldiagnostik",
+    "href": "Themen/05/05_Regression.html#modelldiagnostik",
+    "title": "Regression",
+    "section": "Modelldiagnostik",
+    "text": "Modelldiagnostik\n\nlibrary(DHARMa)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod, plot = F)\nplot(simulationOutput)\n\n\n\n\nAuch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, sieht alles ganz ok aus.\n\nDie Residuen sind annähernd normalverteilt (Plot oben links).\nDie Residuen weisen im Plot oben rechts keinen Trompeteneffekt (Varianzheterogenität) auf.\nEs gibt keine auffälligen Muster in Residuen.\nEs gibt keine einflussreiche Punkte (keine roten Sternchen in der Abb. rechts).\n\n\nplotResiduals(simulationOutput, form = reg$Ert)\n\n\n\n\nAuch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster.\nDas Paket ggfortify gibt und noch zwei weitere Plots zur Cook’s Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook’s Distance (&gt; 1 oder 0,5) gekennzeichnet ist.\nEntsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Model ohne Ausreißer rechnen und die “neuen” Modellparameter mit den “alten” vergleichen und damit die Robustheit der Ergebnisse überprüfen.\n\nlibrary(ggfortify)\nautoplot(mod, which =c(4,6), ncol = 2, label.size = 3)"
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#modellinterpretation",
+    "href": "Themen/05/05_Regression.html#modellinterpretation",
+    "title": "Regression",
+    "section": "Modellinterpretation",
+    "text": "Modellinterpretation\nDie predict-Funktion rechnet uns die Erwartungswerte basierend auf den Modellkoeffizienten aus. Gibt man kein weiteres Argument in die predict-Funktion, dann werden die Originaldaten zur Vorhersage genutzt.\n\npredict(mod) \n\n       1        2        3        4        5        6        7        8 \n12.59231 11.55265 12.32326 11.48316 14.36743 16.31497 15.24944 14.01335 \n       9       10 \n12.54665 10.78760 \n\nreg$Ert\n\n [1]  90.46327 101.30412  93.26876 102.02872  71.95367  51.64602  62.75668\n [8]  75.64570  90.93937 109.28159\n\n\nBei einem Ertrag von 0 schätzt unser Modell ein Proteingehalt von 21.27 %., bei einem Ertrag von 50 dt/ha schätzt es ein Proteingehalt von 16.5, bei einem Ertrag von 100 schätzt es ein Proteingehalt von 11.7.\nWir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (coef(mod)) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für Ert und x der Ertrag ist:\n\npredict(mod, newdata=data.frame(Ert=80))\n\n       1 \n13.59576 \n\n\nJetzt fehlt nur noch eine Abbildung zum Zusammenhang zwischen Wachstum und Ertrag.\nGanz schnell und einfach geht es mit dem Package effects.\n\nlibrary(effects)\nplot(allEffects(mod))\n\n\n\nplot(Effect(c(\"Ert\"), mod, partial.residuals=TRUE))\n\n\n\n\nDie blaue Linie zeigt uns den fit (also die Regressionslinie) an, die orangefarbene Linie ist ein fit durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.\nEine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die library(effects).\n\nef=allEffects(mod, xlevels=100)\nef1=as.data.frame(ef[[1]])\nhead(ef1)\n\n    Ert      fit        se    lower    upper\n1 51.65 16.31459 0.6778851 14.75139 17.87780\n2 52.23 16.25897 0.6687008 14.71694 17.80100\n3 52.81 16.20335 0.6595535 14.68241 17.72428\n4 53.39 16.14772 0.6504446 14.64779 17.64765\n5 53.97 16.09210 0.6413759 14.61308 17.57111\n6 54.56 16.03552 0.6321938 14.57767 17.49336\n\ntail(ef1)\n\n      Ert      fit        se    lower    upper\n95  106.4 11.06395 0.5005978 9.909565 12.21833\n96  107.0 11.00640 0.5089613 9.832737 12.18007\n97  107.5 10.95845 0.5159996 9.768556 12.14835\n98  108.1 10.90091 0.5245242 9.691357 12.11047\n99  108.7 10.84337 0.5331307 9.613969 12.07277\n100 109.3 10.78583 0.5418153 9.536401 12.03526\n\n\nDurch das Argument xlevels=100 werden 100 Einträge für die Erklärungsvariablen im beobachteten Werteberich erzeugt. Die Spalte fit zeigt die fitted values (Vorhersagewerte) und in lower und upper sind die Grenzen des Konfidenzintervalls aufgeführt.\nNun plotten wir die Originalwerte und zeichnen dann die Daten aus ef1 mit den Funktionen geom_line() und geom_ribbon() ein.\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_line(data = ef1, aes(x = Ert, y = fit))+\n  geom_ribbon(data = ef1, aes(x = Ert, y = NULL, ymin =lower, ymax = upper), alpha = 0.4)\n\n\n\n\nBei einer einfachen Regression kann man die Regressionslinie mit der Funktion geom_smooth(method=lm) einzeichnen.\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_smooth(method=lm)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\noder geom_abline(intercept = 21.26794, slope = -0.09590221)\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_abline(intercept= 21.26794, slope=-0.09590221)\n\n\n\n# oder so\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_abline(intercept=coef(mod)[1], slope=coef(mod)[2])\n\n\n\n\nAlternativ, aber etwas komplizierter, geht es auch so:\nUm die Regressionslinie des Modells in einen Plot “per Hand” einzuzeichnen, erstellen wir einen Testdatensatz, der alle Erklärungsvariablen des Modells in einem realistischen Wertebereich (Minimum bis Maximum) enthält. In diesem Beispiel ist das sehr einfach, da Ert die einzige Erklärungsvariable ist.\nWir benennen den Testdatensatz td und nutzen die predict-Funktion mit dem Argument newdata=td um die Erwartungswerte td$p zu berechnen.\n\nrange(reg$Ert)\n\n[1]  51.64602 109.28159\n\n#Testdatensatz mit Erklärungsvariablen (Wertebereich und Variablenname) erstellen \ntd&lt;-data.frame(Ert=seq(from = 50, to =110, by = 5))\n\ntd\n\n   Ert\n1   50\n2   55\n3   60\n4   65\n5   70\n6   75\n7   80\n8   85\n9   90\n10  95\n11 100\n12 105\n13 110\n\n#Predict-Funktion für neu erstellten Datensatz nutzen\ntd$p&lt;-predict(mod, newdata=td)\ntd\n\n   Ert        p\n1   50 16.47283\n2   55 15.99332\n3   60 15.51381\n4   65 15.03430\n5   70 14.55479\n6   75 14.07528\n7   80 13.59576\n8   85 13.11625\n9   90 12.63674\n10  95 12.15723\n11 100 11.67772\n12 105 11.19821\n13 110 10.71870\n\ntd&lt;-data.frame(td, predict(mod, newdata=td, interval = \"confidence\"))\ntd\n\n   Ert        p      fit       lwr      upr\n1   50 16.47283 16.47283 14.848937 18.09672\n2   55 15.99332 15.99332 14.551201 17.43544\n3   60 15.51381 15.51381 14.245615 16.78200\n4   65 15.03430 15.03430 13.928471 16.14012\n5   70 14.55479 14.55479 13.593891 15.51568\n6   75 14.07528 14.07528 13.232828 14.91772\n7   80 13.59576 13.59576 12.832845 14.35868\n8   85 13.11625 13.11625 12.381199 13.85131\n9   90 12.63674 12.63674 11.872220 13.40126\n10  95 12.15723 12.15723 11.311883 13.00258\n11 100 11.67772 11.67772 10.713011 12.64243\n12 105 11.19821 11.19821 10.087965 12.30845\n13 110 10.71870 10.71870  9.445689 11.99171\n\nstr(td)\n\n'data.frame':   13 obs. of  5 variables:\n $ Ert: num  50 55 60 65 70 75 80 85 90 95 ...\n $ p  : num  16.5 16 15.5 15 14.6 ...\n $ fit: num  16.5 16 15.5 15 14.6 ...\n $ lwr: num  14.8 14.6 14.2 13.9 13.6 ...\n $ upr: num  18.1 17.4 16.8 16.1 15.5 ...\n\n\nJetzt plotten wir die Originaldaten und zeichnen\n\ndie Regressionslinie durch die geom_line()-Funktion der vorhergesagten Werte td$fit und\ndas Konfidenzintervall durch die geom_ribbon-Funktion der vorhergesagten Werte td$lwr und td$upr ein.\n\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_line(data = td, aes(x = Ert, y = fit))+\n  geom_ribbon(data = td, aes(x = Ert, y = NULL, ymin = lwr, ymax = upr), alpha = 0.4)"
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#polynomiale-regression-quadratischer-term",
+    "href": "Themen/05/05_Regression.html#polynomiale-regression-quadratischer-term",
+    "title": "Regression",
+    "section": "Polynomiale Regression: Quadratischer Term",
+    "text": "Polynomiale Regression: Quadratischer Term\nMit einer linearen Regression können auch “nicht-lineare” Zusammenhänge modelliert werden.\n\n\n\n\n\nWenn die Daten einen nicht-linearen Trend aufweisen, wir aber nur einen linearen Term modellieren, zeigen die Residuen ein Muster, i.e. eine Kurvatur.\n\nset.seed(123)\ndf=data.frame(y3=y3+runif(length(y3),0,4), x)\nmod=lm(y3~x, df)\nggplot(data=df, aes(y=y3, x=x))+\n  geom_point()+geom_smooth(method = lm)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod, plot = F)\nplot(simulationOutput)\n\n\n\n\nWir können diesen Zusammenhang modellieren, indem wir einen quadratischen Term in das lineare Modell nehmen.\nmod&lt;-lm(Abhängige~poly(Erklärungsvariable, 2), data=md)\noder\nmod&lt;-lm(Abhängige~Erklärungsvariable+I(Erklärungsvariable^2), data=md)\nDas I (Großbuchstabe i) steht für “as is”.\n\nmod2=lm(y3~x+I(x^2), df)\nggplot(data=df, aes(y=y3, x=x))+\n  geom_point()+\n  geom_smooth(method = lm, formula=y ~ poly(x, 2))\n\n\n\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod2, plot = F)\nplot(simulationOutput)\n\n\n\nplotResiduals(simulationOutput, form = df$x)"
+  },
+  {
+    "objectID": "Themen/05/05_Regression.html#übung-5",
+    "href": "Themen/05/05_Regression.html#übung-5",
+    "title": "Regression",
+    "section": "Übung 5",
+    "text": "Übung 5\n\nImportiere die Daten NDuenger.xlsx und mach dich mit den Daten vertraut.\nFühre eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?\nStimmen die Annahmen für eine lineare Regression?\nWie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?\nPlotte die Regressionslinie des Modells/der Modelle.\n\nExtraaufgabe:\n\nExtrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg.\n\nEnde Übung 5"
+  },
+  {
     "objectID": "Themen/03/03_Graph.html",
     "href": "Themen/03/03_Graph.html",
     "title": "Grafische Darstellungen",
@@ -119,11 +182,18 @@
     "text": "weight ~ method und variety\n\n# 1)\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot() \n\n\n\n# 2) \nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot() \n\n\n\n\n\n# 3) \nggplot(data=pot, aes(x=method, y=weight)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot() +\n  facet_grid(~variety)"
   },
   {
-    "objectID": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-weight",
-    "href": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-weight",
+    "objectID": "Themen/03/03_Graph.html#x-achsenlevels",
+    "href": "Themen/03/03_Graph.html#x-achsenlevels",
     "title": "Grafische Darstellungen",
-    "section": "jittered boxplot für weight ~ method und weight",
-    "text": "jittered boxplot für weight ~ method und weight\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(shape=1, size=1)\n\n\n\n\nNoch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.\nMit dem Argument position=position_jitterdodge() können wir das ändern:\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, \n                                            dodge.width=0.75), \n              shape=1, size=1)"
+    "section": "x-Achsenlevels",
+    "text": "x-Achsenlevels\nIn diesem Beispiel ist die Beschriftung der x-Achsenlevels sehr lang. Mit \\n können wir einen Zeilenumbruch erzeugen:\n\nggplot(data=pot, aes(x=method, y=weight)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot() +\n  facet_grid(~variety)+\n  scale_x_discrete(labels =c(\"aero-\\nponic\", \"bed\", \"hydro-\\nponic\", \"pot\"))\n\n\n\n\noder wir drehen die X-Achsenbeschriftungslevels um 45 Grad.\n\nggplot(data=pot, aes(x=method, y=weight)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot() +\n  facet_grid(~variety)+\n  scale_x_discrete(labels =c(\"aeronponic\", \"bed\", \"hydronponic\", \"pot\"))+\n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))"
+  },
+  {
+    "objectID": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-variety",
+    "href": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-variety",
+    "title": "Grafische Darstellungen",
+    "section": "jittered boxplot für weight ~ method und variety",
+    "text": "jittered boxplot für weight ~ method und variety\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(shape=1, size=1)\n\n\n\n\nNoch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.\nMit dem Argument position=position_jitterdodge() können wir das ändern:\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, \n                                            dodge.width=0.75), \n              shape=1, size=1)"
   },
   {
     "objectID": "Themen/03/03_Graph.html#transformation-der-achsenabstände-scale_._",
@@ -138,6 +208,13 @@
     "title": "Grafische Darstellungen",
     "section": "Komma statt Punkte in Y-Achse",
     "text": "Komma statt Punkte in Y-Achse\nWenn wir Abbildungen in Deutsch verfassen, sollten die Dezimalstellen als Komma dargestellt werden.\n\nggplot(data=pot, aes(x=method, y=weight/1000))+ \n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot()+\n  scale_y_continuous()\n\n\n\n\nHierfür gibt es die Möglichkeit über das Argument labels und die Funktion number_format() der library(scales) das Dezimalzeichen als Kommas anzeigen zu lassen.\n\nggplot(data=pot, aes(x=method, y=weight/1000))+ \n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot()+\n  scale_y_continuous(labels=scales::number_format(accuracy = 0.01, \n                                                  decimal.mark =\",\"))+\n  ylab(\"Gewicht in kg\")+\n  xlab(\"Methode\")"
+  },
+  {
+    "objectID": "Themen/03/03_Graph.html#facet_grid-und-facet_wrap",
+    "href": "Themen/03/03_Graph.html#facet_grid-und-facet_wrap",
+    "title": "Grafische Darstellungen",
+    "section": "facet_grid() und facet_wrap()",
+    "text": "facet_grid() und facet_wrap()\n\nReihenfolge ändern\nDie Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert. Ich habe nun nach dem Einlesen der Daten den Faktor variety.f2 mit dem Code variety.f2=factor(variety, levels=c(\"Unica\" , \"Costanera\", \"Mariva\")) in der Funktion mutate() eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne mutate() pot$variety.f2=factor(pot$variety, levels=c(\"Unica\" , \"Costanera\", \"Mariva\")) Weitere tolle Möglichkeiten, um Fakoren zu manuipulieren, bietet die library(forcats) https://forcats.tidyverse.org/.\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety.f2)+\n  theme(legend.position=\"bottom\")\n\n\n\n\nalternativer Code mit der library(forcats) und der Funktion fct_relevel().\n\nlibrary(forcats)\npot %&gt;% \n  ggplot(aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~fct_relevel(variety, \"Unica\", \"Mariva\"))+# hier neue Reihenfolge eingeben\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nlabeller = label_both\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = label_both)+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nlabeller = labeller(variety = Sorten.labs)\n\nSorten.labs &lt;- c(\"a) Costanera\", \"b) Mariva\", \"c) Unica\")\nnames(Sorten.labs) &lt;- c(\"Costanera\", \"Mariva\" ,   \"Unica\" )\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = labeller(variety = Sorten.labs))+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nBeschriftung im Plot\ndabei bilden x und y die Koordinaten im Plot\n\nabc=data.frame(label=c(\"a)\", \"b)\", \"c)\"), \n               x=c(20,20,20), y=c(13,13, 13),\n               variety=c(levels(pot$variety.f)))\nabc\n\n  label  x  y   variety\n1    a) 20 13 Costanera\n2    b) 20 13    Mariva\n3    c) 20 13     Unica\n\n\ndie Beschrifftung erfolgt dann über die Funktion geom_text()\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety)+\n  geom_text(data  = abc,\n            aes(x = x, y = y, label = label), col=1)+\n  theme(legend.position=\"bottom\")"
   },
   {
     "objectID": "Themen/03/03_Graph.html#theme",
@@ -159,6 +236,20 @@
     "title": "Grafische Darstellungen",
     "section": "Abstand zwischen den Boxen",
     "text": "Abstand zwischen den Boxen\n\nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n   stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.6))+\n  geom_boxplot(position=position_dodge(0.6))\n\n\n\nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n   stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.8))+\n  geom_boxplot(position=position_dodge(0.8)) \n\n\n\nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n   stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=1))+\n  geom_boxplot(position=position_dodge(1))"
+  },
+  {
+    "objectID": "Themen/03/03_Graph.html#dotplot",
+    "href": "Themen/03/03_Graph.html#dotplot",
+    "title": "Grafische Darstellungen",
+    "section": "Dotplot",
+    "text": "Dotplot\n\nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n  geom_dotplot(binaxis=\"y\", stackdir=\"center\", binwidth = 5)+\n  facet_grid(~variety)+\n  theme(legend.position=\"none\", \n        axis.text.x=element_text(angle = 45, hjust = 1))"
+  },
+  {
+    "objectID": "Themen/03/03_Graph.html#violinplot",
+    "href": "Themen/03/03_Graph.html#violinplot",
+    "title": "Grafische Darstellungen",
+    "section": "Violinplot",
+    "text": "Violinplot\nhttp://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization\n\nggplot(data=pot, aes(x=method, y=weight))+ \n  geom_violin()\n\n\n\nggplot(data=pot, aes(x=method, y=weight))+ \n  geom_violin(trim=F)"
   },
   {
     "objectID": "Themen/03/03_Graph.html#mit-bins-und-binwidth-die-anzahl-der-balken-klassen-ändern",
@@ -187,13 +278,6 @@
     "title": "Grafische Darstellungen",
     "section": "Vier Plots in einer Grafik mit einer Legende mit library(ggpubr)",
     "text": "Vier Plots in einer Grafik mit einer Legende mit library(ggpubr)\nEine weitere Möglichkeit bietet die library(ggpubr) mit der Funktion ggarrange(). Hier können auch die einzelnen Plots z.B. mit a), b), c) und d) beschriftet werden.\n\nlibrary(ggpubr)\nggarrange(p1, p2, p3, p4, labels = c(\"a)\", \"b)\", \"c)\", \"d)\"), font.label = list(face=\"plain\"),\n          common.legend = TRUE, legend = \"bottom\")\n\n\n\n\nDas Argument align=\"hv\" richtet die Plots horizontal und vertikal aus (vgl. a) und c) oben mit dieser Grafik unten).\n\nggarrange(p1, p2, p3, p4, labels = c(\"a)\", \"b)\", \"c)\", \"d)\"), font.label = list(face=\"plain\"),\n          common.legend = TRUE, legend = \"bottom\", align=\"hv\")\n\n\n\n\nAusserdem kann auch die relative Breite der Plots geändert werden.\n\nggarrange(p1, p2, p3, p4, labels = c(\"a)\", \"b)\", \"c)\", \"d)\"), font.label = list(face=\"plain\"),\n          common.legend = TRUE, legend = \"bottom\", align=\"hv\", widths = c(0.6,0.4))"
-  },
-  {
-    "objectID": "Themen/03/03_Graph.html#beschriftung-innerhalb-facet_grid-und-facet_wrap",
-    "href": "Themen/03/03_Graph.html#beschriftung-innerhalb-facet_grid-und-facet_wrap",
-    "title": "Grafische Darstellungen",
-    "section": "Beschriftung innerhalb facet_grid() und facet_wrap()",
-    "text": "Beschriftung innerhalb facet_grid() und facet_wrap()\n\nlabeller = label_both\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = label_both)+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nlabeller = labeller(variety = Sorten.labs)\n\nSorten.labs &lt;- c(\"a) Costanera\", \"b) Mariva\", \"c) Unica\")\nnames(Sorten.labs) &lt;- c(\"Costanera\", \"Mariva\" ,   \"Unica\" )\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = labeller(variety = Sorten.labs))+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nBeschriftung im Plot\ndabei bilden x und y die Koordinaten im Plot\n\nabc=data.frame(label=c(\"a)\", \"b)\", \"c)\"), \n               x=c(20,20,20), y=c(13,13, 13),\n               variety=c(levels(pot$variety.f)))\nabc\n\n  label  x  y   variety\n1    a) 20 13 Costanera\n2    b) 20 13    Mariva\n3    c) 20 13     Unica\n\n\ndie Beschrifftung erfolgt dann über die Funktion geom_text()\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety)+\n  geom_text(data  = abc,\n            aes(x = x, y = y, label = label), col=1)+\n  theme(legend.position=\"bottom\")"
   },
   {
     "objectID": "Themen/03/03_Graph.html#r-logo-im-plot",
@@ -371,34 +455,6 @@
     "text": "Übung 2.2.\nDie Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten Kursteilnehmer.xlsx in R und benenne den data.frame mit md.\n\nNutze die Funktion summary(md), um die Daten zu beschreiben.\nErmittele die Anzahl Frauen und Männer für jede Augenfarbe.\nBerechne die mittlere Körpergröße für Männer und Frauen.\nBerechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.\nExportiere die Daten z.B. mit write.xlsx().\n\nZusatzaufgabe\n\nExportiere sowohl die Daten als auch eine Summary Statistics der Daten in einen xlsx-file mit zwei Tabellenblätter."
   },
   {
-    "objectID": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-variety",
-    "href": "Themen/03/03_Graph.html#jittered-boxplot-für-weight-method-und-variety",
-    "title": "Grafische Darstellungen",
-    "section": "jittered boxplot für weight ~ method und variety",
-    "text": "jittered boxplot für weight ~ method und variety\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(shape=1, size=1)\n\n\n\n\nNoch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.\nMit dem Argument position=position_jitterdodge() können wir das ändern:\n\nggplot(data=pot, aes(x=method, y=weight, colour=variety)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5, position = position_dodge(width=0.75))+\n  geom_boxplot(outlier.shape=NA) +\n  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, \n                                            dodge.width=0.75), \n              shape=1, size=1)"
-  },
-  {
-    "objectID": "Themen/03/03_Graph.html#dotplot",
-    "href": "Themen/03/03_Graph.html#dotplot",
-    "title": "Grafische Darstellungen",
-    "section": "Dotplot",
-    "text": "Dotplot\n\nggplot(data=pot, aes(x=method, y=weight, fill=variety)) +\n  geom_dotplot(binaxis=\"y\", stackdir=\"center\", binwidth = 5)+\n  facet_grid(~variety)+\n  theme(legend.position=\"none\", \n        axis.text.x=element_text(angle = 45, hjust = 1))"
-  },
-  {
-    "objectID": "Themen/03/03_Graph.html#violinplot",
-    "href": "Themen/03/03_Graph.html#violinplot",
-    "title": "Grafische Darstellungen",
-    "section": "Violinplot",
-    "text": "Violinplot\nhttp://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization\n\nggplot(data=pot, aes(x=method, y=weight))+ \n  geom_violin()\n\n\n\nggplot(data=pot, aes(x=method, y=weight))+ \n  geom_violin(trim=F)"
-  },
-  {
-    "objectID": "Themen/03/03_Graph.html#facet_grid-und-facet_wrap",
-    "href": "Themen/03/03_Graph.html#facet_grid-und-facet_wrap",
-    "title": "Grafische Darstellungen",
-    "section": "facet_grid() und facet_wrap()",
-    "text": "facet_grid() und facet_wrap()\n\nReihenfolge ändern\nDie Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert. Ich habe nun nach dem Einlesen der Daten den Faktor variety.f2 mit dem Code variety.f2=factor(variety, levels=c(\"Unica\" , \"Costanera\", \"Mariva\")) in der Funktion mutate() eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne mutate() pot$variety.f2=factor(pot$variety, levels=c(\"Unica\" , \"Costanera\", \"Mariva\")) Weitere tolle Möglichkeiten, um Fakoren zu manuipulieren, bietet die library(forcats) https://forcats.tidyverse.org/.\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety.f2)+\n  theme(legend.position=\"bottom\")\n\n\n\n\nalternativer Code mit der library(forcats) und der Funktion fct_relevel().\n\nlibrary(forcats)\npot %&gt;% \n  ggplot(aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~fct_relevel(variety, \"Unica\", \"Mariva\"))+# hier neue Reihenfolge eingeben\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nlabeller = label_both\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = label_both)+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nlabeller = labeller(variety = Sorten.labs)\n\nSorten.labs &lt;- c(\"a) Costanera\", \"b) Mariva\", \"c) Unica\")\nnames(Sorten.labs) &lt;- c(\"Costanera\", \"Mariva\" ,   \"Unica\" )\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety, labeller = labeller(variety = Sorten.labs))+\n  theme(legend.position=\"bottom\")\n\n\n\n\n\n\nBeschriftung im Plot\ndabei bilden x und y die Koordinaten im Plot\n\nabc=data.frame(label=c(\"a)\", \"b)\", \"c)\"), \n               x=c(20,20,20), y=c(13,13, 13),\n               variety=c(levels(pot$variety.f)))\nabc\n\n  label  x  y   variety\n1    a) 20 13 Costanera\n2    b) 20 13    Mariva\n3    c) 20 13     Unica\n\n\ndie Beschrifftung erfolgt dann über die Funktion geom_text()\n\nggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +\n  geom_point()+\n  facet_grid(~variety)+\n  geom_text(data  = abc,\n            aes(x = x, y = y, label = label), col=1)+\n  theme(legend.position=\"bottom\")"
-  },
-  {
     "objectID": "Themen/04/04_Anova.html",
     "href": "Themen/04/04_Anova.html",
     "title": "ANOVA",
@@ -460,75 +516,5 @@
     "title": "ANOVA",
     "section": "Übung 4",
     "text": "Übung 4\nIn einem Gefäßversuch wurde die pflanzenliche Biomasse (BM) in den 4 Düngemittelvarianten (DM: Kontrolle, Düngemittel A, B und C) an jeweils 10 Proben gemessen.\n\nImportiere bitte die Daten Gefaessversuch.xlsx in R und mach Dich mit dem Datensatz vertraut.\nUnterscheidet sich die Biomasse zwischen den Varianten?\nSind die Voraussetzung für eine ANOVA gegeben? Prüfe die Residuen.\n\nEnde Übung 4"
-  },
-  {
-    "objectID": "Themen/03/03_Graph.html#x-achsenlevels",
-    "href": "Themen/03/03_Graph.html#x-achsenlevels",
-    "title": "Grafische Darstellungen",
-    "section": "x-Achsenlevels",
-    "text": "x-Achsenlevels\nIn diesem Beispiel ist die Beschriftung der x-Achsenlevels sehr lang. Mit \\n können wir einen Zeilenumbruch erzeugen:\n\nggplot(data=pot, aes(x=method, y=weight)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot() +\n  facet_grid(~variety)+\n  scale_x_discrete(labels =c(\"aero-\\nponic\", \"bed\", \"hydro-\\nponic\", \"pot\"))\n\n\n\n\noder wir drehen die X-Achsenbeschriftungslevels um 45 Grad.\n\nggplot(data=pot, aes(x=method, y=weight)) +\n  stat_boxplot(geom =\"errorbar\", width = 0.5)+\n  geom_boxplot() +\n  facet_grid(~variety)+\n  scale_x_discrete(labels =c(\"aeronponic\", \"bed\", \"hydronponic\", \"pot\"))+\n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))"
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html",
-    "href": "Themen/05/05_Regression.html",
-    "title": "Regression",
-    "section": "",
-    "text": "library(ggplot2)\nlibrary(dplyr)\nlibrary(gridExtra)\nlibrary(ggpubr)\nlibrary(ggfortify)\nlibrary(DHARMa)\nLineare Regression\nAnnahmen:\nmod.Bsp1=lm(yn~x)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod.Bsp1, plot = F)\nplot(simulationOutput)\n\n\n\nmod.Bsp2=lm(yh~x)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod.Bsp2, plot = F)\nplot(simulationOutput)\nNur für das erste Beispiel treffen die Annahmen für eine Regression zu. Im zweiten Beispiel tritt der Trompeteneffekt auf (Heteroskedastizität)."
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#beispiel-trade-off-zwischen-ertrag-und-proteingehalt",
-    "href": "Themen/05/05_Regression.html#beispiel-trade-off-zwischen-ertrag-und-proteingehalt",
-    "title": "Regression",
-    "section": "Beispiel Trade-off zwischen Ertrag und Proteingehalt",
-    "text": "Beispiel Trade-off zwischen Ertrag und Proteingehalt\nBei gleicher N-Düngung beobachtet man im Weizen aufgrund unterschiedlicher Sorteneigenschaften häufig einen Trade-off zwischen Ertrag und Proteingehalt.\nFrage: Wie stark reduziert sich der Proteingehalt mit steigendem Ertrag?"
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#daten-einlesen-kennenlernen-und-plotten",
-    "href": "Themen/05/05_Regression.html#daten-einlesen-kennenlernen-und-plotten",
-    "title": "Regression",
-    "section": "Daten einlesen, kennenlernen und plotten",
-    "text": "Daten einlesen, kennenlernen und plotten\n\nlibrary(openxlsx)\nreg&lt;-read.xlsx(\"Trade-off.xlsx\")\nstr(reg)\n\n'data.frame':   10 obs. of  2 variables:\n $ Ert : num  90.5 101.3 93.3 102 72 ...\n $ Prot: num  10.9 12.5 12.3 11.6 13.3 ...\n\nsummary(reg)\n\n      Ert              Prot      \n Min.   : 51.65   Min.   :10.51  \n 1st Qu.: 72.88   1st Qu.:11.73  \n Median : 90.70   Median :12.89  \n Mean   : 84.93   Mean   :13.12  \n 3rd Qu.: 99.30   3rd Qu.:14.07  \n Max.   :109.28   Max.   :16.80  \n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()"
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#modell-formulieren",
-    "href": "Themen/05/05_Regression.html#modell-formulieren",
-    "title": "Regression",
-    "section": "Modell formulieren",
-    "text": "Modell formulieren\n\nmod&lt;-lm(Prot~Ert, data=reg)\nsummary(mod)\n\n\nCall:\nlm(formula = Prot ~ Ert, data = reg)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-1.64733 -0.49234  0.00472  0.60021  1.54734 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 21.26794    1.55972  13.636 8.05e-07 ***\nErt         -0.09590    0.01798  -5.335 0.000699 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.008 on 8 degrees of freedom\nMultiple R-squared:  0.7806,    Adjusted R-squared:  0.7531 \nF-statistic: 28.46 on 1 and 8 DF,  p-value: 0.0006987\n\n\nMit jeder dt/ha steigendem Ertrag sinkt der Proteingehalt um -0.1 %. Das R² des Modells 78.1 beträgt."
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#signifikanztest-der-modellparameter",
-    "href": "Themen/05/05_Regression.html#signifikanztest-der-modellparameter",
-    "title": "Regression",
-    "section": "Signifikanztest der Modellparameter",
-    "text": "Signifikanztest der Modellparameter\n\ndrop1(mod, test=\"F\")\n\nSingle term deletions\n\nModel:\nProt ~ Ert\n       Df Sum of Sq    RSS     AIC F value    Pr(&gt;F)    \n&lt;none&gt;               8.128  1.9277                      \nErt     1    28.914 37.043 15.0948  28.458 0.0006987 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nSignifikanter Zusammenhang zwischen Ertrag und Proteingehalt."
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#modelldiagnostik",
-    "href": "Themen/05/05_Regression.html#modelldiagnostik",
-    "title": "Regression",
-    "section": "Modelldiagnostik",
-    "text": "Modelldiagnostik\n\nlibrary(DHARMa)\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod, plot = F)\nplot(simulationOutput)\n\n\n\n\nAuch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, sieht alles ganz ok aus.\n\nDie Residuen sind annähernd normalverteilt (Plot oben links).\nDie Residuen weisen im Plot oben rechts keinen Trompeteneffekt (Varianzheterogenität) auf.\nEs gibt keine auffälligen Muster in Residuen.\nEs gibt keine einflussreiche Punkte (keine roten Sternchen in der Abb. rechts).\n\nDas Paket ggfortify gibt und noch zwei weitere Plots zur Cook’s Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook’s Distance (&gt; 1 oder 0,5) gekennzeichnet ist.\nEntsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Model ohne Ausreißer rechnen und die “neuen” Modellparameter mit den “alten” vergleichen und damit die Robustheit der Ergebnisse überprüfen.\n\nlibrary(ggfortify)\nautoplot(mod, which =c(4,6), ncol = 2, label.size = 3)"
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#modellinterpretation",
-    "href": "Themen/05/05_Regression.html#modellinterpretation",
-    "title": "Regression",
-    "section": "Modellinterpretation",
-    "text": "Modellinterpretation\nDie predict-Funktion rechnet uns die Erwartungswerte basierend auf den Modellkoeffizienten aus. Gibt man kein weiteres Argument in die predict-Funktion, dann werden die Originaldaten zur Vorhersage genutzt.\n\npredict(mod) \n\n       1        2        3        4        5        6        7        8 \n12.59231 11.55265 12.32326 11.48316 14.36743 16.31497 15.24944 14.01335 \n       9       10 \n12.54665 10.78760 \n\nreg$Ert\n\n [1]  90.46327 101.30412  93.26876 102.02872  71.95367  51.64602  62.75668\n [8]  75.64570  90.93937 109.28159\n\n\nBei einem Ertrag von 0 schätzt unser Modell ein Proteingehalt von 21.27 %., bei einem Ertrag von 50 dt/ha schätzt es ein Proteingehalt von 16.5, bei einem Ertrag von 100 schätzt es ein Proteingehalt von 11.7.\nWir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (coef(mod)) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für Ert und x der Ertrag ist:\n\npredict(mod, newdata=data.frame(Ert=80))\n\n       1 \n13.59576 \n\n\nJetzt fehlt nur noch eine Abbildung zum Zusammenhang zwischen Wachstum und Ertrag.\nGanz schnell und einfach geht es mit dem Package effects.\n\nlibrary(effects)\nplot(allEffects(mod))\n\n\n\nplot(Effect(c(\"Ert\"), mod, partial.residuals=TRUE))\n\n\n\n\nDie blaue Linie zeigt uns den fit (also die Regressionslinie) an, die orangefarbene Linie ist ein fit durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.\nEine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die library(effects).\n\nef=allEffects(mod, xlevels=100)\nef1=as.data.frame(ef[[1]])\nhead(ef1)\n\n    Ert      fit        se    lower    upper\n1 51.65 16.31459 0.6778851 14.75139 17.87780\n2 52.23 16.25897 0.6687008 14.71694 17.80100\n3 52.81 16.20335 0.6595535 14.68241 17.72428\n4 53.39 16.14772 0.6504446 14.64779 17.64765\n5 53.97 16.09210 0.6413759 14.61308 17.57111\n6 54.56 16.03552 0.6321938 14.57767 17.49336\n\ntail(ef1)\n\n      Ert      fit        se    lower    upper\n95  106.4 11.06395 0.5005978 9.909565 12.21833\n96  107.0 11.00640 0.5089613 9.832737 12.18007\n97  107.5 10.95845 0.5159996 9.768556 12.14835\n98  108.1 10.90091 0.5245242 9.691357 12.11047\n99  108.7 10.84337 0.5331307 9.613969 12.07277\n100 109.3 10.78583 0.5418153 9.536401 12.03526\n\n\nDurch das Argument xlevels=100 werden 100 Einträge für die Erklärungsvariablen im beobachteten Werteberich erzeugt. Die Spalte fit zeigt die fitted values (Vorhersagewerte) und in lower und upper sind die Grenzen des Konfidenzintervalls aufgeführt.\nNun plotten wir die Originalwerte und zeichnen dann die Daten aus ef1 mit den Funktionen geom_line() und geom_ribbon() ein.\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_line(data = ef1, aes(x = Ert, y = fit))+\n  geom_ribbon(data = ef1, aes(x = Ert, y = NULL, ymin =lower, ymax = upper), alpha = 0.4)\n\n\n\n\nBei einer einfachen Regression kann man die Regressionslinie mit der Funktion geom_smooth(method=lm) einzeichnen.\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_smooth(method=lm)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\noder geom_abline(intercept = 21.26794, slope = -0.09590221)\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_abline(intercept= 21.26794, slope=-0.09590221)\n\n\n\n# oder so\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_abline(intercept=coef(mod)[1], slope=coef(mod)[2])\n\n\n\n\nAlternativ, aber etwas komplizierter, geht es auch so:\nUm die Regressionslinie des Modells in einen Plot “per Hand” einzuzeichnen, erstellen wir einen Testdatensatz, der alle Erklärungsvariablen des Modells in einem realistischen Wertebereich (Minimum bis Maximum) enthält. In diesem Beispiel ist das sehr einfach, da Ert die einzige Erklärungsvariable ist.\nWir benennen den Testdatensatz td und nutzen die predict-Funktion mit dem Argument newdata=td um die Erwartungswerte td$p zu berechnen.\n\nrange(reg$Ert)\n\n[1]  51.64602 109.28159\n\n#Testdatensatz mit Erklärungsvariablen (Wertebereich und Variablenname) erstellen \ntd&lt;-data.frame(Ert=seq(from = 50, to =110, by = 5))\n\ntd\n\n   Ert\n1   50\n2   55\n3   60\n4   65\n5   70\n6   75\n7   80\n8   85\n9   90\n10  95\n11 100\n12 105\n13 110\n\n#Predict-Funktion für neu erstellten Datensatz nutzen\ntd$p&lt;-predict(mod, newdata=td)\ntd\n\n   Ert        p\n1   50 16.47283\n2   55 15.99332\n3   60 15.51381\n4   65 15.03430\n5   70 14.55479\n6   75 14.07528\n7   80 13.59576\n8   85 13.11625\n9   90 12.63674\n10  95 12.15723\n11 100 11.67772\n12 105 11.19821\n13 110 10.71870\n\ntd&lt;-data.frame(td, predict(mod, newdata=td, interval = \"confidence\"))\ntd\n\n   Ert        p      fit       lwr      upr\n1   50 16.47283 16.47283 14.848937 18.09672\n2   55 15.99332 15.99332 14.551201 17.43544\n3   60 15.51381 15.51381 14.245615 16.78200\n4   65 15.03430 15.03430 13.928471 16.14012\n5   70 14.55479 14.55479 13.593891 15.51568\n6   75 14.07528 14.07528 13.232828 14.91772\n7   80 13.59576 13.59576 12.832845 14.35868\n8   85 13.11625 13.11625 12.381199 13.85131\n9   90 12.63674 12.63674 11.872220 13.40126\n10  95 12.15723 12.15723 11.311883 13.00258\n11 100 11.67772 11.67772 10.713011 12.64243\n12 105 11.19821 11.19821 10.087965 12.30845\n13 110 10.71870 10.71870  9.445689 11.99171\n\nstr(td)\n\n'data.frame':   13 obs. of  5 variables:\n $ Ert: num  50 55 60 65 70 75 80 85 90 95 ...\n $ p  : num  16.5 16 15.5 15 14.6 ...\n $ fit: num  16.5 16 15.5 15 14.6 ...\n $ lwr: num  14.8 14.6 14.2 13.9 13.6 ...\n $ upr: num  18.1 17.4 16.8 16.1 15.5 ...\n\n\nJetzt plotten wir die Originaldaten und zeichnen\n\ndie Regressionslinie durch die geom_line()-Funktion der vorhergesagten Werte td$fit und\ndas Konfidenzintervall durch die geom_ribbon-Funktion der vorhergesagten Werte td$lwr und td$upr ein.\n\n\nggplot(reg, aes(x=Ert, y=Prot)) +\n  geom_point()+\n  geom_line(data = td, aes(x = Ert, y = fit))+\n  geom_ribbon(data = td, aes(x = Ert, y = NULL, ymin = lwr, ymax = upr), alpha = 0.4)"
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#polynomiale-regression-quadratischer-term",
-    "href": "Themen/05/05_Regression.html#polynomiale-regression-quadratischer-term",
-    "title": "Regression",
-    "section": "Polynomiale Regression: Quadratischer Term",
-    "text": "Polynomiale Regression: Quadratischer Term\nMit einer linearen Regression können auch “nicht-lineare” Zusammenhänge modelliert werden.\n\n\n\n\n\nWenn die Daten einen nicht-linearen Trend aufweisen, wir aber nur einen linearen Term modellieren (Abbildung unten links), zeigen die Residuen ein Muster, i.e. eine Kurvatur, auf (Abbildung unten rechts).\n\n\n\n\n\n\nset.seed(123)\ndf=data.frame(y3=y3+runif(length(y3),0,5), x)\nmod=lm(y3~x, df)\nggplot(data=df, aes(y=y3, x=x))+\n  geom_point()+geom_smooth(method = lm)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\nsimulationOutput &lt;- simulateResiduals(fittedModel = mod, plot = F)\nplot(simulationOutput)\n\n\n\n\nWir können diesen Zusammenhang modellieren, indem wir einen quadratischen Term in das lineare Modell nehmen.\nmod&lt;-lm(Abhängige~poly(Erklärungsvariable, 2), data=md)\noder\nmod&lt;-lm(Abhängige~Erklärungsvariable+I(Erklärungsvariable^2), data=md)\nDas I (Großbuchstabe i) steht für “as is”."
-  },
-  {
-    "objectID": "Themen/05/05_Regression.html#übung-5",
-    "href": "Themen/05/05_Regression.html#übung-5",
-    "title": "Regression",
-    "section": "Übung 5",
-    "text": "Übung 5\n\nImportiere die Daten NDuenger.xlsx und mach dich mit den Daten vertraut.\nFühre eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?\nStimmen die Annahmen für eine lineare Regression?\nWie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?\nPlotte die Regressionslinie des Modells/der Modelle.\n\nExtraaufgabe:\n\nExtrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg.\n\nEnde Übung 5"
   }
 ]
