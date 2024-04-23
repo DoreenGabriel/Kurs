@@ -24,7 +24,7 @@ library(DHARMa)
 + Parameter ${a}$ Intercept (Achsenabschnitt)
 + Parameter ${b}$ Slope (Steigung)
 + `mod<-lm(Abhängige~Erklärungsvariable, data=md)`
-+ Differenz zwischen gemessenem ${y}$  (`observed` oder `measured`) und dem vom Model vorhergesagtem Wert $\hat{y}$  (`fitted` oder `predicted`) beim gleichen Wert ${x}$ nennt man Residuen (`residuals`)
++ Differenz zwischen gemessenem ${y}$  (`observed` oder `measured`) und dem vom Modell vorhergesagten Wert $\hat{y}$  (`fitted` oder `predicted`) beim gleichen Wert ${x}$ nennt man Residuen (`residuals`)
 + Residuen haben die gleiche Einheit wie ${y}$ (parallel zur y-Achse)  
 
 
@@ -159,8 +159,8 @@ summary(mod)
 ```
 
 
-Mit jeder dt/ha steigendem Ertrag sinkt der Proteingehalt um `r round(coef(mod)[2],2)` %. 
-Das R² des Modells `r round(summary(mod)$r.sq*100,1)` beträgt. 
+Mit jedem Anstieg des Ertrag (je dt/ha) sinkt der Proteingehalt um `r round(coef(mod)[2],2)` %. 
+Das R² des Modells beträgt `r round(summary(mod)$r.sq*100,1)`. 
 
 
 ## Signifikanztest der Modellparameter
@@ -177,12 +177,12 @@ simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
 plot(simulationOutput)
 ```
 
-Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, sieht alles ganz ok aus.  
+Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, scheint alles in Ordnung zu sein.  
 
 + Die Residuen sind annähernd normalverteilt (Plot oben links).
-+ Die Residuen weisen im Plot oben rechts keinen Trompeteneffekt (Varianzheterogenität) auf.
-+ Es gibt keine auffälligen Muster in Residuen.
-+ Es gibt keine einflussreiche Punkte (keine roten Sternchen in der Abb. rechts).
++ Die Residuen weisen keinen Trompeteneffekt (Varianzheterogenität) auf (Plot oben rechts).
++ Es gibt keine erkennbare Muster in den Residuen.
++ Es gibt keine einflussreiche Punkte (keine roten Sternchen im Plot oben rechts).
 
 ```{r}
 plotResiduals(simulationOutput, form = reg$Ert)
@@ -190,8 +190,8 @@ plotResiduals(simulationOutput, form = reg$Ert)
 Auch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster. 
 
 
-Das Paket `ggfortify` gibt und noch zwei weitere Plots zur Cook's Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook's Distance (> 1 oder 0,5) gekennzeichnet ist.  
-Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Model ohne Ausreißer rechnen und die "neuen" Modellparameter mit den "alten" vergleichen und damit die Robustheit der Ergebnisse überprüfen.  
+Das Paket `ggfortify` gibt noch zwei weitere Plots zur Cook's Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook's Distance (> 1 oder 0,5) gekennzeichnet ist.  
+Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Modell ohne Ausreißer rechnen und die "neuen" Modellparameter mit den "alten" vergleichen und damit die Robustheit der Ergebnisse überprüfen.  
 
 ```{r, fig.height=3.5}
 library(ggfortify)
@@ -208,9 +208,9 @@ predict(mod)
 reg$Ert
 ```
 
-Bei einem Ertrag von 0 schätzt unser Modell ein Proteingehalt von `r round(coef(mod)[1],2)` %., bei einem Ertrag von 50 dt/ha schätzt es ein Proteingehalt von `r round(predict(mod, newdata=data.frame(Ert=50)),1)`, bei einem Ertrag von 100 schätzt es ein Proteingehalt von `r round(predict(mod, newdata=data.frame(Ert=100)),1)`. 
+Bei einem Ertrag von 90.4 dt/ha schätzt unser Modell einen Proteingehalt von 12.59 %, bei einem Ertrag von 101.3 dt/ha schätzt es einen Proteingehalt von 11.6 %. 
 
-Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (`coef(mod)`) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für `Ert` und x der Ertrag ist:  
+Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (`r `coef(mod)`) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für `Ert` und x der Ertrag ist:  
 
 
 ```{r}
@@ -226,7 +226,7 @@ plot(allEffects(mod))
 plot(Effect(c("Ert"), mod, partial.residuals=TRUE))
 ```
 
-Die blaue Linie zeigt uns den *fit* (also die Regressionslinie) an, die orangefarbene Linie ist ein *fit* durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.  
+Die blaue Linie zeigt uns den *fit* (also die Regressionslinie) an, während die orangefarbene Linie ist ein *fit* durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.  
 
 
 Eine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die `library(effects)`. 

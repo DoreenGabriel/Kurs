@@ -140,6 +140,7 @@ write.xlsx(md, "Protein.xlsx")
 [Protein.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Protein.xlsx){target="_blank"}
 
 ```{r}
+library(openxlsx)
 md<-read.xlsx("Protein.xlsx")
 ```
 
@@ -183,11 +184,11 @@ summary(mod)
 -   Hinter dem Intercept verbirgt sich das erste Level von `Quali`, i.e. `A`. `A` hat demnach einen geschätzten mittleren Proteingehalt von `r round(coef(mod)[1],1)`.
 -   Um den geschätzten mittleren Proteingehalt für `B` zu ermitteln, müssen wir Intercept + Estimate `QualiB` rechnen, d.h. `r round(coef(mod)[1],1)` `r round(coef(mod)[2],1)` = `r round(coef(mod)[1]+coef(mod)[2],1)`
 -   Um den geschätzten mittleren Proteingehalt für `C` zu ermitteln, müssen wir Intercept + Estimate `QualiC` rechnen, d.h. `r round(coef(mod)[1],1)` `r round(coef(mod)[3],1)` = `r round(coef(mod)[1]+coef(mod)[3],1)`
--   und für E `r round(coef(mod)[1],1)` + `r round(coef(mod)[4],1)` = `r round(coef(mod)[1]+coef(mod)[4],1)`
+-   und für `E` Intercept + Estimate `QualiE`: `r round(coef(mod)[1],1)` + `r round(coef(mod)[4],1)` = `r round(coef(mod)[1]+coef(mod)[4],1)`
 
 ### alternative Funktion aov
 
-... kommt zu den gleichen Ergebnissen und ist hier nur der Vollständigkeit halber erwähnt.
+... gelangt zu den gleichen Ergebnissen und wird hier lediglich der Vollständigkeit halber erwähnt.
 
 ```{r}
 mod.a<-aov(Prot ~ Quali, data=md) # 
@@ -213,7 +214,7 @@ plot(simulationOutput)
 ```
 
 
--   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen` und sagt uns etwas über die Normalverteilung der Residuen aus. Verlaufen die Punkte in etwa auf der Winkelhalbierenden (die rote Linie), dann ist alles ok. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt. 
+-   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen`, der uns Informationen über die Normalverteilung der Residuen liefert. Wenn die Punkte ungefähr entlang der Winkelhalbierenden (rote Linie) liegen, deutet dies darauf hin, dass die Residuen approximativ normalverteilt sind. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt. 
 
 - Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die Null sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E.  noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).  
 
@@ -258,13 +259,13 @@ plot(simulationOutput)
 plotResiduals(simulationOutput, form = md$Quali)
 ```
 
-Die Residuen weisen eine größere Streuung auf mit größer werdenden `fitted values`. Um dem zu entgegnen könnte man die Analyse mit    transformieren Daten durchführen oder *besser* einen Funktion für die unterschiedliche Varianz in den Gruppen anpassen (dies ist  mit der Funktion `glmmTMB()` und `lme` möglich).
+Die Residuen weisen eine größere Streuung  mit größer werdenden `fitted values` auf bzw. unterscheiden sich die Varianzen der Gruppen. Um dem entgegenzuwirken, könnten wir entweder die Analyse mit transformierten Daten vornehmen oder *besser* einen Funktion anwenden, die die unterschiedliche Varianz in den Gruppen berücksichtigt. Letzteres ist  mit den Funktionen `glmmTMB()` und `lme` möglich.
 
 
 
 ## Post-hoc Test
 
-Die ANOVA zeigte uns einen signifikanten Effekt von `Quali` auf `Prot`, jedoch wissen wir nicht, welche Weizenqualitätsklassen sich voneinander unterscheiden. Bei Faktoren mit mehr als 2 Ausprägungen wird daher ein Post-hoc Test durchgeführt. Dieser korrigiert die Irrtumswahrscheinlichkeit um die Anzahl der Vergleiche, da man bei z.B. 100 Ausprägungen, schon per Zufall 5 signifikante Unterschiede aufweisen können.
+Die ANOVA hat einen signifikanten Effekt von `Quali` auf `Prot` gezeigt. Allerdings wissen wir nicht, welche Weizenqualitätsklassen sich voneinander unterscheiden. Bei Faktoren mit mehr als zwei Ausprägungen wird daher ein Post-hoc Test durchgeführt. Dieser korrigiert die Irrtumswahrscheinlichkeit um die Anzahl der Vergleiche, da bei beispielsweise 100 Ausprägungen schon rein zufällig fünf signifikante Unterschiede auftreten können.
 
 ### Bespiel für multiples Testen ohne und mit Adjustierung des p-Wertes
 
@@ -290,7 +291,7 @@ Mit `method="trt.vs.ctrl"` wird ein Dunnett-Test durchgeführt, der alle Behandl
 contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl")
 ```
 
-Hier wird immer gegen die Qualität A gepürft, weil diese das erste Level der Variable `Quali`ist.
+Hier wird immer gegen die Qualität A geprüft, weil diese das erste Level der Variable `Quali` ist.
 
 Mit dem Argument `ref` kann ich ein anderes Level wählen. Hier die E-Qualität. 
 
