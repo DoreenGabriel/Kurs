@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Parameter <span class="math inline">\({a}\)</span> Intercept (Achsenabschnitt)</li>
 <li>Parameter <span class="math inline">\({b}\)</span> Slope (Steigung)</li>
 <li><code>mod&lt;-lm(Abhängige~Erklärungsvariable, data=md)</code></li>
-<li>Differenz zwischen gemessenem <span class="math inline">\({y}\)</span> (<code>observed</code> oder <code>measured</code>) und dem vom Model vorhergesagtem Wert <span class="math inline">\(\hat{y}\)</span> (<code>fitted</code> oder <code>predicted</code>) beim gleichen Wert <span class="math inline">\({x}\)</span> nennt man Residuen (<code>residuals</code>)</li>
+<li>Differenz zwischen gemessenem <span class="math inline">\({y}\)</span> (<code>observed</code> oder <code>measured</code>) und dem vom Modell vorhergesagten Wert <span class="math inline">\(\hat{y}\)</span> (<code>fitted</code> oder <code>predicted</code>) beim gleichen Wert <span class="math inline">\({x}\)</span> nennt man Residuen (<code>residuals</code>)</li>
 <li>Residuen haben die gleiche Einheit wie <span class="math inline">\({y}\)</span> (parallel zur y-Achse)</li>
 </ul>
 <div class="cell">
@@ -317,7 +317,7 @@ Multiple R-squared:  0.7806,    Adjusted R-squared:  0.7531
 F-statistic: 28.46 on 1 and 8 DF,  p-value: 0.0006987</code></pre>
 </div>
 </div>
-<p>Mit jeder dt/ha steigendem Ertrag sinkt der Proteingehalt um -0.1 %. Das R² des Modells 78.1 beträgt.</p>
+<p>Mit jedem Anstieg des Ertrag (je dt/ha) sinkt der Proteingehalt um -0.1 %. Das R² des Modells beträgt 78.1.</p>
 </section>
 <section id="signifikanztest-der-modellparameter" class="level2">
 <h2 class="anchored" data-anchor-id="signifikanztest-der-modellparameter">Signifikanztest der Modellparameter</h2>
@@ -347,12 +347,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><img src="05_Regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, sieht alles ganz ok aus.</p>
+<p>Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, scheint alles in Ordnung zu sein.</p>
 <ul>
 <li>Die Residuen sind annähernd normalverteilt (Plot oben links).</li>
-<li>Die Residuen weisen im Plot oben rechts keinen Trompeteneffekt (Varianzheterogenität) auf.</li>
-<li>Es gibt keine auffälligen Muster in Residuen.</li>
-<li>Es gibt keine einflussreiche Punkte (keine roten Sternchen in der Abb. rechts).</li>
+<li>Die Residuen weisen keinen Trompeteneffekt (Varianzheterogenität) auf (Plot oben rechts).</li>
+<li>Es gibt keine erkennbare Muster in den Residuen.</li>
+<li>Es gibt keine einflussreiche Punkte (keine roten Sternchen im Plot oben rechts).</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput, <span class="at">form =</span> reg<span class="sc">$</span>Ert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -361,8 +361,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Auch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster.</p>
-<p>Das Paket <code>ggfortify</code> gibt und noch zwei weitere Plots zur Cook’s Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e.&nbsp;Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook’s Distance (&gt; 1 oder 0,5) gekennzeichnet ist.<br>
-Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e.&nbsp;den Wert auf Eingabefehler überprüfen) und ggfls. das Model ohne Ausreißer rechnen und die “neuen” Modellparameter mit den “alten” vergleichen und damit die Robustheit der Ergebnisse überprüfen.</p>
+<p>Das Paket <code>ggfortify</code> gibt noch zwei weitere Plots zur Cook’s Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e.&nbsp;Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook’s Distance (&gt; 1 oder 0,5) gekennzeichnet ist.<br>
+Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e.&nbsp;den Wert auf Eingabefehler überprüfen) und ggfls. das Modell ohne Ausreißer rechnen und die “neuen” Modellparameter mit den “alten” vergleichen und damit die Robustheit der Ergebnisse überprüfen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(mod, <span class="at">which =</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">label.size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -388,8 +388,8 @@ Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e.&nbsp;den Wer
  [8]  75.64570  90.93937 109.28159</code></pre>
 </div>
 </div>
-<p>Bei einem Ertrag von 0 schätzt unser Modell ein Proteingehalt von 21.27 %., bei einem Ertrag von 50 dt/ha schätzt es ein Proteingehalt von 16.5, bei einem Ertrag von 100 schätzt es ein Proteingehalt von 11.7.</p>
-<p>Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (<code>coef(mod)</code>) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für <code>Ert</code> und x der Ertrag ist:</p>
+<p>Bei einem Ertrag von 90.4 dt/ha schätzt unser Modell einen Proteingehalt von 12.59 %, bei einem Ertrag von 101.3 dt/ha schätzt es einen Proteingehalt von 11.6 %.</p>
+<p>Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (<code>r</code>coef(mod)<code>) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für</code>Ert` und x der Ertrag ist:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(mod, <span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">Ert=</span><span class="dv">80</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -410,7 +410,7 @@ Ganz schnell und einfach geht es mit dem Package <code>effects</code>.</p>
 <p><img src="05_Regression_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Die blaue Linie zeigt uns den <em>fit</em> (also die Regressionslinie) an, die orangefarbene Linie ist ein <em>fit</em> durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.</p>
+<p>Die blaue Linie zeigt uns den <em>fit</em> (also die Regressionslinie) an, während die orangefarbene Linie ist ein <em>fit</em> durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.</p>
 <p>Eine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die <code>library(effects)</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ef<span class="ot">=</span><span class="fu">allEffects</span>(mod, <span class="at">xlevels=</span><span class="dv">100</span>)</span>
