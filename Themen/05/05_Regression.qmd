@@ -123,7 +123,7 @@ Frage: Wie stark reduziert sich der Proteingehalt mit steigendem Ertrag?
 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 set.seed(12345)
 n=10
 d=data.frame(Ert=runif(n, min=40, max=110))
@@ -360,7 +360,7 @@ plotResiduals(simulationOutput, form = df$x)
 
 ## Übung 5
 
-+ Importiere die Daten [NDuenger.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/NDuenger.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
++ Importiere die Daten [NDuenger.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/NDuenger.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
 + Führe eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?
 + Stimmen die Annahmen für eine lineare Regression?
 + Wie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?

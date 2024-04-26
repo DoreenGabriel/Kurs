@@ -123,7 +123,7 @@ Voraussetzungen:
 
 Die Proteingehalte von jeweils 8 zufällig ausgewählten Weizenproben der 4 Qualitätsklassen E, A, B und C wurden ermittelt. Unterscheiden sich die Qualitätsklassen im Proteingehalt?
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 n=8
 set.seed(12345)
 md=data.frame( ID=1:(n*4),
@@ -203,7 +203,7 @@ Wir überprüfen die Annahmen der ANOVA visuell auf:
 -   annähernde Normalverteilung der Fehler (i.e. Residuen)
 -   Varianzhomogenität
 
-Ich nutze hierfür die `library(DHARMa)`. 
+Ich nutze hierfür die `library(DHARMa)`.
 
 [https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html){target="_blank"}
 
@@ -213,17 +213,17 @@ simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
 plot(simulationOutput)
 ```
 
+-   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen`, der uns Informationen über die Normalverteilung der Residuen liefert. Wenn die Punkte ungefähr entlang der Winkelhalbierenden (rote Linie) liegen, deutet dies darauf hin, dass die Residuen approximativ normalverteilt sind. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt.
 
--   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen`, der uns Informationen über die Normalverteilung der Residuen liefert. Wenn die Punkte ungefähr entlang der Winkelhalbierenden (rote Linie) liegen, deutet dies darauf hin, dass die Residuen approximativ normalverteilt sind. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt. 
+-   Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die Null sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E. noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).
 
-- Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die Null sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E.  noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).  
-
-- Um die Varianzhomogenität zwischen den Gruppen zu prüfen, sollten wir die Residuen gegen die Erklärungsvariablen plotten. 
+-   Um die Varianzhomogenität zwischen den Gruppen zu prüfen, sollten wir die Residuen gegen die Erklärungsvariablen plotten.
 
 ```{r}
 plotResiduals(simulationOutput, form = md$Quali)
 ```
-Solange alle Tests nicht signifikant sind (und keine roten Linien oder Boxen angezeigt werden), ist alles (mehr oder weniger) gut.  ABER es sei angemerkt, dass die Teststärke (Power) der Tests  von der Anzahl der Beobachtungen abhängt. Je mehr Beobachtungen wir haben, umso höher ist die Power des Tests. Damit werden häufig  signifikante Unterschiede z.B. der Varianzen bei großem Stichprobenumfang beobachtet, obwohl diese praktisch nicht relevant sind. Außerdem werden häufig keine signifikanten Unterschiede bei kleinem Stichprobenumfang beobachtet, obwohl gravierende Unterschiede vorhanden sind. 
+
+Solange alle Tests nicht signifikant sind (und keine roten Linien oder Boxen angezeigt werden), ist alles (mehr oder weniger) gut. ABER es sei angemerkt, dass die Teststärke (Power) der Tests von der Anzahl der Beobachtungen abhängt. Je mehr Beobachtungen wir haben, umso höher ist die Power des Tests. Damit werden häufig signifikante Unterschiede z.B. der Varianzen bei großem Stichprobenumfang beobachtet, obwohl diese praktisch nicht relevant sind. Außerdem werden häufig keine signifikanten Unterschiede bei kleinem Stichprobenumfang beobachtet, obwohl gravierende Unterschiede vorhanden sind.
 
 Die *visuelle* Modelldiagnostik wird daher häufig als wichtiger angesehen als die p-Wert-basierten Tests auf Normalverteilung und Varianzhomogenität (Cochran, Bartlett und Levenes Test).
 
@@ -259,9 +259,7 @@ plot(simulationOutput)
 plotResiduals(simulationOutput, form = md$Quali)
 ```
 
-Die Residuen weisen eine größere Streuung  mit größer werdenden `fitted values` auf bzw. unterscheiden sich die Varianzen der Gruppen. Um dem entgegenzuwirken, könnten wir entweder die Analyse mit transformierten Daten vornehmen oder *besser* einen Funktion anwenden, die die unterschiedliche Varianz in den Gruppen berücksichtigt. Letzteres ist  mit den Funktionen `glmmTMB()` und `lme` möglich.
-
-
+Die Residuen weisen eine größere Streuung mit größer werdenden `fitted values` auf bzw. unterscheiden sich die Varianzen der Gruppen. Um dem entgegenzuwirken, könnten wir entweder die Analyse mit transformierten Daten vornehmen oder *besser* einen Funktion anwenden, die die unterschiedliche Varianz in den Gruppen berücksichtigt. Letzteres ist mit den Funktionen `glmmTMB()` und `lme` möglich.
 
 ## Post-hoc Test
 
@@ -278,7 +276,7 @@ pairwise.t.test(md$Prot, md$Quali, p.adj = "bonferroni") # besser
 
 ### Post-hoc Test: package `emmeans`
 
-Die `library(emmeans)` mit der Funktion `emmeans()` bietet eine Vielzahl an Möglichkeiten um einen Post-hoc Test am gefitteten Modell (hier die ANOVA) durchzuführen. Mit dem Argument `method="pairwise"` kann man alle Behandlungen miteinander per Tukey-Test vergleichen, i.e. paarweise. 
+Die `library(emmeans)` mit der Funktion `emmeans()` bietet eine Vielzahl an Möglichkeiten um einen Post-hoc Test am gefitteten Modell (hier die ANOVA) durchzuführen. Mit dem Argument `method="pairwise"` kann man alle Behandlungen miteinander per Tukey-Test vergleichen, i.e. paarweise.
 
 ```{r, message=FALSE, warning=FALSE}
 library(emmeans)
@@ -293,15 +291,13 @@ contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl")
 
 Hier wird immer gegen die Qualität A geprüft, weil diese das erste Level der Variable `Quali` ist.
 
-Mit dem Argument `ref` kann ich ein anderes Level wählen. Hier die E-Qualität. 
-
+Mit dem Argument `ref` kann ich ein anderes Level wählen. Hier die E-Qualität.
 
 ```{r, message=FALSE, warning=FALSE}
 contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl", ref=4)
 ```
 
 Alternativ kann ich bereits im `data.frame` die Faktorenlevels entsprechend meiner Interpretation ändern und damit das Modell anpassen. (siehe dazu Reihenfolge ändern in Kap. Grafik)
-
 
 Interessant sind auch die Konfidenzintervalle. Wenn Konfidenzintervalle sich nicht überlappen, geht man in der Regel von signifikanten Unterschieden aus. Es kann auch sein, dass Konfidenzintervalle leicht überlappen, und trotzdem signifikante Unterschiede vorliegen. [https://core.ac.uk/download/pdf/82702323.pdf](https://core.ac.uk/download/pdf/82702323.pdf){target="_blank"} Hier sollte man immer auf die p-Werte des Tests schauen.
 
@@ -318,7 +314,7 @@ library(multcomp)
 cld(emmeans(mod, ~Quali), Letters=letters) # Compact letter display für Gruppenunterschiede 
 ```
 
-Gruppen, die keinen Buchstaben gemeinsam haben, sind im Mittelwert signifikant unterschiedlich. Qualitätsklasse `E` hat einen signifikant höheren Proteingehalt im Vergleich zu `B` und `C`, während  `E`  und `A` sich nicht signifikant unterscheiden. 
+Gruppen, die keinen Buchstaben gemeinsam haben, sind im Mittelwert signifikant unterschiedlich. Qualitätsklasse `E` hat einen signifikant höheren Proteingehalt im Vergleich zu `B` und `C`, während `E` und `A` sich nicht signifikant unterscheiden.
 
 ## Präsentation der Ergebnisse
 
@@ -339,21 +335,25 @@ ggplot(md, aes(x=Quali, y=Prot)) +
              position = position_nudge(x = 0.4))+
   geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
                 width=0.1, col=2, position = position_nudge(x = 0.4))+
-  geom_text(data=CIs, aes(y = 20, label =.group))+
-  theme_bw() 
+  geom_text(data=CIs, aes(y = 17, label =.group))+
+  scale_y_continuous(labels=scales::number_format(accuracy = 0.01, 
+                                                  decimal.mark =","))+
+  theme_bw() +
+  ylab("Proteingehalt %")+
+  xlab("Qualitätsklasse")
 ```
 
 Im Text sollte man erwähnen, dass
 
 -   `Quali` einen signifikanten Einfluss auf `Prot` hat. Nutze die Funktion `anova(mod)` und gibt den p-Wert zusammen mit den `degrees of freedom` und `F-Wert` an.
--   der Post-hoc Test gezeigt hat, dass `E` mit im Mittel `r round(CIs$emmean[CIs$Quali=="E"],1)` % einen signifikant höheren Proteingehalt hatte als `B` und `C` mit `r round(CIs$emmean[CIs$Quali=="B"],1)` % und `r round(CIs$emmean[CIs$Quali=="C"],1)` % , während `E` und `A` sich nicht unterscheiden. Die Proteingehalte von `A`, `B` und `C` unterscheiden sich nicht signifikant (p>0.05). Hierzu nutzt du die Funktion `contrast(emmeans(mod, c("Quali")), method="pairwise")`. 
+-   der Post-hoc Test gezeigt hat, dass `E` mit im Mittel `r round(CIs$emmean[CIs$Quali=="E"],1)` % einen signifikant höheren Proteingehalt hatte als `B` und `C` mit `r round(CIs$emmean[CIs$Quali=="B"],1)` % und `r round(CIs$emmean[CIs$Quali=="C"],1)` % , während `E` und `A` sich nicht unterscheiden. Die Proteingehalte von `A`, `B` und `C` unterscheiden sich nicht signifikant (p\>0.05). Hierzu nutzt du die Funktion `contrast(emmeans(mod, c("Quali")), method="pairwise")`.
 -   das R² des Modells `r round(summary(mod)$r.sq*100,1)` beträgt. `summary(mod)$r.sq`
--   die Modellannahmen für die ANOVA (Varianzhomogenität und annähernde Normalverteilung der Residuen) visuell mit dem Paket `DHARMa` überprüft wurden. 
-
+-   die Modellannahmen für die ANOVA (Varianzhomogenität und annähernde Normalverteilung der Residuen) visuell mit dem Paket `DHARMa` überprüft wurden.
 
 ### add on: Faktorlevels in Grafik umsortieren
 
-Schöner wäre es, die Qualitäten in absteigender Reihenfolge darzustellen. E steht für Elite und ist die beste Qualität. 
+Schöner wäre es, die Qualitäten in absteigender Reihenfolge darzustellen. E steht für Elite und ist die beste Qualität.
+
 ```{r}
 library(forcats)
 md %>% 
@@ -370,7 +370,7 @@ ggplot(aes(x=fct_relevel(Quali, "E"), y=Prot)) +
   theme_bw()
 ```
 
-oder in aufsteigender Reihenfolge, basierend auf den Messwerten. 
+oder in aufsteigender Reihenfolge, basierend auf den Messwerten.
 
 ```{r}
 CIs$Prot=CIs$emmean
@@ -388,18 +388,9 @@ ggplot(aes(x=fct_reorder(Quali, Prot), y=Prot)) +
   theme_bw() 
 ```
 
-
-
-
 ## Übung 4
 
-
 In einem Gefäßversuch wurde die pflanzenliche Biomasse (`BM`) in den 4 Düngemittelvarianten (`DM`: Kontrolle, Düngemittel A, B und C) an jeweils 10 Proben gemessen.
-
--   Importiere bitte die Daten [Gefaessversuch.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Gefaessversuch.xlsx){target="_blank"} in R und mach Dich mit dem Datensatz vertraut.
--   Unterscheidet sich die Biomasse zwischen den Varianten?
--   Sind die Voraussetzung für eine ANOVA gegeben? Prüfe die Residuen. 
-
 
 
 ```{r, eval=FALSE, echo=F}
@@ -410,56 +401,139 @@ g=data.frame( ID=1:(n*4),
                BM=c(rnorm(n, 10, 1.5), rnorm(n, 11.0, 1.5), 
                       rnorm(n, 14, 1.5), rnorm(n, 18, 1.5))^2)
 write.xlsx(g, "Gefaessversuch.xlsx")
+```
 
+-   Importiere bitte die Daten [Gefaessversuch.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Gefaessversuch.xlsx){target="_blank"} in R und mach Dich mit dem Datensatz vertraut.
+
+::: {.callout-tip collapse="true"}
+### Daten einlesen und prüfen
+
+```{r}
+library(openxlsx)
+g<-read.xlsx("Gefaessversuch.xlsx")
+str(g)
+```
+
+```{r}
 ggplot(g, aes(x=DM, y=BM)) +
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, height=0, shape=1)+
   stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") 
-# Kontrolle als erstes Level
+```
 
+wir können die Kontrolle als erstes Level definieren.
+
+```{r}
 g$DM=fct_relevel(g$DM, "K")
+ggplot(g, aes(x=DM, y=BM)) +
+  stat_boxplot(geom ="errorbar", width = 0.5)+
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, height=0, shape=1)+
+  stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") 
+```
+:::
 
+-   Unterscheidet sich die Biomasse zwischen den Varianten?
+
+::: {.callout-tip collapse="true"}
+### Modell formulieren
+```{r}
 mod<-lm(BM ~ DM, data=g)
 anova(mod)
-cld(emmeans(mod, ~DM), Letters=letters)
-#library(DHARMa)
+```
+
+Ja, aber bevor wir das Modell interpretieren, müssen wir uns unbedingt die Residuen anschauen.
+:::
+
+-   Sind die Voraussetzung für eine ANOVA gegeben? Prüfe die Residuen.
+
+::: {.callout-tip collapse="true"}
+### Modelldiagnostik
+```{r}
+library(DHARMa)
 simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
 plot(simulationOutput)
-plotResiduals(simulationOutput, form = g$DM)
+```
 
+
+```{r}
+plotResiduals(simulationOutput, form = g$DM)
+```
+
+Nein, das sieht nicht gut aus. Die Varianz wird mit jedem Level etwas größer. Hier könnte man nun die Abhängige Variable transformieren, um die Varianz zu stabilisieren. 
+
+Plotten wir die Daten mit einer Wurzel-transformierten Y-Achse: 
+
+```{r}
 ggplot(g, aes(x=DM, y=BM)) +
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA) +
   geom_jitter(width=0.25, height=0, shape=1)+
   stat_summary(fun = "mean", colour = "red", size = 2, geom = "point") +
   scale_y_sqrt()
+```
 
-# entweder
-# g$BM.sq=sqrt(g$BM)
-# mod<-lm(BM.sq ~ DM, data=g)
-# und dann für emmean und lower und upper CI Abbildung zurücktransformieren
-# oder
+Das sieht besser aus. Die Boxen der Boxplots weisen eine ähnliche Höhe auf.
 
-mod<-lm(sqrt(BM) ~ DM, data=g)
-anova(mod)
-cld(emmeans(mod, ~DM), Letters=letters)
-cld(emmeans(mod, ~DM, type="response"), Letters=letters)
+Nun können wir entweder 
 
-#library(DHARMa)
-simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+- eine neue Variable in unseren `data.frame` definieren, die die wurzel-transformierten Werte enthält, z.B.  `g$BM.sq=sqrt(g$BM)` 
+- und mit dieser Variable das Modell fitten `mod<-lm(BM.sq ~ DM, data=g)`
+- und später die emmeans und CIs zurücktransformieren `CIs$emmean.2=CIs$emmean^2` (gleiches für die Konfidenzintervalle)
+
+oder 
+
+- die Transformation im Modell definieren. Das hat bei der späteren Nutzung von `emmeans()` den Vorteil, dass die Werte auf die *Response Skala* automatisch tranformiert werden können. 
+
+```{r}
+mod1<-lm(sqrt(BM) ~ DM, data=g)
+anova(mod1)
+```
+
+
+```{r}
+simulationOutput <- simulateResiduals(fittedModel = mod1, plot = F)
 plot(simulationOutput)
 plotResiduals(simulationOutput, form = g$DM)
+```
+
+Auch wenn wir Warnmeldungen für die obigen Plots erhalten, so ist doch die Annahme der Varianzhomogenität und annähernede Normalverteilung der Residuen erfüllt. Wir können das Modell nun interpretieren.  
+
+### Modellinterpretation
+```{r}
+library(emmeans)
+library(multcomp)
+library(multcompView)
+cld(emmeans(mod1, ~DM), Letters=letters)
+```
+
+Die emmeans sind recht niedrig, was an der Wurzeltransformation liegt. 
+
+```{r}
+cld(emmeans(mod1, ~DM, type="response"), Letters=letters)
+```
+
+Mit dem Argument `type="response"` werden die emmeans auf die Originalskala zurücktransformiert. Beachte, dass jetzt die Variable `reponse` heißt und der Code für die Grafik angepasst werden muss. 
+Die p-Werte der paarweisen Vergleiche können wir über die `contrast()`-Funktion erhalten. 
+Alternativ kann mit dem Argument `method="trt.vs.ctrl"` ein Dunnett-Test durchgeführt werden, der die Düngemittel A, B und C gegen die  **Kontrolle** testet. 
+
+```{r}
+contrast(emmeans(mod, ~Quali), method="pairwise")
+contrast(emmeans(mod, ~Quali), method="trt.vs.ctrl")
+```
 
 
-CIs=cld(emmeans(mod, ~DM, type = "response" ), sort = FALSE, Letters=letters)
-
+```{r}
+CIs=cld(emmeans(mod1, ~DM, type = "response" ), sort = FALSE, Letters=letters)
 CIs$.group # hier sind noch Leerzeichen enthalten, die die Zentrierung der Buchstaben erschwert
 CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)# entfernen der Leerzeichen
 CIs$.group # besser
 str(CIs)
+```
 
 
+```{r}
 ggplot(g, aes(x=DM, y=BM)) +
   stat_boxplot(geom ="errorbar", width = 0.5)+
   geom_boxplot(outlier.shape=NA, width = 0.6) +
@@ -471,10 +545,12 @@ ggplot(g, aes(x=DM, y=BM)) +
                 width=0.1, col=2, position = position_nudge(x = 0.4))+
   geom_text(data=CIs, aes(y = 550, label =.group))+
   theme_bw() +
-  scale_y_sqrt(breaks=c(50, 100,200,300,400))
+  scale_y_sqrt(breaks=c(50, 100,200,300,400,500))+
+  ylab("Biomasse (g)")+
+  xlab("Düngemittel")
 ```
 
 
-
+:::
 
 Ende Übung 4
