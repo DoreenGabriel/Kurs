@@ -178,10 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#add-on-faktorlevels-in-grafik-umsortieren" id="toc-add-on-faktorlevels-in-grafik-umsortieren" class="nav-link" data-scroll-target="#add-on-faktorlevels-in-grafik-umsortieren">add on: Faktorlevels in Grafik umsortieren</a></li>
   </ul></li>
-  <li><a href="#übung-4" id="toc-übung-4" class="nav-link" data-scroll-target="#übung-4">Übung 4</a>
-  <ul class="collapse">
-  <li><a href="#übung-4-lösung" id="toc-übung-4-lösung" class="nav-link" data-scroll-target="#übung-4-lösung">Übung 4 Lösung</a></li>
-  </ul></li>
+  <li><a href="#übung-4" id="toc-übung-4" class="nav-link" data-scroll-target="#übung-4">Übung 4</a></li>
   </ul>
 </nav>
     </div>
@@ -795,13 +792,6 @@ NOTE: If two or more means share the same grouping symbol,
 <p>In einem Gefäßversuch wurde die pflanzenliche Biomasse (<code>BM</code>) in den 4 Düngemittelvarianten (<code>DM</code>: Kontrolle, Düngemittel A, B und C) an jeweils 10 Proben gemessen.</p>
 <ul>
 <li>Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Gefaessversuch.xlsx" target="_blank">Gefaessversuch.xlsx</a> in R und mach Dich mit dem Datensatz vertraut.</li>
-<li>Unterscheidet sich die Biomasse zwischen den Varianten?</li>
-<li>Sind die Voraussetzung für eine ANOVA gegeben? Prüfe die Residuen.</li>
-</ul>
-<section id="übung-4-lösung" class="level3">
-<h3 class="anchored" data-anchor-id="übung-4-lösung">Übung 4 Lösung</h3>
-<ul>
-<li>Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/04/Gefaessversuch.xlsx" target="_blank">Gefaessversuch.xlsx</a> in R und mach Dich mit dem Datensatz vertraut.</li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -978,7 +968,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><img src="04_Anova_files/figure-html/unnamed-chunk-36-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Auch wenn wir Warnmeldungen für diese Plots erhalten, so ist doch die Annahme der Varianzhomogenität und annähernede Normalverteilung der Residuen erfüllt. Wir können das Modell nun interpretieren.</p>
+<p>Auch wenn wir Warnmeldungen für die obigen Plots erhalten, so ist doch die Annahme der Varianzhomogenität und annähernede Normalverteilung der Residuen erfüllt. Wir können das Modell nun interpretieren.</p>
 <section id="modellinterpretation-1" class="level3">
 <h3 class="anchored" data-anchor-id="modellinterpretation-1">Modellinterpretation</h3>
 <div class="cell">
@@ -1078,7 +1068,7 @@ NOTE: If two or more means share the same grouping symbol,
 <span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">width=</span><span class="fl">0.1</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="fl">0.4</span>))<span class="sc">+</span></span>
 <span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>CIs, <span class="fu">aes</span>(<span class="at">y =</span> <span class="dv">550</span>, <span class="at">label =</span>.group))<span class="sc">+</span></span>
 <span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>,<span class="dv">400</span>))<span class="sc">+</span></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>,<span class="dv">400</span>,<span class="dv">500</span>))<span class="sc">+</span></span>
 <span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Biomasse (g)"</span>)<span class="sc">+</span></span>
 <span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Düngemittel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1092,7 +1082,6 @@ NOTE: If two or more means share the same grouping symbol,
 <p>Ende Übung 4</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
