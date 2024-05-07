@@ -179,33 +179,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#modellvereinfachung--selektion" id="toc-modellvereinfachung--selektion" class="nav-link" data-scroll-target="#modellvereinfachung--selektion">Modellvereinfachung, -selektion</a>
   <ul class="collapse">
   <li><a href="#schrittweise-modellvereinfachung-mit-drop1-basierend-auf-teststatistik" id="toc-schrittweise-modellvereinfachung-mit-drop1-basierend-auf-teststatistik" class="nav-link" data-scroll-target="#schrittweise-modellvereinfachung-mit-drop1-basierend-auf-teststatistik">Schrittweise Modellvereinfachung mit drop1() basierend auf Teststatistik</a></li>
+  <li><a href="#übung-6.1." id="toc-übung-6.1." class="nav-link" data-scroll-target="#übung-6.1.">Übung 6.1.</a></li>
   </ul></li>
-  <li><a href="#übung-6.1." id="toc-übung-6.1." class="nav-link" data-scroll-target="#übung-6.1.">Übung 6.1.</a>
-  <ul class="collapse">
   <li><a href="#modellselektion-basierend-auf-informationskriterien" id="toc-modellselektion-basierend-auf-informationskriterien" class="nav-link" data-scroll-target="#modellselektion-basierend-auf-informationskriterien">Modellselektion basierend auf Informationskriterien</a></li>
   <li><a href="#schrittweise-verfahren-basierend-auf-aic-mit-step" id="toc-schrittweise-verfahren-basierend-auf-aic-mit-step" class="nav-link" data-scroll-target="#schrittweise-verfahren-basierend-auf-aic-mit-step">Schrittweise Verfahren basierend auf AIC mit step()</a>
   <ul class="collapse">
   <li><a href="#step-backward" id="toc-step-backward" class="nav-link" data-scroll-target="#step-backward">step backward</a></li>
   <li><a href="#step-forward" id="toc-step-forward" class="nav-link" data-scroll-target="#step-forward">step forward</a></li>
   <li><a href="#step-both" id="toc-step-both" class="nav-link" data-scroll-target="#step-both">step both</a></li>
+  <li><a href="#übung-6.2." id="toc-übung-6.2." class="nav-link" data-scroll-target="#übung-6.2.">Übung 6.2.</a></li>
   </ul></li>
-  </ul></li>
-  <li><a href="#übung-6.2." id="toc-übung-6.2." class="nav-link" data-scroll-target="#übung-6.2.">Übung 6.2.</a>
-  <ul class="collapse">
   <li><a href="#modellvergleiche-basierend-auf-aic-mit-dregde" id="toc-modellvergleiche-basierend-auf-aic-mit-dregde" class="nav-link" data-scroll-target="#modellvergleiche-basierend-auf-aic-mit-dregde">Modellvergleiche basierend auf AIC mit dregde()</a></li>
   <li><a href="#modellvergleiche-basierend-auf-aic-mit-eigenem-set-an-candidate-models" id="toc-modellvergleiche-basierend-auf-aic-mit-eigenem-set-an-candidate-models" class="nav-link" data-scroll-target="#modellvergleiche-basierend-auf-aic-mit-eigenem-set-an-candidate-models">Modellvergleiche basierend auf AIC mit eigenem Set an Candidate Models</a></li>
-  <li><a href="#modellvergleiche-basierend-auf-aic-mit-glmulti" id="toc-modellvergleiche-basierend-auf-aic-mit-glmulti" class="nav-link" data-scroll-target="#modellvergleiche-basierend-auf-aic-mit-glmulti">Modellvergleiche basierend auf AIC mit glmulti()</a></li>
-  </ul></li>
-  <li><a href="#übung-6.3." id="toc-übung-6.3." class="nav-link" data-scroll-target="#übung-6.3.">Übung 6.3.</a>
+  <li><a href="#modellvergleiche-basierend-auf-aic-mit-glmulti" id="toc-modellvergleiche-basierend-auf-aic-mit-glmulti" class="nav-link" data-scroll-target="#modellvergleiche-basierend-auf-aic-mit-glmulti">Modellvergleiche basierend auf AIC mit glmulti()</a>
   <ul class="collapse">
+  <li><a href="#übung-6.3." id="toc-übung-6.3." class="nav-link" data-scroll-target="#übung-6.3.">Übung 6.3.</a></li>
+  </ul></li>
   <li><a href="#modelldiagnostik" id="toc-modelldiagnostik" class="nav-link" data-scroll-target="#modelldiagnostik">Modelldiagnostik</a></li>
   <li><a href="#modellinterpretation" id="toc-modellinterpretation" class="nav-link" data-scroll-target="#modellinterpretation">Modellinterpretation</a>
   <ul class="collapse">
   <li><a href="#schnell-und-einfach-mit-libraryeffects" id="toc-schnell-und-einfach-mit-libraryeffects" class="nav-link" data-scroll-target="#schnell-und-einfach-mit-libraryeffects">schnell und einfach mit <code>library(effects)</code></a></li>
   <li><a href="#weitere-alternativen-zur-modellinterpretation-i.e.-abbildung-der-ergebnisse" id="toc-weitere-alternativen-zur-modellinterpretation-i.e.-abbildung-der-ergebnisse" class="nav-link" data-scroll-target="#weitere-alternativen-zur-modellinterpretation-i.e.-abbildung-der-ergebnisse">Weitere Alternativen zur Modellinterpretation, i.e.&nbsp;Abbildung der Ergebnisse:</a></li>
-  </ul></li>
-  </ul></li>
   <li><a href="#übung-6.4." id="toc-übung-6.4." class="nav-link" data-scroll-target="#übung-6.4.">Übung 6.4.</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -730,14 +726,15 @@ F-statistic: 220.2 on 3 and 32 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Analog gibt es auch eine Funktion <code>add1()</code> bei der eine <em>forward selection</em> durchgeführt werden kann.<br>
 Sowohl die klassische <em>backward</em> also auch die <em>forward selection</em> sind für Modelle mit wenigen Erklärungsvariablen denkbar.</p>
 </section>
-</section>
-<section id="übung-6.1." class="level1">
-<h1>Übung 6.1.</h1>
+<section id="übung-6.1." class="level3">
+<h3 class="anchored" data-anchor-id="übung-6.1.">Übung 6.1.</h3>
 <p>Die Aktivität von Lurchen wurde in den drei Habitattypen (Teichumgebung, Hecke und Wald) bei unterschiedlichen Witterungsbedingungen (Temperatur und Luftfeuchte) gemessen.</p>
 <ul>
 <li><p>Importiere die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/06/Lurche.xlsx" target="_blank">Lurche.xlsx</a> und mach dich mit den Daten vertraut.</p></li>
 <li><p>Modelliere die Aktivität der Lurche mit einer backward selektion.</p></li>
 </ul>
+</section>
+</section>
 <section id="modellselektion-basierend-auf-informationskriterien" class="level2">
 <h2 class="anchored" data-anchor-id="modellselektion-basierend-auf-informationskriterien">Modellselektion basierend auf Informationskriterien</h2>
 <p>Wenn wir jedoch eine Vielzahl an Erklärungsvariablen haben und damit eine Vielzahl an potentiellen Erklärungsmodellen, führt eine schrittweise Vereinfachung zu vielen aufeinanderfolgenden Signifikanztests. Die durchgeführten Signifikanztests sind nicht voneinander unabhängig. Das Problem des multiplen Testens tritt auf. Der p-Wert verliert seine eigentliche Bedeutung und müsste um die Anzahl der Tests korrigiert werden. Daher steht diese Vorgehensweise bei vielen Anwendern in der Kritik.</p>
@@ -1038,13 +1035,13 @@ F-statistic: 220.2 on 3 and 32 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Alle drei Verfahren haben zum gleichen besten Modell geführt. Das ist nicht immer so. Zusätzlich wird mit der Funktion <code>step()</code> immer nur <strong>ein</strong> bestes Modell selektiert und es bleibt offen, ob es noch andere ähnlich gute Modelle gibt.</p>
 </section>
-</section>
-</section>
-<section id="übung-6.2." class="level1">
-<h1>Übung 6.2.</h1>
+<section id="übung-6.2." class="level3">
+<h3 class="anchored" data-anchor-id="übung-6.2.">Übung 6.2.</h3>
 <ul>
 <li>Modelliere die Aktivität der Lurche mit der step-Funktion.</li>
 </ul>
+</section>
+</section>
 <section id="modellvergleiche-basierend-auf-aic-mit-dregde" class="level2">
 <h2 class="anchored" data-anchor-id="modellvergleiche-basierend-auf-aic-mit-dregde">Modellvergleiche basierend auf AIC mit dregde()</h2>
 <p>Mit der Funktion <code>dredge()</code> aus dem Paket <code>MuMIn</code> können verschiedene <em>candidate models</em> (i.e.&nbsp;alle Kombinationsmöglichkeiten zwischen den Erklärungsvariablen) anhand eines Informationskriteriums z.B. <code>rank = "AICc"</code> verglichen werden. Weitere Informationskriterien werden über das Argument <code>extra = alist(AICc, AIC, BIC, Cp, "R^2")</code> berechnet. Zudem wird auch das Akaike Gewicht (<code>weight</code>) angegeben, welches eine relatives Maß für die <em>Wahrscheinlichkeit</em> (englisch: <em>rate of support or evidence</em>) ist, dass das jeweilige Modell das bessere unter den <em>candidate models</em> ist. Im Allgemeinen haben Modelle innerhalb von delta AIC &lt; 2 einen ähnlich guten <em>support</em>.</p>
@@ -1539,13 +1536,13 @@ Tip
 <p>Die Wahl des besten Modells basiert zwar immer auf einem Informationskriterium (AIC, BIC), der/die R-UserIn kann sich aber auch für das zweit- oder drittbeste Modell entscheiden, wenn darin bspw. Erklärungsvariablen sind, die einfacher oder schneller zu messen sind und das Modell für zukünftige Vorhersagen genutzt werden soll.</p>
 </div>
 </div>
-</section>
-</section>
-<section id="übung-6.3." class="level1">
-<h1>Übung 6.3.</h1>
+<section id="übung-6.3." class="level3">
+<h3 class="anchored" data-anchor-id="übung-6.3.">Übung 6.3.</h3>
 <ul>
 <li>Modelliere die Aktivität der Lurche mit der dredge-Funktion.</li>
 </ul>
+</section>
+</section>
 <section id="modelldiagnostik" class="level2">
 <h2 class="anchored" data-anchor-id="modelldiagnostik">Modelldiagnostik</h2>
 <p>Bevor wir das Modell interpretieren, sollten die Modellannahmen visuell überprüft werden, indem wir die Residuen des Modells plotten.</p>
@@ -1894,15 +1891,14 @@ NOTE: If two or more means share the same grouping symbol,
 </section>
 </section>
 </section>
-</section>
-</section>
-<section id="übung-6.4." class="level1">
-<h1>Übung 6.4.</h1>
+<section id="übung-6.4." class="level3">
+<h3 class="anchored" data-anchor-id="übung-6.4.">Übung 6.4.</h3>
 <ul>
 <li>Interpretiere das beste Modell bzw. die besten Modelle.</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
