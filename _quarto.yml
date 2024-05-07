@@ -18,6 +18,8 @@ website:
         href: Themen/04/04_Anova.qmd
       - text: Regression
         href: Themen/05/05_Regression.qmd
+      - text: Statistische Modellierung
+        href: Themen/06/06_StatMod.qmd
  
  
 format:

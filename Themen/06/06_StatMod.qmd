@@ -1,0 +1,787 @@
+---
+title: "Statistische Modellierung"
+---
+
+
+
++ Alle Modelle sind falsch.
++ Manche Modelle sind besser als andere.
++ Das richtige Modell kann niemals mit absoluter Sicherheit bestimmt werden.
++ Je einfacher ein Modell ist, desto besser. *"the principle of parsimony: the correct explanation is the simplest explanation"*
++ *"Man muss die Dinge so einfach wie möglich machen. Aber nicht einfacher."*  Albert Einstein
+
+## Prinzip der Parsimonität - Wie viele Parameter bedarf es um einen Elefanten zu modellieren? 
+
+![](Elephant.png)  
+
+ A) 36, B) 5, C) 10, D) 20 und E) 30 Parameter  
+
+*The 30-term elephant "may not satisfy the third-grade art teacher, but would carry most chemical engineers into preliminary design."* 
+
+aus:  
+Burnham K, Anderson D. 2002. Model selection and multimodel inference. Springer, USA.  
+Wei J. 1975. Least square fitting of an elephant. Chemtech 5: 128-129.  
+
+## Ziel der statistischen Modellierung 
+
++ Selektion des minimalen adäquaten Modells aus einem großen Pool verschieden komplexer Modelle  
+
+## Modelltypen 
++ Volles Model (*full model*, maximales Modell, globales Modell, alle Erklärungsvariablen inkl. Interaktionen, Freiheitsgrade = n - p - 1)
++ *candidate model* (verschiedene mögliche Modelle die *subsets* des globalen Modells sind, d.h. unterschiedliche Erklärungsvariablen beinhalten)
++ Minimales adäquates Modell (*mimimal adequate model*, vereinfachtes oder *"bestes"* Modell entsprechend dem Prinzip der Parsimonität)
++ Nullmodell (*null model*, nur Intercept ~1, i.e. Mittelwert, wird gefittet)
++ Gesättigtes Modell (*saturated model*, eine Erklärungsvariable für jeden Punkt = keine Freiheitsgrade)  
+
+## Erklärungsvariablen 
+
++ Welche Erklärungsvariablen? 
+    + biologisch sinnvoll
+    + entsprechend Fragestellung und Literatur
+    + Designvariablen
++ Korrelation zwischen Erklärungsvariablen prüfen 
+    + kann zu verzerrten Schätzungen der Modellparameter und Fehler führen
+    + Daumenregel r < 0,7
+    + *variance inflation factor* VIF < 3 
++ Anzahl Erklärungsvariablen an Stichprobenumfang anpassen 
+    + Gefahr der Überparametrisierung
+    + Daumenregel je Parameter 10 Stichproben (häufig nicht realisierbar)
+    + in landwirtschaftlichen Versuchen häufig 4 Wdh
++ Beziehungen zwischen Abhängigen und Erklärungsvariable überprüfen 
+    + Linearität vs. Kurvatur  [Übung 5](https://doreengabriel.github.io/Kurs/Themen/05/05_Regression.html#%C3%BCbung-5){target="_blank"} 
+    + Verteilung der kontinierlichen Erklärungsvariable (Schiefe, Länge des Gradienten)
+    + N bei kategorialen Erklärungsvariable (balanciert, Anzahl Stichproben je Gruppe)
++ Welche Interaktionen? (alle, keine, nur zweifach, entsprechend Fragestellung) 
+
+
+## Statistische Interaktion (Wechselwirkung)
+
+wenn der Effekt einer Erklärungsvariable von dem Wert der anderen Erklärungsvariable abhängt
+
+![](interaktion.png)  
+
+## Mehrere Erklärungsvariablen im Modell 
+
+Nr | Modellformel | Modellparameter
+--| --------------|-----------------------------------------------------
+1 | `lm(y~x+z)` | zwei Erklärungsvariablen
+2 | `lm(y~x*z)` | zwei Erklärungsvariablen und deren Interaktion
+3 | `lm(y~x+z+x:z)` | zwei Erklärungsvariablen und deren Interaktion  
+4 | `lm(y~x+z+w)` | drei Erklärungsvariablen
+5 | `lm(y~x+z+w+x:z+z:w+w:x)` | drei Erklärungsvariablen und alle Zweifach-Interaktionen
+6 | `lm(y~(x+z+w)^2)` | drei Erklärungsvariablen und alle Zweifach-Interaktionen
+7 | `lm(y~x+z+w+x:z+z:w+w:x+z:w:x)` | drei Erklärungsvariablen und alle Interaktionen
+8 | `lm(y~x*z*w)` | drei Erklärungsvariablen und alle Interaktionen   
+
+Modell Nr. 2 und 3 sind identische Modelle, ebenso Nr. 5 und 6 und Nr. 7 und 8.  
+
+## Beispiel: Modell- und Variablenselektion 
+
+Wir wollen nun verschiedene Modell- und Variablenselektionsstrategien an einem Beispieldatensatz zur Pflanzendiversität in Weizenfeldern rechnen. 
+
+Literatur zum Thema:
+
+Heinze et al. (2018) [Variable selection – A review and recommendations for the practicing statistician](https://onlinelibrary.wiley.com/doi/full/10.1002/bimj.201700067){target="_blank"} 
+
+#### Fragestellung:  
+Wie beeinflusst Bewirtschaftung (ökologisch vs. konventionell), Bodengüte (ertragreich vs. ertragsarm) und Landschaftsstruktur (strukturreich vs. strukturarm) die Pflanzendiversität in Weizenfeldern?   
+
+#### Untersuchungsdesign:  
+In 36 ökologisch und konventionell bewirtschafteten Weizenflächen (`Man = con vs. org`), welche sowohl in ihrer Bodengüte (*Soil quality* = `SQ`) als auch in der umgebenden Landschaftsstruktur (% Ackeranteil = `Arab`) variierten, wurde die Shannon-Diversität von Ackerwildkräutern (`Weeds`) ermittelt.  
+
+### Daten einlesen, kennenlernen, plotten
+```{r}
+library(openxlsx)
+of=read.xlsx("organic_farming.xlsx")
+str(of)
+of$Man=as.factor(of$Man)
+summary(of)
+```
+
+Wir plotten zunächst die Daten entsprechend unserer Fragestellung: 
+```{r, fig.height=6, fig.width=10}
+library(ggplot2)
+library(ggpubr)
+p1=ggplot(of, aes(x=Man, y=Weeds, colour=Man)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, shape=1)
+p2=ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
+  geom_point()+
+  geom_smooth(method=lm)
+p3=ggplot(of, aes(x=SQ, y=Weeds, colour=Man)) +
+  geom_point()+
+  geom_smooth(method=lm)
+p4=ggplot(of, aes(x=Man, y=Arab, colour=Man)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, shape=1)
+p5=ggplot(of, aes(x=Man, y=SQ, colour=Man)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, shape=1)
+p6=ggplot(of, aes(x=SQ, y=Arab, colour=Man)) +
+  geom_point()+
+  geom_smooth(method=lm)
+
+ggarrange(p1, p2, p3, p4, p5, p6, common.legend = TRUE, legend = "bottom")
+```
+
+
+Im Plot oben rechts sehen wir, dass die Diversität in ökologisch bewirtschafteten Flächen höher ist als in konventionellen. Wir sehen aber auch, dass die Variabilität sich deutlich (und um ein Vielfaches) zwischen `org` und `con` unterscheidet. 
+
+::: {.callout-tip collapse="true"}
+```{r, message=FALSE}
+library(dplyr)
+of %>% 
+  group_by(Man) %>% 
+  summarise(MW=mean(Weeds),
+            VAR=var(Weeds))
+```
+:::
+
+Ist das ein Problem? NEIN. Wir müssen die Residuen nach der Analyse auf Varianzhomogenität checken. Wenn unsere Erklärungsvariablen die Variabilität in den Daten erklären, dann sollte der Restfehler varianzhomogen sein.  
+Ausserdem sehen wir einen negativen Zusammenhang zwischen `Weeds`und `Arab` für `org` und `con` sowie eine mögliche Interaktion zwischen `Weeds` und `SQ` für `org` und `con`. 
+Wir plotten ausserdem die Erklärungsvariablen gegeneinander, um mögliche Muster oder Zusammenhänge zu erkennen. Wir sehen, dass die Erklärungsvariablen `Arab` und `SQ` einen ähnlich weiten Wertebereich in `org`und `con` aufweisen. Außerdem scheint es keinen Zusammenhang zwischen `Arab` und `SQ` zu geben. Gut so.  
+
+
+
+## Korrelation zwischen Erklärungsvariablen testen 
+
+Bevor wir ein Modell formulieren, sollten wir die Korrelation zwischen den Erklärungsvariablen prüfen. Eng korrleirte Erklärungsvariablen können zu verzerrten Modellkoeffizienten, hohe Standardfehler der Koeffizienten und damit zu instabilien Modellen  und den falschen Schlussfolgerungen führen. 
+
+siehe auch Dormann et al. (2012) [Collinearity: a review of methods to deal with it and a simulation study evaluating their performance](https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1600-0587.2012.07348.x){target="_blank"}  
+
+### mit der ggpairs() und library(GGally)
+
+```{r, message=F, fig.width=10, fig.height=6}
+library(GGally)
+ggpairs(of, columns = c(2:4), ggplot2::aes(colour = Man))
+```
+
+### mit einer Korrelationsmatrix
+
+Um eine Korrelationsmatrix zu erstellen, müssen alle Variablen numerisch sein. Ich codiere hier die Variable `Man` in eine dummy-Variable um. Da sie nur zwei Levels hat, wird eine Spalte mit der Information Man = 1 und org = 0 ausreichen. 
+
+```{r}
+of$Man.con=ifelse(of$Man == "con", 1, 0)
+```
+
+Sollte man einen Faktor mit mehr als zwei Levels haben, könnte man so fortfahren: `of$Man.org=ifelse(of$Man == "org", 1, 0)`. 
+
+
+
+```{r, message=FALSE}
+library(Hmisc)
+rcorr(as.matrix(of[,c(3:4, 6)]), type="pearson")
+```
+Die *Pearson Korrelationskoeffizienten* sind alle < 0,7 bzw. >-0,7. Pearson Korrelationskoeffizienten nutzt man für lineare Zusammenhänge. Alternativ kann man die *Spearman Rang-Korrelation* nutzen, welche auf Rängen basiert und für monotone Zusammenhänge, i.e. monoton steigend oder fallend, eine Aussage trifft.
+
+
+```{r}
+rcorr(as.matrix(of[,c(3:4, 6)]), type="spearman")
+```
+Eine gute Möglichkeit zur Abbildung einer Korrelationsmatrix bietet die `library(corrplot)` mit der Funktion `corrplot()` und `corrplot.mixed()`.
+
+```{r, message=FALSE, fig.width=6, fig.height=4.5}
+library(corrplot)
+corrplot(cor(of[,c(3:4, 6)]), method = "ellipse")
+corrplot.mixed(cor(of[,c(3:4, 6)]), upper = "ellipse", tl.col =1, tl.cex=0.75)
+```
+
+### mit dem Variance Inflation Factor (VIF)
+
+Die potentielle Korrelation zwischen Erklärungsvariablen kann auch mit dem *Variance Inflation Factor* (VIF) getestet werden. Der VIF ist ein Maß für die Multikollineraität und gibt an, wie gut die einzelnen Erklärungsvariablen durch die anderen Erklärungsvariablen erklärt werden. Der VIF steht also für die Redundanz innerhalb der Erklärungsvariablen. 
+Ich fitte ein Modell mit den Haupteffekten ohne Interaktionen. Solange alle VIFs < 3 sind, ist alles in Ordnung. Es gibt auch Quellen, die <5 oder gar <10 angeben. 
+Sollte ein VIF höher als dein gewähltes Kriterium sein, dann entfernst du schrittweise die Variable mit dem höchsten VIF, berechnest den VIF erneut und führst dies fort, bis alle Variablen unterhalb dem gewählten Kriterium sind.  
+
+```{r}
+library(car)
+vif(lm(Weeds~Man+Arab+SQ, data=of))
+```
+Alle Methoden führen zu dem Schluss, dass wir ein Modell mit allen drei Erklärungsvariablen formulieren können. 
+
+## Modell formulieren
+
+Ich fitte hier ein Modell inklusive Dreifachinteraktion, obwohl der Stichprobenumfang schon relativ klein ist und es auch Argumente dafür gibt, mit einem Modell nur mit Zweifachinteraktionen zu starten, i.e. ohne Dreifachinteraktion. 
+
+```{r, fig.height=5.5, fig.width=6}
+mod<-lm(Weeds~Arab*Man*SQ, data=of)
+summary(mod)
+```
+
+
+## Modellvereinfachung, -selektion
+
+Wir werden nun verschiedene Methoden der Modell- und Variablenselektion kennenlernen. 
+
+
+### Schrittweise Modellvereinfachung mit drop1() basierend auf Teststatistik
+
++ Der klassische Weg: *backward selection*
++ maximales Modell fitten
++ schrittweises Entfernen von nicht-signifikanten Interaktionen
+    + dabei mit der Interaktion der höchsten Ordnung beginnen (Dreifach- vor Zweifach-Interaktionen)
+    + höchster p-Wert
+    + altes mit neuem Modell vergleichen (Fehler/deviance)
++ Entfernen von nicht-signifikanten Erklärungsvariablen (Haupteffekte)
+    + wenn nicht in signifikanter Interaktion enthalten
++ Das minimale adäquate Modell enthält nur noch signifikante Parameter*.  
+
+*nicht signifikante Haupteffekte sind im Modell möglich, wenn sie Teil einer signifikanten Interaktion sind  
+
+Wir testen mit der Funktion `drop1()` die Dreifachinteraktion.  
+```{r}
+drop1(mod, test="F") # Signifikanztest für Dreifachinteraktion
+```
+Der p-Wert ist größer 0.05. Also können wir die Dreifachinteraktion entfernen, indem ein neues Modell `mod1` durch die Funktion `update()` gefittet wird, welches alle Effekte wie `mod` besitzt `~.`, außer (daher das `-`)  die Interaktion `Arab:Man:SQ`.    
+
+```{r}
+mod1<-update(mod, ~.-Arab:Man:SQ) # Term wird aus Model entfernt 
+```
+
+Wenn wir nun die Funktion `drop1()` für `mod1` nutzen, werden uns alle p-Werte für die Zweifachinteraktionen angezeigt. 
+```{r}
+drop1(mod1, test="F")
+```
+
+`Arab:SQ` hat den höchsten p-Wert (und > 0,05), also raus damit.
+
+```{r}
+mod2<-update(mod1, ~.-Arab:SQ )
+drop1(mod2, test="F")
+```
+
+`Man:SQ` hat den höchsten p-Wert (und > 0,05), also raus damit.
+
+```{r}
+
+mod3<-update(mod2, ~.-Man:SQ)
+drop1(mod3, test="F")
+```
+
+Der p-Wert für `SQ` als Haupteffekt erscheint, weil `SQ` nicht mehr in einer Interaktion enthalten ist. `SQ` hat den höchsten p-Wert (und > 0,05), also raus damit.
+
+```{r}
+mod4<-update(mod3, ~.-SQ)
+drop1(mod4, test="F") # 
+```
+
+p < 0,05, wir sollten keine weitere Variable entfernen. 
+
+```{r}
+summary(mod4)
+```
+
+Analog gibt es auch eine Funktion `add1()` bei der eine *forward selection* durchgeführt werden kann.   
+Sowohl die klassische *backward* also auch die *forward selection* sind für Modelle mit wenigen Erklärungsvariablen denkbar.  
+
+
+# Übung 6.1.
+
+Die Aktivität von Lurchen wurde in den drei Habitattypen (Teichumgebung, Hecke und Wald) bei unterschiedlichen Witterungsbedingungen (Temperatur und Luftfeuchte) gemessen. 
+
++ Importiere die Daten [Lurche.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/06/Lurche.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
+
++ Modelliere die Aktivität der Lurche mit einer backward selektion. 
+
+
+
+
+
+
+## Modellselektion basierend auf Informationskriterien
+Wenn wir jedoch eine Vielzahl an Erklärungsvariablen haben und damit eine Vielzahl an potentiellen Erklärungsmodellen, führt eine schrittweise Vereinfachung zu vielen aufeinanderfolgenden Signifikanztests. Die durchgeführten Signifikanztests sind nicht voneinander unabhängig. Das Problem des multiplen Testens tritt auf. Der p-Wert verliert seine eigentliche Bedeutung und müsste um die Anzahl der Tests korrigiert werden. Daher steht diese Vorgehensweise bei vielen Anwendern in der Kritik.  
+
+Besser ist es, die Modell- bzw. Variablenselektion basierend auf Informationskriterien durchzuführen. 
+
+Informationskriterien wägen für uns zwischen der Anpassungsgüte (*fit*) und der Komplexität (Anzahl Parameter *k*) des Modells ab:  
+
++ Das Akaikes Informationskriterium (*Akaike Information Criterion* - AIC) berechnet sich aus der Log-Likelihood und der Anzahl Modellparameter.  
++ Das korrigierte Akaikes Informationskriterium (AICc) bestraft stärker um die Anzahl der Modellparameter, wenn der Stichprobenumfang klein ist und verhindert damit stärker den Overfit als AIC. **Daumenregel**: Nutze AICc wenn das Verhältnis aus Stichprobenumfang (n) zu Anzahl Modellparameter (k) n/k < 40 ist.   
++ Bayessches Informationskriterium (*Bayesian Information Criterion* - BIC) berücksichtigt neben Log-likelihood und Anzahl Modellparametern auch den Stichprobenumfang.  
+
+::: {.callout-important}
+# Wichtig
+Je niedriger der AIC (AICc, BIC), desto besser das Modell. Es zählt nicht der absolute Wert (z.B. AIC = 100 ist unwichtig). 
+:::
+
+
+Beispiel:  
+
+Modell | AIC 
+------|------
+Modell 1  | 100  
+Modell 2 | 98.8 
+Modell 3 | 108
+
+Damit wäre Modell 2 das bessere Modell.  
+
+Während die absoluten AIC-Werte also keine Bedeutung haben, können die delta AIC-Werte genutzt werden, um das *Level of Empirical Support*  des jeweiligen Modells einzuordnen. Burnham und Anderson (2002) *Model Selection and Multimodel Inference* Seite 170 geben folgende Kennwerte an: 
+
+delta AIC | *Level of Empirical Support*
+--------------|---------------
+0-2 | substantial
+4-7 | considerably less
+> 10 | none 
+
+Entsprechend wären Modell 2 und Modell 1 von Bedeutung, während Modell 3 keine Berücksichtigung erfahren muss. 
+
+::: {.callout-important}
+# Wichtig
+
+Es können nur Modelle verglichen werden, die auf den gleichen Datensatz (i.e. gleiche Abhängige y) gefittet wurden.  
+
+:::
+
+Von einem Vergleich von Modellen, die mit verschiedenen R-Packages gefitted wurden, würde ich abraten.  
+
+Auch negative AIC-Werte können auftreten. Auch hier gilt, je kleiner desto besser.  
+
+## Schrittweise Verfahren basierend auf AIC mit step()
+
+Mit der Funktion `step()` kann eine Modellselektion automatisiert auf Basis des AIC erfolgen. Hier ein Beispiel für eine Rückwärtsselektion, bei dem ausgehend vom vollen Modell schrittweise Erklärungsvariablen entfernt werden und die daraus resultierenden Modelle via AIC verglichen werden. Diese Prozedur stoppt, wenn beim Entfernen der Variablen der AIC (wieder) ansteigen würde. 
+
+### step backward
+```{r}
+mod.b<-step(mod)
+summary(mod.b)
+```
+
+
+### step forward
+Beim Vorwärtsverfahren müssen wir zunächst das Null-Modell fitten  
+```{r}
+mod0<-lm(Weeds~1, data=of) 
+```
+
+und dann die Argumente `scope` und `direction` bedienen.   
+```{r}
+mod.fw=step(mod0, scope=list(lower=mod0, upper=mod), direction="forward")
+```
+
+```{r}
+summary(mod.fw)
+```
+
+### step both
+Mit dem Argument `direction="both"` wird die Vorwärts- und Rückwärtsselektion kombiniert.  
+
+```{r}
+mod.both=step(mod0, scope=list(upper=mod), direction="both")
+```
+
+```{r}
+summary(mod.both)
+```
+
+Alle drei Verfahren haben zum gleichen besten Modell geführt. Das ist nicht immer so. Zusätzlich wird mit der Funktion `step()` immer nur **ein** bestes Modell selektiert und es bleibt offen, ob es noch andere ähnlich gute Modelle gibt. 
+
+
+# Übung 6.2.
+
++ Modelliere die Aktivität der Lurche mit der step-Funktion. 
+
+## Modellvergleiche basierend auf AIC mit dregde()
+
+Mit der Funktion `dredge()` aus dem Paket `MuMIn` können verschiedene *candidate models* (i.e. alle Kombinationsmöglichkeiten zwischen den Erklärungsvariablen) anhand eines Informationskriteriums z.B. `rank = "AICc"` verglichen werden. Weitere Informationskriterien werden über das Argument `extra = alist(AICc, AIC, BIC, Cp, "R^2")` berechnet. Zudem wird auch das Akaike Gewicht (`weight`) angegeben, welches eine relatives Maß für die *Wahrscheinlichkeit* (englisch: *rate of support or evidence*) ist, dass das jeweilige Modell das bessere unter den *candidate models* ist. Im Allgemeinen haben Modelle innerhalb von delta AIC < 2 einen ähnlich guten *support*. 
+
+```{r, error=TRUE}
+library(MuMIn)
+dd=dredge(mod)
+```
+
+Wir müssen im globalen Modell `mod` das Argument `na.action` = `na.fail` setzen oder die R-Optionen mit `options(na.action = "na.fail")` verändern. 
+
+::: {.callout-important}
+# Wichtig
+
+Es dürfen keine *missing values (NA)*  sowohl in der Abhängigen als auch in den Erklärungsvariablen vorkommen.  Nutze ggfls. die Funktion `complete.cases()`. 
+
+:::
+
+```{r}
+mod<-lm(Weeds~Arab*Man*SQ, data=of, na.action=na.fail)
+dd=dredge(mod, rank = "AICc", extra = alist(AICc, AIC, BIC, "R^2")) 
+```
+
+Mit dem Argument `m.lim=c(0,4)` kann man die Anzahl der Parameter beschränken, z.B. auf minimal 0 und maximal 4 Parameter. Die obige Funktion würde dann so aussehen: `dredge(mod, rank = "AICc", extra = alist(AICc, AIC, BIC, "R^2"), m.lim=c(0,4))`. Da wir aber ein recht überschaubares Modell haben, ist dies nicht nötig.   
+
+```{r}
+dd
+```
+
+Wurden sehr viele Modelle gefittet, kann man mit dem folgenden Befehl die Top 5 sehen.
+```{r}
+dd[1:5]# die besten 5 Modelle nach AICc
+```
+
+
+Der Output zeigt uns 
+
++ das Modell
++ die Modellparameter: (Int) für Intercept, Arb, Man, SQ, Arb:Ma, Arb:SQ, und Man:SQ
+    + wobei für Faktoren nur ein + angezeigt wird, wenn diese im Modell enthalten sind
+    + für kontinuierliche Erklärungsvariablen wird der geschätzte Koeffizient angezeigt
++ die Informationskriterien: AICc, AIC, BIC, R²
++ die degree of freedoms und die Log-Likelihood 
++ das Informationskriterium, welches zum Vergleich der Modelle genutzt wurde (hier AICc)
++ das daraus berechnete delta (hier delta AICc) 
++ das Akaike weight, welches alle `candidate models` vergleicht (die Summe ergibt 1) und damit ein Maß für *relative* Güte der Modelle ist. 
+
+
+Mit der Funktion `subset()` werden die Top-Modelle innerhalb delta AICc < 4 (oder <2) angezeigt. 
+
+```{r}
+subset(dd, delta < 4) 
+```
+
+
+Zur Präsentation der Ergebnisse würde man zur obigen Tabelle noch das **globale Modell** und das **Nullmodell** hinzufügen. 
+
+
+
+Das beste Modell mit dem niedrigsten AICc ist wieder:   
+`Weeds ~ Arab + Man + Arab:Man`  
+
+Wir können auf das beste Model mit der Funktion `get.models()` zugreifen.  
+```{r}
+summary(get.models(dd, 1)[[1]])
+```
+
+```{r}
+mod.dd=get.models(dd, 1)[[1]]
+```
+
+Die Bedeutung der Erklärungsvariablen (*Importance*) kann durch das *sum of Akaike weight* berechnet werden, indem für alle Variablen die Akaike Gewichte der Modelle aufsummiert werden, in denen die Variable enthalten ist. Die entsprechenden *sum of Akaike weights* variieren dann zwischen 1 (wichtig) und 0 (unwichtig). 
+
+Mit der Funktion `sw()` wird das *sum of Akaike weight* über alle Modelle berechnet:   
+```{r}
+sw(dd)
+```
+
+Mit dem Argument `subset` wird das *sum of Akaike weight* über alle Modelle innerhalb delta AICc < 4 berechnet:   
+```{r}
+sw(subset(dd, delta <= 4))
+```
+
+Burnham and Anderson (2002) empfehlen die erste Methode.  
+
+
+## Modellvergleiche basierend auf AIC mit eigenem Set an Candidate Models
+Wenn man ein sehr komplexes globales Modell mit vielen Erklärungsvariablen und Interaktionen hat, kann das zu sehr vielen *candidate models* führen. Das wird dann auch gerne als *"fishing"* bezeichnet und wird ebenso wenig gern gesehen. Daher empfehlen Burnham und Anderson (2002) *a priori* ein Set an *candidate models* zu erstellen und diese zu vergleichen. 
+
+Auch hierfür kann das Packet `MuMIn` genutzt werden. 
+
+Beispiel angepasst aus:  [https://sites.google.com/site/rforfishandwildlifegrads/home/mumin_usage_examples](https://sites.google.com/site/rforfishandwildlifegrads/home/mumin_usage_examples){target="_blank"}
+```{r}
+library(MuMIn)
+options(na.action = "na.fail") # wir ändern die globalen Optionen
+```
+
+Wir erstellen das globale Modell `mod` und verschiedene *candidate models* `mod1` bis `mod11` und das Nullmodell `mod0`.  Natürlich können nur Modelle als "beste" Modelle identifiziert werden, wenn sie vorher auch gefittet wurden. Daher ist die Wahl der geeigneten *candidate models* die größte wissenschaftliche Herausforderung.   
+```{r}
+mod<-lm(Weeds~Arab*Man*SQ, data=of)
+mod1<-lm(Weeds~Arab*Man+SQ, data=of)
+mod2<-lm(Weeds~Arab+Man*SQ, data=of)
+mod3<-lm(Weeds~Arab*SQ+Man, data=of)
+mod4<-lm(Weeds~Arab*Man, data=of)
+mod5<-lm(Weeds~Man*SQ, data=of)
+mod6<-lm(Weeds~Arab*SQ, data=of)
+mod7<-lm(Weeds~Arab+Man, data=of)
+mod8<-lm(Weeds~Man+SQ, data=of)
+mod9<-lm(Weeds~Arab+SQ, data=of)
+mod10<-lm(Weeds~Arab+Man+SQ, data=of)
+mod0<-lm(Weeds~1, data=of)
+mod11<-lm(Weeds~(Arab+Man+SQ)^2, data=of)# ist das gleiche wie Arab*Man+Arab*SQ+Man*SQ
+```
+
+Wir nutzen die Funktion `mod.sel()`, um für alle Modelle das AICc, delta AICc und das *Akaike weight* zu berechnen und ins Objekt `out.put` zu schreiben.   
+```{r}
+out.put<-model.sel(mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11, mod,mod0)
+out.put 
+```
+
+Mit dem Argument `rank` können wir auch ein anderes Informationskriterium wählen.  
+```{r}
+out.put2<-model.sel(mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11, mod,mod0, rank="AIC")
+out.put2
+```
+
+Wir erstellen nun eine Tabelle mit den Informationskriterien und den Erklärungsvariablen der Modelle.   
+Die `[c(9,11:13)]` greifen auf 4 Spalten zu und  müssen bei anderen Beispielen entsprechend der Anzahl Spalten (i.e. Erklärungsvariablen) ggfls. angepasst werden.  
+
+```{r}
+sel.table<-as.data.frame(out.put)[c(9,11:13)]
+sel.table 
+```
+
+Zur besseren Lesbarkeit runden wir die Spalten 2 und 3 auf 1 Kommastelle und Spalten 4 auf 2 Kommastellen.     
+```{r}
+sel.table[,2:3]<- round(sel.table[,2:3],1)
+sel.table[,4]<- round(sel.table[,4],2)
+```
+
+
+Wir schreiben den Modellnamen in Spalte `Model`  
+```{r}
+sel.table$Model<-rownames(sel.table)
+sel.table
+```
+
+... und schreiben nun die Modellformel in diese Spalte:  
+```{r}
+for(i in 1:nrow(sel.table)) sel.table$Model[i]<- as.character(formula(noquote(sel.table$Model[i]))$call)[2]
+```
+
+
+```{r}
+sel.table 
+```
+
+Auch hier könnten wir wieder die Tabelle auf die Modelle reduzieren innerhalb delta AICc < 4 plus globales Modell und Nullmodell.  
+
+
+```{r}
+sel.table[c(1,2,4,13),c(5,1:4)]
+```
+
+  
+## Modellvergleiche basierend auf AIC mit glmulti()
+
+Ein weiteres Package für Modellvergleiche ist `glmulti` mit gleichnamiger Funktion. Hier können wir eine Vielzahl an Erklärungsvariablen in einem Vektor (hier `pred.var`) im Argument `xr` angeben. Mit `maxsize` legen wir die maximale Anzahl an Erklärungsvariablen fest. Mit `level=1` werden nur Haupteffekte gefittet (Bsp. `models1`), mit `level=2` werden Haupteffekte und Zweifachinteraktionen gefittet (Bsp. `models2`).  
+
+```{r, message=FALSE}
+library(glmulti)
+pred.var=c("Arab", "Man", "SQ")# alle Erklärungsvariablen
+
+models1 <- glmulti("Weeds", xr= pred.var, of, crit = aicc, 
+                     maxsize = 8, # max 8 Erklärungsvariablen im Modell -> hier nicht wichtig   
+                     level = 1,  #  nur Haupteffekte
+                     fitfunc = lm,  # lineares Model
+                     confsetsize = 10,  # damit kann man die Anzahl der besten Modelle, die in models1 gespeichert werden, begrenzen
+                     marginality=TRUE,  # zur Erklärung vergleiche Bsp. models2 mit models3
+                     plotty = F, report = F)
+tmp_1 <- weightable(models1)
+tmp_1
+```
+
+```{r}
+models2 <- glmulti("Weeds", xr= pred.var, of, crit = aicc, 
+                     maxsize = 8, 
+                     level = 2,  # fit Haupteffekte und Zweifachinteraktionen  
+                     confsetsize = 10,  
+                     marginality=TRUE,  
+                  plotty = F, report = F)
+tmp_2 <- weightable(models2)
+tmp_2
+```
+
+Mit dem Argument `marginality=FALSE` werden auch Modelle mit Interaktionen ohne Haupteffekte gefittet. Hierzu gibt es geteilte Meinungen. Es entstehen mehr mögliche Modelle aus denen das/die beste/n Modell/e gewählt werden können. Gleichzeitig kann aber damit auch ein einfacheres Modell mit weniger Erklärungsvariablen gewählt werden.    
+
+Im Bespiel `models3` sieht man als zweitbestes Modell `Weeds ~ Arab + Man:Arab`, welches ohne Haupteffekt `Man` gefittet ist.   
+```{r}
+models3 <- glmulti("Weeds", xr= pred.var, of, crit = aicc, 
+                     maxsize = 8,  
+                     level = 2, 
+                     confsetsize = 10,  
+                     marginality=FALSE,  # fit interaction even if main term is not in the model
+                  plotty = F, report = F)
+tmp_3 <- weightable(models3)
+tmp_3
+```
+
+
+Alle hier aufgeführten Wege haben zum gleichen besten Modell geführt.  
+```{r}
+summary(mod4)
+```
+
+
+::: {.callout-tip}
+Die Wahl des besten Modells basiert zwar immer auf einem Informationskriterium (AIC, BIC), der/die R-UserIn kann sich aber auch für das zweit- oder drittbeste Modell entscheiden, wenn darin bspw. Erklärungsvariablen sind, die einfacher oder schneller zu messen sind und das Modell für zukünftige Vorhersagen genutzt werden soll.
+:::
+  
+# Übung 6.3.
+
++ Modelliere die Aktivität der Lurche mit der dredge-Funktion. 
+
+## Modelldiagnostik
+
+Bevor wir das Modell interpretieren, sollten die Modellannahmen visuell überprüft werden, indem wir die Residuen des Modells plotten. 
+
+
+```{r}
+library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = mod4, plot = F)
+plot(simulationOutput)
+```
+Keine Auffälligkeiten.  
+
+Nun plotten wir noch die Residuen gegen die Erklärungsvariablen
+
+```{r}
+plotResiduals(simulationOutput, form = of$Man)
+```
+
+Die Varianzen der Residuen sind sehr ähnlich. Wir erinnern uns an den Plot Weeds ~ Man, wo starke Unterschiede in den Varianzen vorkamen. Offensichtlich hat die Erklärungsvariable `Arab` einen Großteil dieser Variabilität erklärt.  
+
+```{r}
+plotResiduals(simulationOutput, form = of$Arab)
+```
+
+Hier sehen wir eine leichte Kurvatur bei niedrigen Werten in Arab, aber es scheint noch ok zu sein. 
+Wir können zusätzlich noch die vom Modell vorhergesagten vs. gemessenen Daten plotten. Je enger die Beziehung, desto besser. 
+
+```{r}
+of$fit=predict(mod4)
+ggplot(of, aes(y=Weeds, x=fit, colour=Man)) +
+  geom_point()+
+  geom_smooth(method="lm")
+```
+
+## Modellinterpretation
+
+### schnell und einfach mit `library(effects)`
+
+```{r, fig.height=3.5, fig.width=5.4, message=FALSE}
+library(effects)
+plot(allEffects(mod4))
+```
+
+```{r}
+plot(Effect(c("Man"), mod4))
+plot(Effect(c("Arab"), mod4, partial.residuals=TRUE))
+```
+
+```{r}
+ef=allEffects(mod4, xlevels=100)	
+ef1=as.data.frame(ef[[1]])	
+head(ef1)	
+tail(ef1)	
+```
+
+```{r}
+ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
+  geom_ribbon(data = ef1, aes(x = Arab, y = NULL, ymin = lower, ymax = upper, 
+                              linetype=NA, fill=Man), 
+              alpha = 0.4, show.legend = F)+
+  geom_line(data = ef1, aes(x = Arab, y = fit))+
+  geom_point()+
+  ylab("Shannondiversität")+xlab("Ackeranteil (%)")
+```
+
+Wir sehen, dass die Diversität 
+
++ mit zunehmendem Ackeranteil sinkt
++ generell höher in öko vs. konventionell ist
++ aber je strukturreicher eine Landschaft (je niedriger der Ackeranteil) desto kleiner fallen auch die Unterschiede zwischen öko vs. konventionell bewirtschafteten Feldern aus.  
+
+Wir können dies auch gezielt mit einem Posthoc-Test testen. 
+
+```{r, message=FALSE}
+library(emmeans)
+library(multcomp)
+library(multcompView)
+cld(emmeans(mod4, ~Man|Arab, at=list(Arab=c(22,80))), Letters=letters)
+```
+
+Hier wird nun an zwei gewählten Punkten (i.e. Ackeranteil von 22% und 80%) die vorhergesagte Diversität in öko vs. kon gestestet. Bei 22% Ackeranteil unterscheidet sich die Diversität nicht signifikant zwischen öko und konventionall, bei 80% Ackeranteil schon. 
+
+Man beachte den Unterschied zu folgendem Test, bei dem alle vorhergesagten Levels miteinander verglichen werden.  
+```{r}
+cld(emmeans(mod4, ~Man+Arab, at=list(Arab=c(22,80))), sort=F, Letters=letters)
+```
+
+Die 22% und 80% sind hier relativ willkürlich gewählt (i.e. zur Demonstration). Man hätte auch das 20- und 80-Perzentil wählen können.
+
+```{r}
+cld(emmeans(mod4, ~Man|Arab, at=list(Arab=quantile(of$Arab, p=c(0.2,0.8)))), sort=F, Letters=letters)
+```
+
+
+### Weitere Alternativen zur Modellinterpretation, i.e. Abbildung der Ergebnisse: 
+
+#### mit geom_smooth
+```{r}
+ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
+  geom_point()+
+  geom_smooth(method=lm)
+```
+
+#### mit predict 
+
+Wir erstellen einen Testdatensatz `td` mit allen im besten Modell (`mod4`) enthaltenen Variablen. 
+```{r}
+summary(of)
+td<-expand.grid(Arab=seq(21,94,length=10), Man=c("con","org")) 
+td
+```
+
+
+
+und nutzen in der `predict`-Funktion das Argument `interval = "confidence"` für die Berechnung des Konfidenzintervalls.  
+
+**Das Konfidenzintervall**
+
++ zeigt an, in welchem Bereich mit 95 %-er Wahrscheinlichkeit unser "wahrer" Mittelwert liegt 
++ wird kleiner mit größer werdendem Stichprobenumfang  
+
+```{r}
+td<-data.frame(td, predict(mod4, newdata=td, interval = "confidence"))
+td
+```
+
+
+Alternativ nutzen wir die `predict`-Funktion mit dem Argument `se.fit` für die Berechnung der Standardfehler, die wir für die Berechnung des Konfidenzintervalls nutzen.  
+
+```{r}
+p<-predict(mod4, newdata=td, se.fit=T) 
+str(p)
+td$p<-p$fit
+td$p.se<-p$se.fit
+#t-Wert für Konfidenzintervall
+t.val<-qt(0.975, mod4$df)
+mod4$df
+#berechnet Konfidenzintervall t * SE
+td$CI.lwr<-td$p-t.val*td$p.se
+td$CI.upr<-td$p+t.val*td$p.se
+```
+
+**Das Vorhersageintervall**
+
++ zeigt an, in welchem Bereich mit 95 %-er Wahrscheinlichkeit zukünftige Beobachtungen liegen 
++ im Allgemeinen größer (weiter) als das Konfidenzintervall   
+
+```{r}
+td$PI2=predict(mod4, td, interval="prediction")
+head(td)
+```
+
+und jetzt die Abbildung mit den berechneten Intervallen    
+
+
+##### mit Konfidenzintervall
+```{r, warning=FALSE}
+ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
+  geom_ribbon(data = td, aes(x = Arab, y = NULL, ymin = lwr, ymax = upr, linetype=NA), 
+              alpha = 0.2, show.legend = F)+
+  geom_line(data = td, aes(x = Arab, y = fit))+
+  geom_point()
+```
+
+
+##### mit Konfidenz- und Vorhersageintervall
+```{r, warning=FALSE}
+ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
+  geom_ribbon(data = td, aes(x = Arab, y = NULL, ymin = lwr, ymax = upr, linetype=NA), 
+              alpha = 0.2, show.legend = F)+
+  geom_ribbon(data = td, aes(x = Arab, y = NULL, ymin = PI2[,2], ymax = PI2[,3], linetype=NA), 
+              alpha = 0.2, show.legend = F) +
+  geom_line(data = td, aes(x = Arab, y = fit)) +
+  geom_point()
+```
+
+
+# Übung 6.4.
+
++ Interpretiere das beste Modell bzw. die besten Modelle. 
+
+
