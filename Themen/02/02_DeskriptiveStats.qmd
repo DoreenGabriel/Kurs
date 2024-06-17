@@ -306,14 +306,61 @@ pot1
 
 ## Übung 2.1.
 
-Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+
+::: {.callout-tip collapse="true"}
+### Daten einlesen und prüfen
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+```{r}
+library(openxlsx)
+md<-read.xlsx("Kursteilnehmer.xlsx", sheet=1, startRow = 2)
+str(md)
+```
+:::
 
 Erstelle einen neuen Datensatz mit Beobachtungen von Kursteilnehmern mit jeweils: 
 
 + blauen Augen (`md1`)
+
+
+
+::: {.callout-tip collapse="true"}
+ 
+```{r}
+library(dplyr)
+md1 = md %>% filter(AF=="blau")
+md1
+```
+:::
+
 + Körpergröße größer 1,70 m (`md2`)
+
+::: {.callout-tip collapse="true"}
+```{r}
+md2 = md %>% filter(KG>170)
+md2
+```
+:::
+
 + blauen und grünen Augen (`md3`)
+
+::: {.callout-tip collapse="true"}
+```{r}
+md3 = md %>% filter(AF%in%c("blau", "gruen"))
+md3
+```
+:::
+
 + ohne Schuhgröße (`md4`)
+
+::: {.callout-tip collapse="true"}
+```{r}
+md4 = md %>% select(-SG)
+md4
+```
+:::
+
 
 Ende Übung 2.1.
 
@@ -584,12 +631,94 @@ pot %>%  group_by(method) %>%
 ## Übung 2.2.
 Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
 
+::: {.callout-tip collapse="true"}
+### Daten einlesen und prüfen
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+```{r}
+library(openxlsx)
+md<-read.xlsx("Kursteilnehmer.xlsx", sheet=1, startRow = 2)
+str(md)
+```
+:::
+
+
 + Nutze die Funktion `summary(md)`, um die Daten zu beschreiben.
+
+::: {.callout-tip collapse="true"}
+```{r}
+summary(md)
+```
+:::
+
 + Ermittele die Anzahl Frauen und Männer für jede Augenfarbe.
+
+::: {.callout-tip collapse="true"}
+```{r}
+md %>% count(AF, G) %>% 
+  mutate(prop = prop.table(n))
+```
+:::
+
 + Berechne die mittlere Körpergröße für Männer und Frauen.
+
+::: {.callout-tip collapse="true"}
+```{r}
+md %>% group_by(G) %>% 
+  summarise(KG_avg=mean(KG, na.rm = TRUE))
+```
+:::
+
 + Berechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.
+
+::: {.callout-tip collapse="true"}
+```{r}
+md1=md %>% 
+  mutate(Q=KG/SG)
+md1
+```
+:::
+
 + Exportiere die Daten z.B. mit `write.xlsx()`.
+
+::: {.callout-tip collapse="true"}
+```{r, eval=F}
+write.xlsx(md1, "KT_export.xlsx", overwrite = TRUE)
+```
+:::
+
 
 Zusatzaufgabe
 
-+ Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einen xlsx-file mit zwei Tabellenblätter.
++ Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einem xlsx-file mit zwei Tabellenblätter.
+
+::: {.callout-tip collapse="true"}
+```{r}
+md.sum=md %>%  group_by(G) %>%
+  summarise(across(c("KG", "SG"), .fns = 
+                     list(min = min,
+                          median = median,
+                          mean = mean,
+                          stdev = sd,
+                          q25 = ~quantile(., 0.25),
+                          q75 = ~quantile(., 0.75),
+                          max = max, 
+                          n=length))) %>%
+  pivot_longer(cols = -G,  names_sep='_', names_to=c('X', '.value')) %>% 
+  arrange(X)%>% 
+  relocate(X)
+md.sum
+```
+
+
+```{r, eval=F}
+wb <- createWorkbook()
+addWorksheet(wb, sheetName = "KT")
+writeData(wb, "KT", md1) 
+addWorksheet(wb, sheetName = "summary statistics")
+writeData(wb, "summary statistics", md.sum) 
+saveWorkbook(wb, file = "KT_export1.xlsx", overwrite = TRUE)
+```
+:::
+
+

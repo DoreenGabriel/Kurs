@@ -376,19 +376,129 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
 
 Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`. 
 
+::: {.callout-tip collapse="true"}
+### Daten einlesen und prüfen
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+```{r}
+library(openxlsx)
+md<-read.xlsx("Kursteilnehmer.xlsx", sheet=1, startRow = 2)
+str(md)
+```
+:::
+
+
 Lerne folgende Funktionen kennen:
 
 -   `plot(md)`
 
+::: {.callout-tip collapse="true"}
+```{r}
+plot(md)
+```
+:::
+
 Plotte:
 
 -   den Zusammenhang zwischen Körpergröße und Schuhgröße mit
-    -   unterschiedlichen Farben für die Frauen und Männer und fügen Sie Regressionslinien ein
+    -   unterschiedlichen Farben für die Frauen und Männer und 
+    -   Regressionslinien
 
-Zusatzaufgabe:
+::: {.callout-tip collapse="true"}
+
+```{r}
+library(ggplot2)
+ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
+  geom_point()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")
+
+ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
+  geom_point()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))
+```
+
+:::
+
+Zusatzaufgaben:
 
 -   verwende statt geom_point() die Funktion geom_count()
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
+  geom_count()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))
+```
+:::
+
+
 -   finde heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
+
+::: {.callout-tip collapse="true"}
+```{r}
+ggplot(data=md, aes(x=KG, y=SG, color=G))+
+  geom_count()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))+
+  facet_wrap(~G)
+
+ggplot(data=md, aes(x=KG, y=SG, color=G))+
+  geom_count()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))+
+  facet_wrap(~G, scales="free_y")
+
+ggplot(data=md, aes(x=KG, y=SG, color=G))+
+  geom_count()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))+
+  facet_wrap(~G, scales="free_x")
+
+ggplot(data=md, aes(x=KG, y=SG, color=G))+
+  geom_count()+
+  geom_smooth(method=lm)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))+
+  facet_wrap(~G, scales="free")
+
+```
+
+:::
+
+-   plotte erst Frauen (links) und dann Männer (rechts) 
+
+::: {.callout-tip collapse="true"}
+
+Hierfür erstelle ich eine neue Variable `G2` in `md`, die ein Faktor mit den levels w und m ist (statt der alphanumerischen Reihenfolge)
+
+```{r}
+md$G2=factor(md$G)
+levels(md$G2)
+md$G2 <- factor(md$G , levels=c("w", "m"))
+levels(md$G2)
+table(md$G, md$G2)
+```
+
+
+```{r}
+ggplot(data=md, aes(x=KG, y=SG, color=G))+
+  geom_count()+geom_smooth(method=lm)+
+  facet_wrap(~G2)+
+  labs(x="Körpergröße in cm", y="Schuhgröße")+
+  scale_color_manual(values=c("darkblue", "red"))
+```
+:::
+  
+
 
 Ende Übung 3.1.
 
@@ -629,7 +739,7 @@ ggplot(data=pot, aes(x=method, y=weight/1000))+
 ## `facet_grid()` und `facet_wrap()`
 ### Reihenfolge ändern
 Die Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert.  Ich habe nun nach dem Einlesen der Daten den Faktor `variety.f2` mit dem Code `variety.f2=factor(variety, levels=c("Unica" , "Costanera", "Mariva"))` in der Funktion `mutate()` eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne `mutate()` `pot$variety.f2=factor(pot$variety, levels=c("Unica" , "Costanera", "Mariva"))`
-Weitere tolle Möglichkeiten, um Fakoren zu manuipulieren, bietet die `library(forcats)` [https://forcats.tidyverse.org/](https://forcats.tidyverse.org/){target="_blank"}.  
+Weitere tolle Möglichkeiten, um Fakoren zu manipulieren, bietet die `library(forcats)` [https://forcats.tidyverse.org/](https://forcats.tidyverse.org/){target="_blank"}.  
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
@@ -809,11 +919,84 @@ ggplot(data=pot, aes(x=method, y=weight))+
 Plotte:
 
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+ggplot(md, aes(x=G, y=KG, fill=G))+
+  stat_boxplot(geom ="errorbar", width = 0.15)+
+  geom_boxplot()+
+  labs(x="Geschlecht", y="Körpergröße in cm")
+```
+:::
+  
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht und Augenfarbe
+
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+ggplot(md, aes(x=G, y=KG, fill=AF))+
+  stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
+  geom_boxplot()
+```
+Wir könne den Plot noch schöner gestalten, indem wir die Farben und die Beschriftungen anpassen und die Legende unter den Plot legen. 
+
+```{r}
+ggplot(md, aes(x=G, y=KG, fill=AF))+
+  stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
+  geom_boxplot()+
+  labs(x="Geschlecht", y="Körpergröße in cm")+
+  scale_fill_manual(values = c("skyblue2", "peachpuff3", "darkseagreen3"), name="Augenfarbe")+
+  scale_x_discrete(labels=c("Männer", "Frauen"))+
+  theme(legend.position="bottom")
+
+ggplot(md, aes(x=G, y=KG, fill=AF))+
+  stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
+  geom_boxplot()+
+  labs(x="Geschlecht", y="Körpergröße in cm")+
+  scale_fill_manual(values = c("skyblue2", "peachpuff3", "darkseagreen3"), name="Augenfarbe")+
+  scale_x_discrete(labels=c("Männer", "Frauen"))+
+  facet_wrap(~AF)+
+  theme(legend.position="bottom")
+```
+:::
+  
 
 Zusatzaufgabe:
 
--   Plotte einen jittered Boxplot von Körpergröße in Relation zum Geschlecht
+-   Plotte einen jittered Boxplot von Körpergröße in Relation zum Geschlecht und Augenfarbe
+
+::: {.callout-tip collapse="true"}
+## wichtig
+Wenn die Beobachtungen als *jittered* Punkte dargestellt werden, muss in `geom_boxplot()` das Argument `outlier.shape=NA` gesetzt werden, damit die *Ausreißer* nicht doppelt erscheinen. Für eine korrekte Zuordnung der Punkte zu den  Gruppen muss das Argument `position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, dodge.width=0.75)` gesetzt werden. 
+
+```{r}
+ggplot(md, aes(x=G, y=KG, fill=AF))+
+  stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
+  geom_boxplot(outlier.shape=NA)+
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.05, jitter.height = 0,
+                                            dodge.width=0.75),
+              shape=1, size=1)+
+  labs(x="Geschlecht", y="Körpergröße in cm")+
+  scale_fill_manual(values = c("skyblue2", "peachpuff3", "darkseagreen3"), name="Augenfarbe")+
+  scale_x_discrete(labels=c("Männer", "Frauen"))+
+  theme(legend.position="bottom")
+
+ggplot(md, aes(x=G, y=KG, fill=AF))+
+  stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
+  geom_boxplot(outlier.shape=NA)+
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0,
+                                            dodge.width=0.75),
+              shape=1, size=1)+
+  labs(x="Augenfarbe", y="Körpergröße in cm")+
+  scale_fill_manual(values = c("skyblue2", "peachpuff3", "darkseagreen3"), name="Augenfarbe")+
+  scale_x_discrete(labels=c("Männer", "Frauen"))+
+  facet_wrap(~AF)+
+  theme(legend.position="bottom")
+
+```
+:::
 
 Ende Übung 3.2.
 
@@ -1040,9 +1223,40 @@ Plotte:
 
 -   ein Histogramm von Körpergröße
 
+::: {.callout-tip collapse="true"}
+
+```{r}
+ggplot(data=md, aes(KG)) +
+  geom_histogram()
+```
+:::
+  
+
 -   ein Histogramm von Körpergröße getrennt für Frauen und Männer
 
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+ggplot(data=md, aes(KG, fill=G)) +
+  geom_histogram(binwidth = 5, col=1)+
+  ylab("Anzahl")+
+  xlab("Körpergröße in cm")+
+  facet_wrap(~ G)+
+  labs(fill="Geschlecht")
+
+```
+:::
+  
 -   Plotte einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht
+
+::: {.callout-tip collapse="true"}
+```{r}
+library(vcd)
+mosaic(~G+AF, data=md, shade = TRUE)
+mosaic(~AF+G, data=md, shade = TRUE)
+```
+:::
 
 Ende Übung 3.3.
 

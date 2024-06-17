@@ -361,14 +361,226 @@ plotResiduals(simulationOutput, form = df$x)
 ## Übung 5
 
 + Importiere die Daten [NDuenger.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/NDuenger.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+library(openxlsx)
+dat=read.xlsx("NDuenger.xlsx")
+str(dat)
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()
+```
+  
+:::
+
+
 + Führe eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+mod<-lm(ERT~ND, data=dat)
+drop1(mod, test="F")
+summary(mod)
+```
+:::
+
 + Stimmen die Annahmen für eine lineare Regression?
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form=dat$ND)
+```
+
+Nein, eine deutliche Kurve in dem Residuen vs. fitted values Plot.
+
+Ich fitte nun ein polynomiales Modell mit quadratischem Term. Man könnte auch die Abhängige und/oder die Erklärungsvariablen transformieren (z.B. Wurzel oder log) und dann Modelle fitten und die Residuen überprüfen. Ich denke aber, dass ein polynomiales Modell den Zusammenhang ganz gut widerspigeln könnte. 
+ 
+```{r}
+mod2<-lm(ERT~ND+I(ND^2), data=dat)
+```
+ 
+
+```{r}
+simulationOutput <- simulateResiduals(fittedModel = mod2, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form=dat$ND)
+```
+
+Besser. Die Residuen weisen kein auffälliges Muster auf. 
+
+
+```{r}
+drop1(mod2, test="F")
+```
+Beide Terme sind signifikannt. 
+
+
+```{r}
+summary(mod2)
+```
+Das Modell hat ein R² von 95,7%. 
+
+Wir können auch beide Modelle mit der anova()-Funktion (F-test) vergleichen und sehne hier, dass `mod2` signifikant besser fitted. 
+
+```{r}
+anova(mod, mod2)
+```
+
+Auch ein Vergleich der AIC-Werte zeigt, dass `mod2` einen niedrigeren AIC im Vergleich zu `mod` hat und entsprechend damit einen besseren fit aufweist. Mehr Informationen zum AIC und Modellvergleich findest du im Kapitel [Statistische Modellierung](https://doreengabriel.github.io/Kurs/Themen/06/06_StatMod.html#modellselektion-basierend-auf-informationskriterien){target="_blank"}. 
+
+
+```{r}
+AIC(mod, mod2)
+```
+:::
+
 + Wie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?
+
+::: {.callout-tip collapse="true"}
+
+Um diese Frage zu beantworten, sollten wir das polynomiale Modell nutzen. Wir können entweder die 120 kg N in die Modellgleichung einsetzten
+```{r}
+coef(mod2)
+```
+
+```{r}
+coef(mod2)[1]+120*coef(mod2)[2]+120^2*coef(mod2)[3]
+```
+
+oder die Funktion `predict()`nutzen: 
+```{r}
+predict(mod2, newdata=data.frame(ND=120))
+```
+
+Wir sollten nicht das lineare Modell interpretieren, da dies keinen guten fit aufweist (trotz hohem R²). 
+```{r}
+predict(mod, newdata=data.frame(ND=120))
+```
+
+
+:::
+
 + Plotte die Regressionslinie des Modells/der Modelle.  
+
+::: {.callout-tip collapse="true"}
+
+schnelle Interpretation: 
+```{r}
+library(effects)	
+plot(allEffects(mod2))	
+plot(Effect(c("ND"), mod2, partial.residuals=TRUE))
+```
+
+das "falsche Model"
+```{r}
+plot(allEffects(mod))	
+plot(Effect(c("ND"), mod, partial.residuals=TRUE))	
+```
+Im Plot sehen wir nocheinmal, dass das euinfache lineare Modell (`mod`) im niedrigen und hohen N-Düngerbereich den Ertrag überschätzt. 
+
+
+Zu Interpretation dieses einfachen Modell (ohne weitere Kovariablen) könnten wir auch geom_smooth() nutzen, um die Regressionsline einzuzeichnen. 
+
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+	
+  geom_smooth(method=lm, formula=y ~ poly(x, 2), col="green") # quadr
+```
+
+
+nur zum Vergleich beider Modelle: 
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+	
+  geom_smooth(method=lm)+#linear
+  geom_smooth(method=lm, formula=y ~ poly(x, 2), col="green") # quadr
+```
+
+hier aber noch der Code, bei dem das Modell interpretiert wird, wenn auch andere Effekte im Modell wären:  
+ 
+```{r}
+ef=allEffects(mod2, xlevels=100)	
+ef1=as.data.frame(ef[[1]])	
+head(ef1)	
+tail(ef1)
+```
+
+	
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+
+  geom_line(data = ef1, aes(x = ND, y = fit))+	
+  geom_ribbon(data = ef1, aes(x = ND, y = NULL, ymin =lower, ymax = upper), alpha = 0.4)	
+```
+
+oder so:
+
+```{r}
+td<-data.frame(ND=seq(100,142, 1))
+td<-data.frame(td, predict(mod, newdata=td, interval="confidence"))
+td<-data.frame(td, predict(mod2, newdata=td, interval="confidence"))
+td[1:10,]
+```
+
+
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+
+  geom_line(data = td, aes(x = ND, y = fit.1))+	
+  geom_ribbon(data = td, aes(x = ND, y = NULL, ymin = lwr.1, 
+                             ymax = upr.1), alpha = 0.4)
+```
+
+
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+
+  geom_line(data = td, aes(x = ND, y = fit.1), size=1)+	
+  geom_ribbon(data = td, aes(x = ND, y = NULL, ymin = lwr.1, 
+                             ymax = upr.1), alpha = 0.2)+
+  geom_line(data = td, aes(x = ND, y = fit), col=2, size=1)+	
+  geom_ribbon(data = td, aes(x = ND, y = NULL, ymin = lwr, 
+                             ymax = upr, linetype=NA), col=2, alpha = 0.2)+
+  theme(legend.position = "none")
+```
+
+
+:::
 
 Extraaufgabe:  
 
-+ Extrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg.   
++ Extrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg. 
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+td1<-data.frame(ND=seq(100,250, 1))
+td1$p<-predict(mod, newdata=td1)
+td1$p2<-predict(mod2, newdata=td1)
+```
+
+
+```{r}
+ggplot(dat, aes(x=ND, y=ERT)) +	
+  geom_point()+
+  geom_line(data = td1, aes(x = ND, y = p))+	
+  geom_line(data = td1, aes(x = ND, y = p2))
+```
+
+Wir sollten das Modell immer nur für den beobachteten Wertebereich interpretieren und insbesondere bei polynomialen Modellen nicht extrapolieren. 
+
+:::
 
 Ende Übung 5  
 

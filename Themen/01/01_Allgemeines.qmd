@@ -297,9 +297,21 @@ R kann vom *wide* zum *flat format* (und zurück) konvertieren, z.B. mit der Fun
 
 ## Übung 1
 
-Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`. 
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/01/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`. 
 
-Lernt die Daten und folgende Funktionen kennen:
+::: {.callout-tip collapse="true"}
+### Daten einlesen und prüfen
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+```{r}
+library(openxlsx)
+md<-read.xlsx("Kursteilnehmer.xlsx", sheet=1, startRow = 2)
+str(md)
+```
+:::
+
+
+Lerne die Daten und folgende Funktionen kennen:
 
 + str(md) 
 + names(md) 
@@ -314,5 +326,24 @@ Lernt die Daten und folgende Funktionen kennen:
 + md\[2,2:4\] 
 + md\[,c(2,4)\]
 
+::: {.callout-tip collapse="true"}
+### Funktionen
+
+```{r}
+str(md) 
+names(md)
+head(md)
+tail(md)
+md[,]
+md[,3]
+md[1,]
+md[,-3]
+md[1:3,]
+md[,1:3]
+md[2,2:4]
+md[,c(2,4)]
+```
+
+:::
 
 Ende Übung 1

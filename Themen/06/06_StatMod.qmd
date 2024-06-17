@@ -274,21 +274,142 @@ Analog gibt es auch eine Funktion `add1()` bei der eine *forward selection* durc
 Sowohl die klassische *backward* also auch die *forward selection* sind für Modelle mit wenigen Erklärungsvariablen denkbar.  
 
 
-# Übung 6.1.
+## Übung 6.1.
 
 Die Aktivität von Lurchen wurde in den drei Habitattypen (Teichumgebung, Hecke und Wald) bei unterschiedlichen Witterungsbedingungen (Temperatur und Luftfeuchte) gemessen. 
 
 + Importiere die Daten [Lurche.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/06/Lurche.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
 
+::: {.callout-tip collapse="true"}
+
+```{r}
+library(openxlsx)
+dat=read.xlsx("Lurche.xlsx")
+str(dat)
+```
+
+```{r, message=F}
+library(GGally)
+ggpairs(dat, columns = 1:4, ggplot2::aes(colour = Hab))
+```
+im obigen Plot ist zu erkennen: 
+
+- drei Habitate mit jeweils 30 Beobachtungen
+- Temperatur, Luftfeuchte und Aktivität variieren zwischen den Habitaten
+- Temperatur und Luftfeuchte sind positiv korreliert (r = 0.86)
+
+Ich plotte die Daten entsprechend der Fragestellung:
+
+```{r}
+ggplot(dat, aes(x=Hab, y=Akt, colour=Hab)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width=0.25, shape=1)
+```
+Die Aktivität scheint sich zwischen den verschienen Habitattypen zu unterscheiden. 
+
+
+```{r}
+ggplot(dat, aes(x=Temp, y=Akt, colour=Hab)) +
+  geom_point()+
+  geom_smooth(method=lm)
+```
+Es scheint einen positiven Zusammenhang zwischen der Temperatur und der Aktivität in den verschiedenen Habitaten zu geben. 
+
+```{r}
+ggplot(data=dat, aes(y=Akt, x=Hum, col=Hab))+
+  geom_point()+
+  geom_smooth(method=lm)
+```
+Gleiches Muster für den Zusammenhang zwischen Aktivität und Luftfeuchte. 
+
+Die Korrelationsmatrix zeigen eine enge Korrelation (r = 0.86) zwischen  Temperatur und Luftfeuchte. Die Korrelationskoeffizienten der Dummy-Variablen zeigen die Unterschiele der kontinuierlichen Variablen in den jeweiligen Habitattypen an. z.B. ist in Habitattyp Teich die die Temperatur höher (r = 0,47) und im Wald kälter (r = 0,37).  
+
+```{r}
+library(Hmisc)
+dat$Hab.H=ifelse(dat$Hab == "Hecke", 1, 0)
+dat$Hab.T=ifelse(dat$Hab == "Teich", 1, 0)
+dat$Hab.W=ifelse(dat$Hab == "Wald", 1, 0)
+rcorr(as.matrix(dat[,c(2:7)]), type="pearson")
+rcorr(as.matrix(dat[,c(2:7)]), type="spearman")
+```
+Aufgrund der engen Korrelation zwischen Temperatur und Luftfeuchte sollten wir nur eine der beiden Variablen ins Modell nehmen. Aber welche?
+Das können wir basierend auf unserem Fachwissen entscheiden. 
+Oder den Variance Inflation Faktor nutzen: 
+
+```{r}
+library(car)
+vif(lm(Akt~Temp+Hum+Hab, data=dat))
+```
+Basierend auf VIF sollten wir Temperatur aus dem Modell entfernen, weil es am stärksten durch die anderen beiden Erklärungsvariablen erklärt werden kann. Ob das so gut ist, werden wir weiter unten sehen. 
+
+```{r}
+vif(lm(Akt~Hab+Hum, data=dat))# ok
+vif(lm(Akt~Temp+Hab, data=dat))# ok
+
+vif(lm(Akt~Temp+Hum, data=dat))# nicht ok, nur zu Demo
+```
+
+:::
+
 + Modelliere die Aktivität der Lurche mit einer backward selektion. 
 
 
+::: {.callout-tip collapse="true"}
+
+Wir haben nun die drei Möglichkeiten: 
+
+1. wir ignorieren erstmal die Korrelation zwischen Luftfeuchte und Temperatur und beginnen mit diesem Modell `Akt~Temp*Hum*Hab`.   
+2. wir nutzen das Modell, welches laut VIF besser ist `Akt~Hum*Hab`.   
+3. wir sind stärker an dem Temperatureffekt interessiert und weniger am Luftfeuchteeffekt `Akt~Temp*Hab`.   
+
+1. 
+```{r}
+Mod=lm(Akt~Temp*Hab*Hum, data=dat)
+summary(Mod)
+```
+
+```{r}
+drop1(Mod, test="F")
+Mod1<-update(Mod, ~.-Temp:Hab:Hum) ; drop1(Mod1, test="F")
+```
+```{r}
+Mod2<-update(Mod1, ~.-Temp:Hum) ; drop1(Mod2, test="F")
+```
+```{r}
+Mod3<-update(Mod2, ~.-Hab:Hum) ; drop1(Mod3, test="F")
+```
 
 
+```{r}
+Mod4<-update(Mod3, ~.-Hum) ; drop1(Mod4, test="F")
+summary(Mod4)
+```
 
+
+2. 
+```{r}
+Mod.H=lm(Akt~Hum*Hab, data=dat)
+drop1(Mod.H, test="F")
+summary(Mod.H)
+```
+
+3. 
+```{r}
+Mod.T=lm(Akt~Temp*Hab, data=dat)
+drop1(Mod.T, test="F")
+summary(Mod.T)
+```
+Option 1 und 3 führen zum gleichen Modell. Aber auch Option 2 liefert ein sehr gutes Modell mit hohem R² und signifikannter Interaktion.  
+
+Ich könnte beide Modelle per AIC vergleichen. `Mod.T` hat den niedrigeren AIC und wäre damit besser. Mehr zum AIC kommt weiter unten. 
+```{r}
+AIC(Mod.H, Mod.T)
+```
+
+:::
 
 ## Modellselektion basierend auf Informationskriterien
-Wenn wir jedoch eine Vielzahl an Erklärungsvariablen haben und damit eine Vielzahl an potentiellen Erklärungsmodellen, führt eine schrittweise Vereinfachung zu vielen aufeinanderfolgenden Signifikanztests. Die durchgeführten Signifikanztests sind nicht voneinander unabhängig. Das Problem des multiplen Testens tritt auf. Der p-Wert verliert seine eigentliche Bedeutung und müsste um die Anzahl der Tests korrigiert werden. Daher steht diese Vorgehensweise bei vielen Anwendern in der Kritik.  
+Wenn wir eine Vielzahl an Erklärungsvariablen haben und damit eine Vielzahl an potentiellen Erklärungsmodellen, führt eine schrittweise Vereinfachung zu vielen aufeinanderfolgenden Signifikanztests. Die durchgeführten Signifikanztests sind nicht voneinander unabhängig. Das Problem des multiplen Testens tritt auf. Der p-Wert verliert seine eigentliche Bedeutung und müsste um die Anzahl der Tests korrigiert werden. Daher steht diese Vorgehensweise bei vielen Anwendern in der Kritik.  
 
 Besser ist es, die Modell- bzw. Variablenselektion basierend auf Informationskriterien durchzuführen. 
 
@@ -375,9 +496,25 @@ summary(mod.both)
 Alle drei Verfahren haben zum gleichen besten Modell geführt. Das ist nicht immer so. Zusätzlich wird mit der Funktion `step()` immer nur **ein** bestes Modell selektiert und es bleibt offen, ob es noch andere ähnlich gute Modelle gibt. 
 
 
-# Übung 6.2.
+## Übung 6.2.
 
 + Modelliere die Aktivität der Lurche mit der step-Funktion. 
+
+::: {.callout-tip collapse="true"}
+```{r}
+step(Mod)
+```
+
+```{r}
+Mod0<-lm(Akt~1, data=dat) 
+Mod.fw=step(Mod0, scope=list(lower=Mod0, upper=Mod), direction="forward")
+```
+
+```{r}
+Mod.both=step(Mod0, scope=list(upper=Mod), direction="both")
+```
+:::
+
 
 ## Modellvergleiche basierend auf AIC mit dregde()
 
@@ -599,9 +736,68 @@ summary(mod4)
 Die Wahl des besten Modells basiert zwar immer auf einem Informationskriterium (AIC, BIC), der/die R-UserIn kann sich aber auch für das zweit- oder drittbeste Modell entscheiden, wenn darin bspw. Erklärungsvariablen sind, die einfacher oder schneller zu messen sind und das Modell für zukünftige Vorhersagen genutzt werden soll.
 :::
   
-# Übung 6.3.
+## Übung 6.3.
 
 + Modelliere die Aktivität der Lurche mit der dredge-Funktion. 
+
+
+::: {.callout-tip collapse="true"}
+
+Bitte schau Dir die Lösung bis ganz zum Ende an. 
+
+```{r}
+library(MuMIn)
+Mod=lm(Akt~Temp*Hab*Hum, data=dat, na.action = na.fail) # Modell mit korrelierten Erklärungsvaribalen
+```
+
+```{r}
+dd=dredge(Mod)
+dd
+```
+```{r}
+dd[1:5]
+```
+Wir haben 5 Modelle innerhalb dAICc<4 und ein bestes Modell innerhalb dAICc<2.  
+
+Das beste Modell hat die Erklärungsvariablen Habitattype und Temperatur und deren Zweifachinteraktion. Sowohl im zweit- als auch drittbesten Modell sind beide korrelierte Erklärungsvariablen enthalten.  
+
+Schauen wir uns die Modellkoeffizienten und die Effektplots an: 
+
++ bestes Modell
+```{r}
+library(effects)
+summary(get.models(dd, 1)[[1]])
+plot(allEffects(get.models(dd, 1)[[1]]))
+```
+
++ zweitbestes Modell
+```{r}
+summary(get.models(dd, 2)[[1]])
+plot(allEffects(get.models(dd, 2)[[1]]))
+```
+
++ drittbestes Modell 
+```{r}
+summary(get.models(dd, 3)[[1]])
+plot(allEffects(get.models(dd, 3)[[1]]))
+```
+
+Das zweitbeste Modell zeigt sehr breite Konfidenzintervalle für die Luftfeuchte und das drittbeste Modell sehr unwahrscheinliche Zusammenhänge mit der Luftfeuchte in den verschiedenen Habitaten.
+
+Daher würde ich diese Modelle nicht interpretieren. Um diese Modelle aufgrund der engen Korrelation aus den *candidate models* auszuschließen, gibt es folgende Möglichkeit:  
+
+```{r}
+dd1=dredge(Mod, subset = !(Temp & Hum))
+dd1
+```
+Hier werden nur Modelle verglichen, die entweder Temperatur oder Luftfeuchte enthalten. 
+
+
+:::
+
+
+
+
 
 ## Modelldiagnostik
 
@@ -780,8 +976,94 @@ ggplot(of, aes(x=Arab, y=Weeds, colour=Man)) +
 ```
 
 
-# Übung 6.4.
+## Übung 6.4.
 
-+ Interpretiere das beste Modell bzw. die besten Modelle. 
++ Interpretiere das beste Modell. 
 
 
+::: {.callout-tip collapse="true"}
+
+Bwvor wir das Modell interpretieren, sollten wir die Residuen plotten und auf annähernde Normalverteilung und Varianzhomogenität prüfen. 
+
+```{r}
+library(DHARMa)
+simulationOutput <- simulateResiduals(fittedModel = Mod4, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form = dat$Temp)
+plotResiduals(simulationOutput, form = dat$Hab)
+```
+gut. 
+
+jetzt die Interpretation:
+
+```{r}
+ef=allEffects(get.models(dd, 1)[[1]], xlevels=100)    
+ef1=as.data.frame(ef[[1]])  
+head(ef1) 
+```
+
+```{r}
+ggplot(data=dat, aes(y=Akt, x=Temp, col=Hab))+
+  geom_ribbon(data = ef1, aes(x = Temp, y = NULL, ymin = lower, ymax = upper, 
+                              linetype=NA, fill=Hab), 
+              alpha = 0.4, show.legend = F)+
+  geom_line(data = ef1, aes(x = Temp, y = fit))+
+  geom_point()
+```
+
+Die Konfidenzintervalle und Regressionslinien gehen über den Wertebereich der einzelnen Habitate hinaus. 
+
+```{r}
+library(data.table) 
+dat1=ef1[FALSE,] 
+for(i in unique(levels(ef1$Hab)))
+  { dat2<-ef1[(ef1$Hab==i & ef1$Temp %between% c(min(dat$Temp[dat$Hab==i]), 
+                                                 max(dat$Temp[dat$Hab==i]))),] 
+  dat1=rbind(dat1, dat2) } 
+ef11=dat1[complete.cases(dat1), ]
+
+```
+
+Mit diesem Code entferne ich Werte ausserhalb des beobachteten Wertebereiches. 
+
+```{r}
+ggplot(data=dat, aes(y=Akt, x=Temp, col=Hab))+
+  geom_ribbon(data = ef11, aes(x = Temp, y = NULL, ymin = lower, ymax = upper, 
+                              linetype=NA, fill=Hab), 
+              alpha = 0.4, show.legend = F)+
+  geom_line(data = ef11, aes(x = Temp, y = fit))+
+  geom_point()+
+  ylab("Aktivität der Lurche (m/h)") + xlab("Lufttemperatur (°C)")+
+  scale_color_manual(values=c("lightgreen", "blue", "darkgreen"))+ 
+  scale_fill_manual(values=c("lightgreen", "blue", "darkgreen"))
+  
+```
+Wir sehen, dass die Aktivität der Lurche
++ am Teich höher ist als in der Hecke und im Wald (siehe Posthoc test)
++ mit zunehmender Lufttemperatur steigt
++ diese Zunahme am Teich stärkerer  ist als in der Hecke und Wald. 
+
+
+Posthoc-Test für Habitattyp bei 15°C Lufttemperatur
+```{r}
+library(emmeans)
+library(multcomp)
+library(multcompView)
+cld(emmeans(Mod4, ~Hab|Temp, at=list(Temp=c(15))), Letters=letters)
+```
+Wie stark nimmt die Aktivität mit zunehmnder Temperatur zu?
+```{r}
+emmeans(Mod4, ~Temp|Hab, at=list(Temp=c(15,16)))
+```
+
+
+```{r}
+pairs(emmeans(Mod4, ~Temp|Hab, at=list(Temp=c(16,15))))
+```
+Mit zunehmnder Temperatur (je °C) steigt die Aktivität am Teich um 2,02 Einheiten, in der Hecke um 1,11 Einheiten und im Wald um 0,56 Einheiten. 
+
+
+
+
+
+:::

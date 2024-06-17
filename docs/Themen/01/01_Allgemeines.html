@@ -650,8 +650,37 @@ James, Witten, Hastie &amp; Tibshirani 2023: An Introduction to Statistical Lear
 </section>
 <section id="übung-1" class="level2">
 <h2 class="anchored" data-anchor-id="übung-1">Übung 1</h2>
-<p>Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx" target="_blank">Kursteilnehmer.xlsx</a> in R und benenne den data.frame mit <code>md</code>.</p>
-<p>Lernt die Daten und folgende Funktionen kennen:</p>
+<p>Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/01/Kursteilnehmer.xlsx" target="_blank">Kursteilnehmer.xlsx</a> in R und benenne den data.frame mit <code>md</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Daten einlesen und prüfen
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument <code>startRow = 2</code> erst ab der zweiten Zeile ein.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>md<span class="ot">&lt;-</span><span class="fu">read.xlsx</span>(<span class="st">"Kursteilnehmer.xlsx"</span>, <span class="at">sheet=</span><span class="dv">1</span>, <span class="at">startRow =</span> <span class="dv">2</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   72 obs. of  5 variables:
+ $ Name: chr  "Colton" "Kyle" "Brandon" "Cory" ...
+ $ KG  : num  181 183 186 184 172 186 183 197 180 184 ...
+ $ SG  : num  42 44 42 45 43 43 42 45 43 43 ...
+ $ AF  : chr  "braun" "braun" "braun" "blau" ...
+ $ G   : chr  "m" "m" "m" "m" ...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Lerne die Daten und folgende Funktionen kennen:</p>
 <ul>
 <li>str(md)</li>
 <li>names(md)</li>
@@ -667,6 +696,383 @@ James, Witten, Hastie &amp; Tibshirani 2023: An Introduction to Statistical Lear
 <li>md[2,2:4]</li>
 <li>md[,c(2,4)]</li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Funktionen
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(md) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   72 obs. of  5 variables:
+ $ Name: chr  "Colton" "Kyle" "Brandon" "Cory" ...
+ $ KG  : num  181 183 186 184 172 186 183 197 180 184 ...
+ $ SG  : num  42 44 42 45 43 43 42 45 43 43 ...
+ $ AF  : chr  "braun" "braun" "braun" "blau" ...
+ $ G   : chr  "m" "m" "m" "m" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Name" "KG"   "SG"   "AF"   "G"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Name  KG SG    AF G
+1  Colton 181 42 braun m
+2    Kyle 183 44 braun m
+3 Brandon 186 42 braun m
+4    Cory 184 45  blau m
+5   Heath 172 43  blau m
+6   Jesse 186 43  blau m</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Name  KG SG    AF G
+67  Felicia 172 40 braun w
+68  Carissa 170 40  blau w
+69 Danielle 164 37 gruen w
+70 Kaytlynn 186 42 braun w
+71   Lauren 168 40 braun w
+72   Jenine 168 37 braun w</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>md[,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Name  KG SG    AF G
+1         Colton 181 42 braun m
+2           Kyle 183 44 braun m
+3        Brandon 186 42 braun m
+4           Cory 184 45  blau m
+5          Heath 172 43  blau m
+6          Jesse 186 43  blau m
+7         Daniel 183 42 braun m
+8         Bradin 197 45 braun m
+9          David 180 43  blau m
+10          Kyle 184 43 braun m
+11       Brandon 189 48  blau m
+12          Luke 177 44  blau m
+13       Cameron 181 43 braun m
+14        Justin 160 38 gruen m
+15 Jackson Payne 176 42 braun m
+16          Cole 180 43  blau m
+17         Riley 184 44 gruen m
+18         Lance 173 40  blau m
+19         Nakai 178 43 braun m
+20       Garrett 182 43 braun m
+21       Braxton 180 44  blau m
+22          Noah 200 45  blau m
+23        Brolon 178 44 braun m
+24          Mark 183 43  blau m
+25        George 178 44  blau m
+26        Camron 183 44  blau m
+27        Bryson 180 41 braun m
+28      Benjamin 192 43  blau m
+29          Drew 178 41  blau m
+30         Brian 163 42 gruen m
+31          Kyle 173 42  blau m
+32         Jacob 178 42 gruen m
+33         Paige 177 40 braun w
+34       Allison 170 41 gruen w
+35       Janelle 167 39  blau w
+36        Ashlie 163 39 braun w
+37       Kathryn 170 37  blau w
+38        Jordan 150 36  blau w
+39         Kiana 152 35  blau w
+40     Kimberlyn 164 40  blau w
+41         Sydne 165 38 braun w
+42       Jessica 170 38 braun w
+43        Morgan 173 41 gruen w
+44         Janie 167 39  blau w
+45        Soraya 170 39 gruen w
+46         Grace 168 39 braun w
+47      Danielle 167 39 braun w
+48     Elizabeth 163 37 braun w
+49       Kaitlyn 172 38 gruen w
+50      Bethanie 167 39 braun w
+51        Kelsey 164 38  blau w
+52         Dixie 170 39 braun w
+53      Brynelle 165 37 gruen w
+54       Andreah 162 38 braun w
+55      Ashleigh 170 40 braun w
+56       Kellcie 180 39  blau w
+57        Maggie 168 38  blau w
+58       Cassidy 157 38  blau w
+59       Mallory 160 38 gruen w
+60       Lindsay 168 38 braun w
+61          Erin 162 39 braun w
+62          Erin 160 38 gruen w
+63         Hanna 172 41 braun w
+64         Traci 175 41 braun w
+65        Hannah 176 39 braun w
+66    Mattielien 154 38  blau w
+67       Felicia 172 40 braun w
+68       Carissa 170 40  blau w
+69      Danielle 164 37 gruen w
+70      Kaytlynn 186 42 braun w
+71        Lauren 168 40 braun w
+72        Jenine 168 37 braun w</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>md[,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 42 44 42 45 43 43 42 45 43 43 48 44 43 38 42 43 44 40 43 43 44 45 44 43 44
+[26] 44 41 43 41 42 42 42 40 41 39 39 37 36 35 40 38 38 41 39 39 39 39 37 38 39
+[51] 38 39 37 38 40 39 38 38 38 38 39 38 41 41 39 38 40 40 37 42 40 37</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>md[<span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Name  KG SG    AF G
+1 Colton 181 42 braun m</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>md[,<span class="sc">-</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Name  KG    AF G
+1         Colton 181 braun m
+2           Kyle 183 braun m
+3        Brandon 186 braun m
+4           Cory 184  blau m
+5          Heath 172  blau m
+6          Jesse 186  blau m
+7         Daniel 183 braun m
+8         Bradin 197 braun m
+9          David 180  blau m
+10          Kyle 184 braun m
+11       Brandon 189  blau m
+12          Luke 177  blau m
+13       Cameron 181 braun m
+14        Justin 160 gruen m
+15 Jackson Payne 176 braun m
+16          Cole 180  blau m
+17         Riley 184 gruen m
+18         Lance 173  blau m
+19         Nakai 178 braun m
+20       Garrett 182 braun m
+21       Braxton 180  blau m
+22          Noah 200  blau m
+23        Brolon 178 braun m
+24          Mark 183  blau m
+25        George 178  blau m
+26        Camron 183  blau m
+27        Bryson 180 braun m
+28      Benjamin 192  blau m
+29          Drew 178  blau m
+30         Brian 163 gruen m
+31          Kyle 173  blau m
+32         Jacob 178 gruen m
+33         Paige 177 braun w
+34       Allison 170 gruen w
+35       Janelle 167  blau w
+36        Ashlie 163 braun w
+37       Kathryn 170  blau w
+38        Jordan 150  blau w
+39         Kiana 152  blau w
+40     Kimberlyn 164  blau w
+41         Sydne 165 braun w
+42       Jessica 170 braun w
+43        Morgan 173 gruen w
+44         Janie 167  blau w
+45        Soraya 170 gruen w
+46         Grace 168 braun w
+47      Danielle 167 braun w
+48     Elizabeth 163 braun w
+49       Kaitlyn 172 gruen w
+50      Bethanie 167 braun w
+51        Kelsey 164  blau w
+52         Dixie 170 braun w
+53      Brynelle 165 gruen w
+54       Andreah 162 braun w
+55      Ashleigh 170 braun w
+56       Kellcie 180  blau w
+57        Maggie 168  blau w
+58       Cassidy 157  blau w
+59       Mallory 160 gruen w
+60       Lindsay 168 braun w
+61          Erin 162 braun w
+62          Erin 160 gruen w
+63         Hanna 172 braun w
+64         Traci 175 braun w
+65        Hannah 176 braun w
+66    Mattielien 154  blau w
+67       Felicia 172 braun w
+68       Carissa 170  blau w
+69      Danielle 164 gruen w
+70      Kaytlynn 186 braun w
+71        Lauren 168 braun w
+72        Jenine 168 braun w</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>md[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Name  KG SG    AF G
+1  Colton 181 42 braun m
+2    Kyle 183 44 braun m
+3 Brandon 186 42 braun m</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>md[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Name  KG SG
+1         Colton 181 42
+2           Kyle 183 44
+3        Brandon 186 42
+4           Cory 184 45
+5          Heath 172 43
+6          Jesse 186 43
+7         Daniel 183 42
+8         Bradin 197 45
+9          David 180 43
+10          Kyle 184 43
+11       Brandon 189 48
+12          Luke 177 44
+13       Cameron 181 43
+14        Justin 160 38
+15 Jackson Payne 176 42
+16          Cole 180 43
+17         Riley 184 44
+18         Lance 173 40
+19         Nakai 178 43
+20       Garrett 182 43
+21       Braxton 180 44
+22          Noah 200 45
+23        Brolon 178 44
+24          Mark 183 43
+25        George 178 44
+26        Camron 183 44
+27        Bryson 180 41
+28      Benjamin 192 43
+29          Drew 178 41
+30         Brian 163 42
+31          Kyle 173 42
+32         Jacob 178 42
+33         Paige 177 40
+34       Allison 170 41
+35       Janelle 167 39
+36        Ashlie 163 39
+37       Kathryn 170 37
+38        Jordan 150 36
+39         Kiana 152 35
+40     Kimberlyn 164 40
+41         Sydne 165 38
+42       Jessica 170 38
+43        Morgan 173 41
+44         Janie 167 39
+45        Soraya 170 39
+46         Grace 168 39
+47      Danielle 167 39
+48     Elizabeth 163 37
+49       Kaitlyn 172 38
+50      Bethanie 167 39
+51        Kelsey 164 38
+52         Dixie 170 39
+53      Brynelle 165 37
+54       Andreah 162 38
+55      Ashleigh 170 40
+56       Kellcie 180 39
+57        Maggie 168 38
+58       Cassidy 157 38
+59       Mallory 160 38
+60       Lindsay 168 38
+61          Erin 162 39
+62          Erin 160 38
+63         Hanna 172 41
+64         Traci 175 41
+65        Hannah 176 39
+66    Mattielien 154 38
+67       Felicia 172 40
+68       Carissa 170 40
+69      Danielle 164 37
+70      Kaytlynn 186 42
+71        Lauren 168 40
+72        Jenine 168 37</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>md[<span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   KG SG    AF
+2 183 44 braun</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>md[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    KG    AF
+1  181 braun
+2  183 braun
+3  186 braun
+4  184  blau
+5  172  blau
+6  186  blau
+7  183 braun
+8  197 braun
+9  180  blau
+10 184 braun
+11 189  blau
+12 177  blau
+13 181 braun
+14 160 gruen
+15 176 braun
+16 180  blau
+17 184 gruen
+18 173  blau
+19 178 braun
+20 182 braun
+21 180  blau
+22 200  blau
+23 178 braun
+24 183  blau
+25 178  blau
+26 183  blau
+27 180 braun
+28 192  blau
+29 178  blau
+30 163 gruen
+31 173  blau
+32 178 gruen
+33 177 braun
+34 170 gruen
+35 167  blau
+36 163 braun
+37 170  blau
+38 150  blau
+39 152  blau
+40 164  blau
+41 165 braun
+42 170 braun
+43 173 gruen
+44 167  blau
+45 170 gruen
+46 168 braun
+47 167 braun
+48 163 braun
+49 172 gruen
+50 167 braun
+51 164  blau
+52 170 braun
+53 165 gruen
+54 162 braun
+55 170 braun
+56 180  blau
+57 168  blau
+58 157  blau
+59 160 gruen
+60 168 braun
+61 162 braun
+62 160 gruen
+63 172 braun
+64 175 braun
+65 176 braun
+66 154  blau
+67 172 braun
+68 170  blau
+69 164 gruen
+70 186 braun
+71 168 braun
+72 168 braun</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <p>Ende Übung 1</p>
 
 
