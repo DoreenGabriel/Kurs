@@ -215,7 +215,7 @@ plot(simulationOutput)
 
 -   Die erste Grafik zeigt einen QQ-Plot der standardisierten `Residuen`, der uns Informationen über die Normalverteilung der Residuen liefert. Wenn die Punkte ungefähr entlang der Winkelhalbierenden (rote Linie) liegen, deutet dies darauf hin, dass die Residuen approximativ normalverteilt sind. Außerdem werden uns p-Werte für den KS-Test (Kolmogorov-Smirnov-Test auf Normalverteilung), ein Dispersion- und Ausreißertest angezeigt.
 
--   Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die Null sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E. noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).
+-   Die zweite Grafik plottet die `Residuen` gegen die `Fitted Values`. Wir wollen hier sehen, dass die Streuung um die 0.5 sowohl bei hohen als auch bei niedrigen Werten in etwa gleich ist (**Varianzhomogenität**). Hier scheint ein leichter Trend vorzuliegen (ist aber m.E. noch ok). Der Plot ist auch hilfreich zum Identifizieren von auffälligen Stichproben. Diese werden als rote Sternchen abgebildet (müssen aber noch nicht zwingend als Ausreißer bezeichnet werden).
 
 -   Um die Varianzhomogenität zwischen den Gruppen zu prüfen, sollten wir die Residuen gegen die Erklärungsvariablen plotten.
 

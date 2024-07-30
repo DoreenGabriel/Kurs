@@ -30,7 +30,7 @@ James, Witten, Hastie & Tibshirani 2023: An Introduction to Statistical Learning
 ## Hilfe in R
 
 -   `help.start()`
--   Hilefeseite öffnet sich durch `?Funktion` z.B. `?mean`
+-   Hilfeseite öffnet sich durch `?Funktion` z.B. `?mean`
 -   Vergleiche `?mean` vs. `??mean`
 
 ## Pakete installieren und laden

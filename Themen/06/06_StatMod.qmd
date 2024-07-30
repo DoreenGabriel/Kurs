@@ -145,7 +145,7 @@ Wir plotten ausserdem die Erklärungsvariablen gegeneinander, um mögliche Muste
 
 ## Korrelation zwischen Erklärungsvariablen testen 
 
-Bevor wir ein Modell formulieren, sollten wir die Korrelation zwischen den Erklärungsvariablen prüfen. Eng korrleirte Erklärungsvariablen können zu verzerrten Modellkoeffizienten, hohe Standardfehler der Koeffizienten und damit zu instabilien Modellen  und den falschen Schlussfolgerungen führen. 
+Bevor wir ein Modell formulieren, sollten wir die Korrelation zwischen den Erklärungsvariablen prüfen. Eng korrelierte Erklärungsvariablen können zu verzerrten Modellkoeffizienten, hohen Standardfehlern der Koeffizienten und damit zu instabilen Modellen  und den falschen Schlussfolgerungen führen. 
 
 siehe auch Dormann et al. (2012) [Collinearity: a review of methods to deal with it and a simulation study evaluating their performance](https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1600-0587.2012.07348.x){target="_blank"}  
 
