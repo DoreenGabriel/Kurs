@@ -296,9 +296,9 @@ Wei J. 1975. Least square fitting of an elephant. Chemtech 5: 128-129.</p>
 <h2 class="anchored" data-anchor-id="mehrere-erklärungsvariablen-im-modell">Mehrere Erklärungsvariablen im Modell</h2>
 <table class="table">
 <colgroup>
-<col style="width: 2%">
 <col style="width: 20%">
-<col style="width: 76%">
+<col style="width: 20%">
+<col style="width: 58%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -902,14 +902,15 @@ Tip
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Wir haben nun die drei Möglichkeiten:</p>
+<p>Wir haben nun die drei Optionen:</p>
 <ol type="1">
 <li><p>wir ignorieren erstmal die Korrelation zwischen Luftfeuchte und Temperatur und beginnen mit diesem Modell <code>Akt~Temp*Hum*Hab</code>.<br>
 </p></li>
 <li><p>wir nutzen das Modell, welches laut VIF besser ist <code>Akt~Hum*Hab</code>.<br>
 </p></li>
 <li><p>wir sind stärker an dem Temperatureffekt interessiert und weniger am Luftfeuchteeffekt <code>Akt~Temp*Hab</code>.</p></li>
-<li></li>
+<li><p>Option<br>
+</p></li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>Mod<span class="ot">=</span><span class="fu">lm</span>(Akt<span class="sc">~</span>Temp<span class="sc">*</span>Hab<span class="sc">*</span>Hum, <span class="at">data=</span>dat)</span>
@@ -1035,7 +1036,7 @@ F-statistic: 173.5 on 5 and 84 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <ol start="2" type="1">
-<li></li>
+<li>Option</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>Mod.H<span class="ot">=</span><span class="fu">lm</span>(Akt<span class="sc">~</span>Hum<span class="sc">*</span>Hab, <span class="at">data=</span>dat)</span>
@@ -1078,7 +1079,8 @@ F-statistic:   158 on 5 and 84 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
-<li></li>
+<li>Option<br>
+</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>Mod.T<span class="ot">=</span><span class="fu">lm</span>(Akt<span class="sc">~</span>Temp<span class="sc">*</span>Hab, <span class="at">data=</span>dat)</span>
@@ -1121,7 +1123,7 @@ F-statistic: 173.5 on 5 and 84 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Option 1 und 3 führen zum gleichen Modell. Aber auch Option 2 liefert ein sehr gutes Modell mit hohem R² und signifikannter Interaktion.</p>
-<p>Ich könnte beide Modelle per AIC vergleichen. <code>Mod.T</code> hat den niedrigeren AIC und wäre damit besser. Mehr zum AIC kommt weiter unten.</p>
+<p>Wir könnten beide Modelle per AIC vergleichen. <code>Mod.T</code> hat den niedrigeren AIC und wäre damit besser. Mehr zum AIC kommt weiter unten.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(Mod.H, Mod.T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2687,7 +2689,7 @@ Tip
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Bwvor wir das Modell interpretieren, sollten wir die Residuen plotten und auf annähernde Normalverteilung und Varianzhomogenität prüfen.</p>
+<p>Bevor wir das Modell interpretieren, sollten wir die Residuen plotten und auf annähernde Normalverteilung und Varianzhomogenität prüfen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
 <span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> Mod4, <span class="at">plot =</span> F)</span>
@@ -2771,7 +2773,12 @@ Attache Paket: 'data.table'</code></pre>
 <p><img src="06_StatMod_files/figure-html/unnamed-chunk-95-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Wir sehen, dass die Aktivität der Lurche + am Teich höher ist als in der Hecke und im Wald (siehe Posthoc test) + mit zunehmender Lufttemperatur steigt + diese Zunahme am Teich stärkerer ist als in der Hecke und Wald.</p>
+<p>Wir sehen, dass die Aktivität der Lurche</p>
+<ul>
+<li><p>am Teich höher ist als in der Hecke und im Wald (siehe Posthoc test)</p></li>
+<li><p>mit zunehmender Lufttemperatur steigt</p></li>
+<li><p>diese Zunahme am Teich stärkerer ist als in der Hecke und Wald.</p></li>
+</ul>
 <p>Posthoc-Test für Habitattyp bei 15°C Lufttemperatur</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
