@@ -20,7 +20,7 @@ James, Witten, Hastie & Tibshirani 2023: An Introduction to Statistical Learning
 
 ## Webseiten
 
--   Kursskripte der vorangegangenen Inhouse-Schulungen sowie der zentralen Biometriekurse des BMEL findet ihr im Intranet [http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0](http://intranet.julius-kuehn.de/forschungservice/biometrie/?L=0){target="_blank"}
+-   Kursskripte der vorangegangenen Inhouse-Schulungen sowie der zentralen Biometriekurse des BMEL findet ihr im Intranet unter Forschung Biometrie
 -   viele Tutorien im Netz und auf YouTube
 -   R Cookbook [https://rc2e.com/](https://rc2e.com/){target="_blank"}
 -   DSFAIR von Paul Schmidt [https://schmidtpaul.github.io/dsfair_quarto/](https://schmidtpaul.github.io/dsfair_quarto/){target="_blank"}
@@ -44,9 +44,9 @@ James, Witten, Hastie & Tibshirani 2023: An Introduction to Statistical Learning
 -   R unterscheidet zwischen Groß- und Kleinschreibung
 -   Leerzeichen werden normalerweise ignoriert, d.h. kein Unterschied `2+5` vs. `2 + 5`
 -   Kommentare werden mit \# markiert und dadurch nicht als Befehl von R erkannt, sondern als Text
--   Zeilenumbruch bei langen Befehlen kein Problem (ein + erscheint in der nächsten Zeile)
+-   Zeilenumbruch bei langen Befehlen ist kein Problem (ein + erscheint in der nächsten Zeile)
 -   Normale Rechenoperationen + - \* /
--   Achtung ein : bedeutet nicht "geteilt durch"! Probier es aus `10:5`
+-   *Achtung* ein : bedeutet nicht "geteilt durch"! Probier es aus `10:5`
 -   `log()`, `log10()`, `exp()`, `sqrt()`, `2^2`, `2^0.5`
 
 ## R ist objektorientiert

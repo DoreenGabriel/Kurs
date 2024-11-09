@@ -111,7 +111,7 @@ for(i in 1:4) {
 ```
 
 Diese vier Datensätze ergeben vier Regressionsmodelle mit gleichem Intercept, Slope, R² und Stichprobenumfang. Doch nur für das Beispiel oben links werden die Annahmen für eine lineare Regression erfüllt. 
-Dieses Beispiel verdeutlicht, dass wir dringend Modelldiagnostik betreiben müssen, indem wir unsere Daten und die Residuen der Modelle plotten.   
+Dieses Beispiel verdeutlicht, dass wir unbedingt Modelldiagnostik betreiben müssen, indem wir unsere Daten und die Residuen der Modelle plotten.    
 
 
 ## Beispiel Trade-off zwischen Ertrag und Proteingehalt

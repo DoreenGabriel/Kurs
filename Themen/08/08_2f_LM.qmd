@@ -1,0 +1,431 @@
+---
+title: "Analysis of two-factorial experiments with general linear (mixed effect) models"
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
+```
+
+
+```{r, message=F, warning=F}
+library(ggplot2)# plotting
+library(dplyr)# data management and summary statistics
+library(ggpubr)# plotting
+library(openxlsx)# import and export Excel files
+library(forcats)# factor repordering
+library(DHARMa) # model diagnostics
+library(emmeans) # posthoc tests
+library(multcomp) # cld
+library(multcompView) #cld
+library(glmmTMB) # mixed model
+library(car) # anova for glmmTMB
+library(lme4) # lmer and glmer mixed model
+library(lmerTest) # test lmer
+library(conflicted)
+conflicts_prefer(lmerTest::lmer)
+# Suppress summarise info
+options(dplyr.summarise.inform = FALSE)
+```
+
+
+
+Suppose we have a complete randomized design with three nitrogen fertilisation levels `N` (`low`, `medium`, `high`) and four genotypes `geno` (`g1`, `g2`, `g3` and `g4`) and five replications `rep`.  For each treatment crop yield `yield` was measured. 
+
+
+The research question is: Do yields differ between genotypes and nitrogen fertilisation? In particular, do genotypes respond differently to different nitrogen fertilisation?
+
+
+
+### Import data
+
+```{r}
+df<-read.xlsx("data_YSM.xlsx")
+str(df)
+```
+
+convert `geno` and `N` to factors, levels of N should not be in alphabetical order 
+
+```{r}
+df <- df %>%
+  mutate(across(c(geno, N), ~ as.factor(.x)),
+         N=fct_relevel(N, "low", "med", "high"),
+         block=as.factor(rep))
+str(df)
+```
+
+#### Plot data
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=geno)) +
+  stat_boxplot(geom ="errorbar", width = 0.6)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, 
+                                            dodge.width=0.6), shape=1, size=1)
+ggplot(df, aes(y=yield, x=geno, col=N)) +
+  stat_boxplot(geom ="errorbar", width = 0.6)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, 
+                                            dodge.width=0.6), shape=1, size=1)
+```
+
+
+# CRD
+
+## Linear model (Anova)
+
+We fit a linear model with `yield` as response and `geno` and `N` as explanatory variables. It is important that the dependent variable is continuous and the explanatory variables are factors. By using `geno * N`, we fit the main effect and interaction.
+
+```{r}
+model <- lm(yield ~ geno * N, data = df)
+summary(model)
+```
+
+Before interpreting the model, we perform model diagnostics by plotting residuals against fitted values and explanatory variables. 
+
+We visually check the assumptions of the ANOVA for 
+
++ approximate normal distribution of errors (i.e. residuals)
++ homogeneity of variance
+
+I use the `library(DHARMa)` for this. 
+[https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html){target="_blank"}
+
+```{r, message=FALSE}
+simulationOutput <- simulateResiduals(fittedModel = model, plot = F)
+plot(simulationOutput)
+```
+
+- The first graph shows a QQ plot of the standardised `residuals`, which provides us with information about the **normal distribution of the residuals**. If the points lie approximately along the bisector (red line), this indicates that the residuals are approximately normally distributed. We are also shown p-values for the KS test (Kolmogorov-Smirnov test for normal distribution), a dispersion test and an outlier test.
+
+- The second graph plots the ‘residuals’ against the ‘fitted values’. We want to see here that the dispersion around 0.5 is approximately the same for both high and low values (**variance homogeneity**). The plot is also helpful for identifying peculiar samples. These are shown as red asterisks (but do not necessarily have to be labelled as outliers).
+
+- To check the variance homogeneity between the groups, we should plot the residuals against the explanatory variables.
+
+
+```{r}
+plotResiduals(simulationOutput, form = df$geno)
+plotResiduals(simulationOutput, form = df$N)
+```
+
+As long as all tests are not significant (and no red lines or boxes are displayed), everything is (more or less) fine. BUT it should be noted that the power of the tests depends on the number of observations. The more observations we have, the higher the power of the test. This means that significant differences, e.g. in the variances, are often observed with a large sample size, although these are practically irrelevant. In addition, significant differences are often not observed with a small sample size, although there are significant differences.
+
+The *visual* model diagnostics are therefore often regarded as more important than the p-value-based tests for normal distribution and variance homogeneity (Cochran, Bartlett and Levenes test).
+
+### Test of significance and posthoc tests
+
+```{r}
+anova(model)
+```
+
+We have a significant interaction between genotype and nitrogen fertilisation, but we do not know which treatments differ from each other and we also do not know anything about the effect sizes, e.g. the difference in yield between low and medium nitrogen fertilisation for geno g1. 
+
+The `library(emmeans)` with the function `emmeans()` offers a variety of possibilities to perform a posthoc test on the fitted model and calculate confidence intervals. 
+
+
+```{r}
+emmeans(model, ~geno*N)
+```
+
+With the argument `method=‘pairwise’` you can compare all treatments with each other using Tukey test.
+
+```{r}
+contrast(emmeans(model, ~geno*N), method="pairwise")
+```
+
+However, these are quite a few comparisons and we may not want to compare all possible combinations, but rather be interested in how each genotype responds in yield to increasing nitrogen fertilisation. 
+
+```{r}
+contrast(emmeans(model, ~N|geno), method="pairwise", infer=c(T,T)) 
+```
+
+Here we see the difference between the treatment levels for each genotype (`estimate`), the confidence interval of the difference (if it does not include the 0 we usually have significant differences) and the `p.value`. 
+
+The `emmean` is the predicted value for each treatment level. 
+
+```{r}
+emmeans(model, ~N|geno)
+```
+
+We can also swap the interpretation code to obtain pairwise differences for the genotypes for each nitrogen level. 
+ 
+
+```{r}
+contrast(emmeans(model, ~geno|N), method="pairwise")
+```
+
+Instead of testing pairwise, we can test against one standard control, e.g. the low nitrogen level,  
+
+```{r}
+contrast(emmeans(model, ~N|geno), method="trt.vs.ctrl")
+```
+
+or the high nitrogen level. 
+
+```{r}
+contrast(emmeans(model, ~N|geno), method="trt.vs.ctrl", ref=3)
+```
+
+The *compact letter display* can be used to indicate or visualise group differences in an easily understandable way. For this we need the `library(multcompView)` and `library(multcomp)`.
+
+```{r}
+cld(emmeans(model, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
+```
+
+Groups that do not share a letter are significantly different according to the posthoc test, which is corrected for multiple testing using the Sidak method. (former Tukey)
+
+### Presentation of results
+
+We calculate the confidence intervals and perform posthoc tests for each genotype. 
+
+```{r}
+CIs=cld(emmeans(model, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
+CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)
+CIs
+```
+
+And plot the data together with estimated marginal means and confidence intervals and mention that the letters display differences between nitrogen levels for each genotype according to the posthoc test. 
+
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=N)) +
+  stat_boxplot(geom ="errorbar", width = 0.6)+
+  geom_boxplot(outlier.shape=NA, width = 0.6) +
+  geom_jitter(position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, 
+                                            dodge.width=0.6), shape=1, size=1)+
+  geom_point(data=CIs, aes(y=emmean), 
+             shape=16,  size=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 110, label =.group), col=1)+
+ scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)                              ),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "none")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+As we have 5 observations per treatment level, we can use a boxplot. However, having fewer that 5, it may be better to display just the observations as points, and skip the summary stats that a boxplot displays. 
+
+
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=N)) +
+  geom_point(shape=1, size=1.5)+
+  geom_point(data=CIs, aes(y=emmean), 
+             shape=16,  size=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CIs, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.2, position = position_nudge(x = 0.4))+
+  geom_text(data=CIs, aes(y = 110, label =.group), col=1)+
+ scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)                              ),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "none")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+
+# RCBD
+
+If the data come from a randomized complete block design, we should take the block effect into the analysis. 
+
+```{r, fig.height=4}
+df$block=as.factor(df$rep)
+ggplot(df, aes(y=yield, x=N, col=N, shape=block)) +
+  geom_point(size=1.5)+
+  scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "bottom")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+
+
+## Linear model with block as fixed effect
+
+In addition to the `geno * N` effects, we fit `block` as predictor variable in the model. Block should be coded as factor. 
+
+```{r}
+model2 <- lm(yield ~ geno * N + block, data = df)
+summary(model2)
+anova(model2)
+```
+
+Model diagnostics should be extended to plotting residuals against the block. 
+
+```{r}
+simulationOutput <- simulateResiduals(fittedModel = model2, plot = F)
+plot(simulationOutput)
+plotResiduals(simulationOutput, form = df$geno)
+plotResiduals(simulationOutput, form = df$N)
+plotResiduals(simulationOutput, form = df$block)
+```
+
+Posthoc test as before for the N-effect for each genotype.  
+
+```{r}
+CI2s=cld(emmeans(model2, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
+CI2s$.group =gsub(" ", "", CI2s$.group, fixed = TRUE)
+CI2s
+```
+
+
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=N)) +
+  geom_point(shape=1, size=1.5)+
+  geom_point(data=CI2s, aes(y=emmean), 
+             shape=16,  size=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CI2s, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.2, position = position_nudge(x = 0.4))+
+  geom_text(data=CI2s, aes(y = 110, label =.group), col=1)+
+ scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)                              ),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "none")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+
+Let's compare both models 
+
+```{r}
+CI.comp=rbind(CIs, CI2s)
+CI.comp$model=rep(c("model", "model2"), each=12)
+```
+
+```{r}
+ggplot(data=CI.comp, aes(y=emmean, x=N, col=model, group=model))+
+  geom_point(position=position_dodge(width=0.4))+
+  geom_errorbar(aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.4, 
+                position=position_dodge(width=0.4))+
+  facet_grid(~geno)+
+  theme(legend.position="bottom")
+```
+
+The estimated marginal means do not differ, but the width of the confidence interval does. model 2, which takes the block effect into account, has narrower CIs. 
+
+::: callout-important
+In a complete randomized design (CRD), replication is implicit in the random assignment, so there's no need to include it explicitly in the model.
+In an randomized complete block design (RCBD) or any design with a blocking structure, blocking should be included as a factor in the model to account for the additional structure and prevent confounding treatment effects with block-based variability.
+:::
+
+
+## Linear mixed effect model with block as random effect (glmmTMB)
+
+Block may be also used as random effect: 
+
++ when your block represents a random sample from a larger population, e.g. when you test the treatments on multiple fields, and you are not interested in the field (block) effects, i.e. you like to generalize the findings to all fields and not just the ones you used in the study. 
+
++ when you have many blocks (>4-8 levels) and you are rather interested in the variance that the block is attributed to (variance partitioning), 
+
++ or you have incomplete blocks or repeated measures. 
+
+
+Here I present examples for mixed effect models using the libraries `glmmTMB` and `lme4`. 
+
+
+```{r, message=FALSE}
+model3 <- glmmTMB(yield ~ geno * N + (1|block), data = df, REML=T)
+summary(model3)
+Anova(model3)
+```
+
+```{r}
+CI3s=cld(emmeans(model3, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
+CI3s$.group =gsub(" ", "", CI3s$.group, fixed = TRUE)
+CI3s
+```
+
+
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=N)) +
+  geom_point(shape=1, size=1.5)+
+  geom_point(data=CI3s, aes(y=emmean), 
+             shape=16,  size=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CI3s, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.2, position = position_nudge(x = 0.4))+
+  geom_text(data=CI3s, aes(y = 110, label =.group), col=1)+
+ scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)                              ),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "none")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+
+
+## Linear mixed effect model with block as random effect (lme4)
+
+
+```{r}
+model4 <- lmer(yield ~ geno * N + (1|block), data = df, REML=T)
+summary(model4)
+anova(model4)
+```
+
+
+```{r}
+CI4s=cld(emmeans(model4, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
+CI4s$.group =gsub(" ", "", CI3s$.group, fixed = TRUE)
+CI4s
+```
+
+
+```{r, fig.height=4}
+ggplot(df, aes(y=yield, x=N, col=N)) +
+  geom_point(shape=1, size=1.5)+
+  geom_point(data=CI4s, aes(y=emmean), 
+             shape=16,  size=2, 
+             position = position_nudge(x = 0.4))+
+  geom_errorbar(data=CI4s, aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.2, position = position_nudge(x = 0.4))+
+  geom_text(data=CI4s, aes(y = 110, label =.group), col=1)+
+ scale_color_manual(values=c(rgb(240,215,35, max = 255), 
+                             rgb(190,210,35, max = 255), 
+                              rgb(35,80,150, max = 255)                              ),
+                     limits = c("low","med", "high"))+
+  facet_grid(~geno, scales="free", labeller = labeller(geno=label_both))+
+  theme_bw() +
+  theme(legend.position = "none")+
+  ylab("Dry matter yield (dt/ha)")+
+  xlab("Nitrogen fertilisation")
+```
+
+
+### Let's compare the models
+```{r}
+CI.comp=rbind(CIs, CI2s, CI3s, CI4s)
+CI.comp$model=factor(rep(c("lm crd", "lm rcbd", "glmmTMB",  "lmer"), each=12), levels =c("lm crd", "lm rcbd", "glmmTMB",  "lmer"))
+```
+
+
+
+```{r, fig.height=4}
+ggplot(data=CI.comp, aes(y=emmean, x=N, col=model, group=model))+
+  geom_point(position=position_dodge(width=0.4))+
+  geom_errorbar(aes(y=emmean, ymin=lower.CL, ymax=upper.CL), 
+                width=0.4, 
+                position=position_dodge(width=0.4))+
+  facet_grid(~geno)+
+  theme(legend.position="bottom")
+```
+
+Again, the estimated marginal means do not differ, but the width of the confidence interval does. model2 (`lm rcbd`), which takes the block as fixed effect into account, has narrower CIs. model3 (`glmmTMB`) with block as random effect has similar CIs compared to the model without any block affect and model4 (`lme4`) has the widest CIs (due to df-method Kenward Roger).  
+
