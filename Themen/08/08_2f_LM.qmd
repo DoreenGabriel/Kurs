@@ -38,6 +38,8 @@ The research question is: Do yields differ between genotypes and nitrogen fertil
 
 ### Import data
 
+[data_YSM.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/08/data_YSM.xlsx){target="_blank"}
+
 ```{r}
 df<-read.xlsx("data_YSM.xlsx")
 str(df)

@@ -28,7 +28,8 @@ options(dplyr.summarise.inform = FALSE)
 ```
 
 
-We use the same data file as before. But let's assume we have measured the number of `pests` per trap in the experimental plots. 
+We use the same data file as before. [data_YSM.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/08/data_YSM.xlsx){target="_blank"}
+But let's assume we have measured the number of `pests` per trap in the experimental plots. 
 
 Import data and convert `geno` and `N` to factors, levels of N should not be in alphabetical order 
 
@@ -110,7 +111,7 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
 Do you think that these confidence interval match the observed data? 
 
 
-## Sometimes we run into problems with applying linear models to data:
+### Sometimes we run into problems with applying linear models to data:
 
 + no homogeneous variances 
 + no approximate normal distribution of residuals
@@ -124,7 +125,7 @@ Sometimes a transformation of the response helps:
 + for count data: log(y) or sqrt(y) or log(y+k)
 + for proportions logit(y): log(p/(1-p))
 
-## But using a **generalized linear model (GLM)** might be a better option.
+### But using a **generalized linear model (GLM)** might be a better option.
 
 A generalized linear model (GLM) is an extension of the general linear model that allows for the response variable to have a different **distribution** other than the normal distribution. It enables the modeling of various types of data, such as binary, count, and proportion data, by using a **link function** that transforms the **linear combination of predictors** into a suitable scale for the response variable. 
 
@@ -132,7 +133,7 @@ A generalized linear model (GLM) is an extension of the general linear model tha
 Please note that also for linear models, the assumption of the approximate normal distribution of the response is not related to your y with treatment effects, but for y at any given mean. And we check this assumption by looking at the residuals (where the treatment effect is removed). 
 :::
 
-## Typical distributions for GLMs 
+### Typical distributions for GLMs 
 
 + Poisson: for count data
 + Negative binomal: for clustered count data (not strictly exponential family but used in the GLM framework)
@@ -258,7 +259,7 @@ grid.arrange(plot_pois, plot_nb, plot_bin, plot_gamma, nrow = 2)
 
 ```
 
-## Link function
+### Link function
 The link function relates the mean of the response variable to the linear predictor. This function is what allows GLMs to accommodate non-normal data. Common link functions include the log function for count data (Poisson GLM, negative binomial) and strictly positive data (Gamma GLM) and the logit, probit and cloglog function for binary or proportion data (binomial GLM) and the inverse link for Gamma GLM.  
 
 
