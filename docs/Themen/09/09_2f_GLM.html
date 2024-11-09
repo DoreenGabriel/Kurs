@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppress summarise info</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">dplyr.summarise.inform =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We use the same data file as before. But let’s assume we have measured the number of <code>pests</code> per trap in the experimental plots.</p>
+<p>We use the same data file as before. <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/08/data_YSM.xlsx" target="_blank">data_YSM.xlsx</a> But let’s assume we have measured the number of <code>pests</code> per trap in the experimental plots.</p>
 <p>Import data and convert <code>geno</code> and <code>N</code> to factors, levels of N should not be in alphabetical order</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">read.xlsx</span>(<span class="st">"data_YSM.xlsx"</span>)</span>
@@ -380,8 +380,8 @@ Confidence level used: 0.95 </code></pre>
 </div>
 </div>
 <p>Do you think that these confidence interval match the observed data?</p>
-<section id="sometimes-we-run-into-problems-with-applying-linear-models-to-data" class="level2">
-<h2 class="anchored" data-anchor-id="sometimes-we-run-into-problems-with-applying-linear-models-to-data">Sometimes we run into problems with applying linear models to data:</h2>
+<section id="sometimes-we-run-into-problems-with-applying-linear-models-to-data" class="level3">
+<h3 class="anchored" data-anchor-id="sometimes-we-run-into-problems-with-applying-linear-models-to-data">Sometimes we run into problems with applying linear models to data:</h3>
 <ul>
 <li>no homogeneous variances</li>
 <li>no approximate normal distribution of residuals</li>
@@ -398,8 +398,8 @@ Confidence level used: 0.95 </code></pre>
 <li>for proportions logit(y): log(p/(1-p))</li>
 </ul>
 </section>
-<section id="but-using-a-generalized-linear-model-glm-might-be-a-better-option." class="level2">
-<h2 class="anchored" data-anchor-id="but-using-a-generalized-linear-model-glm-might-be-a-better-option.">But using a <strong>generalized linear model (GLM)</strong> might be a better option.</h2>
+<section id="but-using-a-generalized-linear-model-glm-might-be-a-better-option." class="level3">
+<h3 class="anchored" data-anchor-id="but-using-a-generalized-linear-model-glm-might-be-a-better-option.">But using a <strong>generalized linear model (GLM)</strong> might be a better option.</h3>
 <p>A generalized linear model (GLM) is an extension of the general linear model that allows for the response variable to have a different <strong>distribution</strong> other than the normal distribution. It enables the modeling of various types of data, such as binary, count, and proportion data, by using a <strong>link function</strong> that transforms the <strong>linear combination of predictors</strong> into a suitable scale for the response variable.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -415,8 +415,8 @@ Important
 </div>
 </div>
 </section>
-<section id="typical-distributions-for-glms" class="level2">
-<h2 class="anchored" data-anchor-id="typical-distributions-for-glms">Typical distributions for GLMs</h2>
+<section id="typical-distributions-for-glms" class="level3">
+<h3 class="anchored" data-anchor-id="typical-distributions-for-glms">Typical distributions for GLMs</h3>
 <ul>
 <li>Poisson: for count data</li>
 <li>Negative binomal: for clustered count data (not strictly exponential family but used in the GLM framework)</li>
@@ -435,8 +435,8 @@ Important
 </div>
 </div>
 </section>
-<section id="link-function" class="level2">
-<h2 class="anchored" data-anchor-id="link-function">Link function</h2>
+<section id="link-function" class="level3">
+<h3 class="anchored" data-anchor-id="link-function">Link function</h3>
 <p>The link function relates the mean of the response variable to the linear predictor. This function is what allows GLMs to accommodate non-normal data. Common link functions include the log function for count data (Poisson GLM, negative binomial) and strictly positive data (Gamma GLM) and the logit, probit and cloglog function for binary or proportion data (binomial GLM) and the inverse link for Gamma GLM.</p>
 <div class="cell">
 <div class="cell-output-display">
