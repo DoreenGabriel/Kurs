@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Einführung in R - Experimental Design</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Einführung in R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html" rel="" target="">
+ <span class="menu-text">Allgemeines</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html" rel="" target="">
+ <span class="menu-text">Deskriptive Statistik</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/03/03_Graph.html" rel="" target="">
+ <span class="menu-text">Grafische Darstellungen</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/04/04_Anova.html" rel="" target="">
+ <span class="menu-text">ANOVA</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/05/05_Regression.html" rel="" target="">
+ <span class="menu-text">Regression</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/06/06_StatMod.html" rel="" target="">
+ <span class="menu-text">Statistische Modellierung</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../Themen/07/07_ExpDesign.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Experimental Design</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/08/08_2f_LM.html" rel="" target="">
+ <span class="menu-text">Two-factorial LM</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html" rel="" target="">
+ <span class="menu-text">Two-factorial GLM</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#key-principles-of-experimental-design" id="toc-key-principles-of-experimental-design" class="nav-link active" data-scroll-target="#key-principles-of-experimental-design">Key principles of experimental design</a>
+  <ul class="collapse">
+  <li><a href="#replication" id="toc-replication" class="nav-link" data-scroll-target="#replication">Replication</a></li>
+  </ul></li>
+  <li><a href="#experimental-designs-used-in-agricultural-experiments" id="toc-experimental-designs-used-in-agricultural-experiments" class="nav-link" data-scroll-target="#experimental-designs-used-in-agricultural-experiments">Experimental designs used in agricultural experiments</a>
+  <ul class="collapse">
+  <li><a href="#completely-randomized-design-crd" id="toc-completely-randomized-design-crd" class="nav-link" data-scroll-target="#completely-randomized-design-crd">Completely randomized design (CRD)</a></li>
+  <li><a href="#randomized-complete-block-design-rcbd" id="toc-randomized-complete-block-design-rcbd" class="nav-link" data-scroll-target="#randomized-complete-block-design-rcbd">Randomized Complete Block Design (RCBD)</a></li>
+  <li><a href="#latin-square-design-lsd" id="toc-latin-square-design-lsd" class="nav-link" data-scroll-target="#latin-square-design-lsd">Latin Square Design (LSD)</a></li>
+  <li><a href="#lsd-with-two-different-treatments" id="toc-lsd-with-two-different-treatments" class="nav-link" data-scroll-target="#lsd-with-two-different-treatments">LSD with two different treatments</a></li>
+  <li><a href="#split-plot-design" id="toc-split-plot-design" class="nav-link" data-scroll-target="#split-plot-design">Split-Plot Design</a></li>
+  <li><a href="#other-designs" id="toc-other-designs" class="nav-link" data-scroll-target="#other-designs">Other designs</a></li>
+  <li><a href="#export-field-book" id="toc-export-field-book" class="nav-link" data-scroll-target="#export-field-book">Export field book</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Experimental Design</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)<span class="co"># plotting</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)<span class="co"># data management and summary statistics</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)<span class="co"># plotting</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agricolae)<span class="co"># experimental design</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)<span class="co"># import and export Excel files</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppress summarise info</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">dplyr.summarise.inform =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="key-principles-of-experimental-design" class="level1">
+<h1>Key principles of experimental design</h1>
+<ol type="1">
+<li><p><strong>Formulate Research Question</strong>: The foundation of any experiment begins with a clear research question that defines the purpose of the study and guides the overall design.</p></li>
+<li><p><strong>Formulate Hypothesis</strong>: Once the research question is defined, the next step is to formulate a hypothesis, a testable statement that predicts the relationship between variables.</p></li>
+<li><p><strong>Replication</strong>: Replication involves repeating the experiment or observation multiple times to ensure that the results are reliable and not due to random chance.</p></li>
+<li><p><strong>Randomization</strong>: Randomization is a key principle that helps eliminate bias by ensuring that all experimental subjects or units have an equal chance of receiving any treatment.</p></li>
+<li><p><strong>Blocking and Nesting (Split Plot Design)</strong>: Blocking and nesting are techniques used to control for variability by grouping similar experimental units, allowing for more precise measurement of treatment effects.</p></li>
+<li><p><strong>What to Measure</strong> (Dependent or Explanatory Variables, Probability Distribution): Identifying what to measure involves selecting the dependent (response) and explanatory (independent) variables, as well as determining the appropriate probability distribution for analyzing the data.</p></li>
+</ol>
+<section id="replication" class="level2">
+<h2 class="anchored" data-anchor-id="replication">Replication</h2>
+<ul>
+<li>to distinguish systematic treatment effects from random variation</li>
+<li>the more samples you have:
+<ul>
+<li>the more precise you estimate the mean of the samples (reducing uncertainty in the results and increasing confidence in the conclusions)</li>
+<li>less dramatic when missing data occur (e.g.&nbsp;destroyed trap, broken test tube, farmer leaves the project, wrong application of treatment)</li>
+</ul></li>
+</ul>
+<p>Here is a small simulation, were we draw different number of samples from a random normal distribution with a mean of 20 for different sites.</p>
+<div class="cell" data-meassage="false">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="dv">20</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sd<span class="ot">=</span><span class="dv">5</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sites<span class="ot">=</span>letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nrep<span class="ot">=</span><span class="fu">rep</span>(n, <span class="at">times=</span>n)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">=</span><span class="fu">expand.grid</span>(<span class="at">n=</span>nrep, <span class="at">sites=</span>sites)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11112024</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>y<span class="ot">=</span><span class="fu">rnorm</span>(<span class="fu">length</span>(dat<span class="sc">$</span>n), mu, sd)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>mw <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n,sites) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">y.m =</span> <span class="fu">mean</span>(y)) </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>mw.ci<span class="ot">&lt;-</span>mw <span class="sc">%&gt;%</span>  <span class="fu">group_by</span>(n) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.mw=</span><span class="fu">length</span>(y.m),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.mm =</span> <span class="fu">mean</span>(y.m),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.se=</span><span class="fu">sd</span>(y.m)<span class="sc">/</span><span class="fu">sqrt</span>(n.mw),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.low=</span> y.mm<span class="sc">-</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), n.mw<span class="dv">-1</span>)<span class="sc">*</span>y.se,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.up=</span> y.mm<span class="sc">+</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), n.mw<span class="dv">-1</span>)<span class="sc">*</span>y.se, </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sites=</span><span class="st">" across sites"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>mw.ci <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n,sites) <span class="sc">%&gt;%</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">y.m =</span> <span class="fu">mean</span>(y))  <span class="sc">%&gt;%</span> <span class="co"># calculate mean values per site and n</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>( <span class="co"># calculate confidence intervals for n (based on mean values per site and n)</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.mw=</span><span class="fu">length</span>(y.m),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.mm =</span> <span class="fu">mean</span>(y.m),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.se=</span><span class="fu">sd</span>(y.m)<span class="sc">/</span><span class="fu">sqrt</span>(n.mw),</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.low=</span> y.mm<span class="sc">-</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), n.mw<span class="dv">-1</span>)<span class="sc">*</span>y.se, </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">y.up=</span> y.mm<span class="sc">+</span><span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), n.mw<span class="dv">-1</span>)<span class="sc">*</span>y.se, </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">sites=</span><span class="st">" across sites"</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat, <span class="fu">aes</span>(<span class="at">y=</span>y, <span class="at">x=</span>sites))<span class="sc">+</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">"grey20"</span>)<span class="sc">+</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>mw.ci, <span class="fu">aes</span>(<span class="at">y=</span>y.mm), <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data=</span>mw.ci, <span class="fu">aes</span>(<span class="at">y=</span>y.mm, <span class="at">ymin=</span>y.low, <span class="at">ymax=</span>y.up), </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                <span class="at">width=</span><span class="fl">0.4</span>, <span class="at">col=</span><span class="st">"blue"</span>)<span class="sc">+</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">facet_grid</span>(<span class="sc">~</span>n, <span class="at">labeller =</span> label_both)<span class="sc">+</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>With smaller sample sizes, the mean per site (blue points) fluctuates more, reflecting greater variance. As sample sizes grow, the mean across sites converges closer to the actual mean of 20, demonstrating how replication (larger sample sizes) enhances precision and reduces the impact of random variation in data.</p>
+<section id="are-three-replications-enough" class="level4">
+<h4 class="anchored" data-anchor-id="are-three-replications-enough">“Are three replications enough?”</h4>
+<p>I often hear this question and the answer is: … well it depends…</p>
+<p>Let’s consider the example above and assume a mean of 20 with a standard deviation of 5 in the control group. Now, if we assume a mean of 25 in the treatment group, this results in a treatment effect of 5 (the difference between the groups). We can then create datasets with 2, 3, 5, 10, and 20 samples for each group and use this simulated data to test, using a t-test, whether the difference in group means is statistically significant.</p>
+<div class="cell" data-fig.heigh="5">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_sizes<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>) <span class="co"># Different sample sizes to test</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>treatment_effects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>)  <span class="co"># Effect size to test</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>std_devs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>)         <span class="co"># Standard deviations to test</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate one example dataset per combination for visualization</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>example_data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sample_sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(std_devs, <span class="cf">function</span>(sd) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(treatment_effects, <span class="cf">function</span>(effect) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Generate data for control and treatment groups</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      control <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> sd)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      treatment <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">20</span> <span class="sc">+</span> effect, <span class="at">sd =</span> sd)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Combine control and treatment data into a single data frame</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment"</span>), <span class="at">each =</span> n),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="fu">c</span>(control, treatment),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">sample_size =</span> n,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">sd =</span> sd,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">effect =</span> effect</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the example data for each combination</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(example_data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> value, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">color =</span> <span class="st">"#00BA38"</span>, <span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>,  <span class="at">size =</span> <span class="dv">2</span>, <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span><span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a> <span class="fu">stat_compare_means</span>(<span class="at">method =</span> <span class="st">"t.test"</span>, <span class="at">label.y.npc  =</span><span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sd <span class="sc">~</span> sample_size, <span class="at">labeller =</span> <span class="fu">labeller</span>(</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"SD ="</span>, x),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"Sample size ="</span>, x)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Excersise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Copy the code and repeat 10 times. Note for each run and sample size, how often you observe a significant effect.</p>
+</div>
+</div>
+<p>Since these data are generated using a random normal distribution, we would need to repeat this process 1,000 times to observe how often a significant difference between groups appears.</p>
+<p>Fortunately, R can handle this for us, allowing us to test various effect sizes and standard deviations as well.</p>
+<p>Here is the code:</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>)    <span class="co"># Different sample sizes to test</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span>                          <span class="co"># Significance level for the t-test</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n_simulations <span class="ot">&lt;-</span> <span class="dv">1000</span>                  <span class="co"># Number of simulations for each combination</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>treatment_effects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>)  <span class="co"># Different effect sizes to test</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>std_devs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Different standard deviations to test</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate power through simulation</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>simulate_power <span class="ot">&lt;-</span> <span class="cf">function</span>(n, sd, effect) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  significant_results <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_simulations) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate data for control and treatment groups with specified mean and SD</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    control <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> sd)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    treatment <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">20</span> <span class="sc">+</span> effect, <span class="at">sd =</span> sd)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform a t-test comparing the two groups</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(treatment, control)<span class="co">#, alternative = c("greater")</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if p-value is below alpha, indicating a significant result</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (test<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha) {</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      significant_results <span class="ot">&lt;-</span> significant_results <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate power as the proportion of significant results out of total simulations</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(significant_results <span class="sc">/</span> n_simulations)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the simulation for each combination of sample size, standard deviation, and effect size</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">sample_size =</span> sample_sizes, <span class="at">sd =</span> std_devs, <span class="at">effect =</span> treatment_effects)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>power <span class="ot">&lt;-</span> <span class="fu">mapply</span>(simulate_power, results<span class="sc">$</span>sample_size, results<span class="sc">$</span>sd, results<span class="sc">$</span>effect)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the power curves</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> power<span class="sc">*</span><span class="dv">100</span>, <span class="at">color =</span> <span class="fu">as.factor</span>(effect))) <span class="sc">+</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">80</span>, <span class="at">col=</span><span class="st">"grey"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)<span class="sc">+</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sd <span class="sc">~</span> effect, <span class="at">labeller =</span> <span class="fu">labeller</span>(</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"SD ="</span>, x),</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"Effect size ="</span>, x)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Power curve for different sample sizes, effect sizes, and standard deviations"</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Sample size"</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Power"</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Effect size"</span>) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_sqrt</span>(<span class="at">breaks=</span>sample_sizes, <span class="at">labels=</span>sample_sizes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>Thus, the experimental design determines the probability of detecting a significant effect, known as the statistical “power.”</p>
+<p>Power increases with:</p>
+<ul>
+<li>a larger sample size</li>
+<li>a greater effect size</li>
+<li>reduced variability (lower standard deviation)</li>
+</ul>
+<p>A statistical power of 80% is typically expected, meaning there is an 80% chance of correctly detecting a true effect if it exists. In our example, we would need 17 replications.</p>
+</section>
+</section>
+</section>
+<section id="experimental-designs-used-in-agricultural-experiments" class="level1">
+<h1>Experimental designs used in agricultural experiments</h1>
+<p>The library <code>agricolae</code> offers a variety of functions to plan your experiment.</p>
+<section id="completely-randomized-design-crd" class="level3">
+<h3 class="anchored" data-anchor-id="completely-randomized-design-crd">Completely randomized design (CRD)</h3>
+<p>A Completely Randomized Design (CRD) is an experimental design where all plots are randomly assigned to different treatment groups, ensuring that each group is equally likely to receive any given treatment.</p>
+<p>Suppose we want to test 5 varieties (A, B, C, D, E) with 4 replications each, distributed randomly across 20 plots. We define a vector with the treatment levels <code>trt=c("A","B","C","D","E")</code> and use the function <code>design.crd()</code> with the argument <code>r=4</code> to specify the number of replications for each variety. The <code>seed</code> argument is used to control the randomization in the experimental design. In this example, <code>seed=1234</code> is set to ensure that the random arrangement of treatments in the completely randomized design (CRD) is reproducible. Try a different number! <code>serie=1</code> controls the numbering format for the plots or experimental units.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>trt<span class="ot">=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>outdesign.crd <span class="ot">&lt;-</span><span class="fu">design.crd</span>(trt,<span class="at">r=</span><span class="dv">4</span>, <span class="at">serie=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">1234</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>book.crd<span class="ot">&lt;-</span>outdesign.crd<span class="sc">$</span>book <span class="co"># field book</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.crd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots r trt
+1    11 1   D
+2    12 1   E
+3    13 1   C
+4    14 2   D
+5    15 2   C
+6    16 1   B</code></pre>
+</div>
+</div>
+<p>We get a field book with plot numbers and treatment allocation. To plot this design, I add columns and rows and use the function <code>ggplot()</code> from <code>library(ggplot2)</code>. <em>Note, that I have chosen 5 rows x 4 columns. We could also use 2 rows x 10 columns or 1 row x 20 columns depending on the field proportions.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>book.crd<span class="sc">$</span>col<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">times=</span><span class="dv">5</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>book.crd<span class="sc">$</span>row<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">each=</span><span class="dv">4</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.crd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots r trt col row
+1    11 1   D   1   1
+2    12 1   E   2   1
+3    13 1   C   3   1
+4    14 2   D   4   1
+5    15 2   C   1   2
+6    16 1   B   2   2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>book.crd, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span>trt, <span class="at">label=</span>trt))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>plots<span class="dv">-10</span>), <span class="at">nudge_y =</span> <span class="fl">0.4</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>()<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This design is highly flexible, allowing for a varying number of treatments and replications as needed. It is also straightforward to analyse using linear models such as ANOVA and regression (e.g., <code>mod &lt;- lm(y ~ trt, data = dat)</code>) or generalized linear models (e.g., <code>mod &lt;- glm(y ~ trt, family = "poisson", data = dat)</code>).</p>
+<p>However, challenges may arise with this CRD design if there are underlying gradients among experimental plots that affect the response, such as soil heterogeneity, which can introduce unwanted variability into the results.</p>
+</section>
+<section id="randomized-complete-block-design-rcbd" class="level3">
+<h3 class="anchored" data-anchor-id="randomized-complete-block-design-rcbd">Randomized Complete Block Design (RCBD)</h3>
+<p>In a Randomized Complete Block Design we con control for the variability among experimental plots (e.g.&nbsp;gradients in soil conditions) by building blocks. A block represents a relatively homogeneous set of conditions. Each block receives each treatment exactly once, which means all treatments are “completely randomized” within each block. The number of blocks represents the number of replications.</p>
+<p>To create a field plan in an RCBD we use the function <code>design.rcbd</code> from the library <code>agricolae</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>trt<span class="ot">=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>outdesign.rcbd <span class="ot">&lt;-</span><span class="fu">design.rcbd</span>(trt, <span class="at">r=</span><span class="dv">4</span>,<span class="at">serie=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">1236</span>, <span class="st">"Wichmann-Hill"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>book.rcbd<span class="ot">&lt;-</span>outdesign.rcbd<span class="sc">$</span>book<span class="co"># field book</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.rcbd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots block trt
+1    11     1   E
+2    12     1   D
+3    13     1   B
+4    14     1   A
+5    15     1   C
+6    21     2   C</code></pre>
+</div>
+</div>
+<p>Columns represent now the number of levels in the treatment (but not the treatment levels). Rows are the block numbers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>book.rcbd<span class="sc">$</span>col<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">4</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>book.rcbd<span class="sc">$</span>row<span class="ot">=</span><span class="fu">as.numeric</span>(book.rcbd<span class="sc">$</span>block)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.rcbd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots block trt col row
+1    11     1   E   1   1
+2    12     1   D   2   1
+3    13     1   B   3   1
+4    14     1   A   4   1
+5    15     1   C   5   1
+6    21     2   C   1   2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p.rcbd<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>book.rcbd, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span>trt, <span class="at">label=</span>trt))<span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>plots<span class="dv">-10</span>), <span class="at">nudge_y =</span> <span class="fl">0.4</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(block<span class="sc">~</span>., <span class="at">scales=</span><span class="st">"free"</span>, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">block=</span>label_both))<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>p.rcbd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Assume that the field has a gradient in soil fertility from North to South (i.e.&nbsp;from row 1 to row 4): Each treatment is now tested on the poorer and the fertile soil.</p>
+<p>To analyze the data, we need to add the block effect to the linear model (e.g., <code>mod &lt;- lm(y ~ trt + block, data = dat)</code>) or to the generalized linear model (e.g., <code>mod &lt;- glm(y ~ trt + block, family = "poisson", data = dat)</code>). This way, the treatment effect can be separated from the block effect in the analysis, making it easier to detect differences among treatments.</p>
+<p>If you have many blocks (more than 5 some say more than 8), block may be also treated as random effect in a mixed effect model. To fit these models you can use:</p>
+<ul>
+<li><code>library(glmmTMB)</code> for linear mixed effect model <code>mod&lt;-glmmTMB(y ~ trt +  (1|block), data=dat)</code> or generalised linear mixed effect model <code>mod&lt;-glmmTMB(y ~ trt + (1|block), data=dat, family="poisson")</code> or</li>
+<li><code>library(lme4)</code> with <code>mod&lt;-lmer(y ~ trt + (1|block), data=dat)</code> and <code>mod&lt;-glmer(y ~ trt + (1|block), data=d, family="poisson")</code>.</li>
+</ul>
+<p>These models assume a single measurement per treatment replication. However, if multiple measurements are taken within each replication (e.g., counting the number of aphids on 10 plants per plot), you have two options:</p>
+<ul>
+<li>Aggregate the data: You can calculate summary statistics, like the mean or sum, per plot to represent a single value for each replication.</li>
+<li>Account for pseudoreplications: Alternatively, if you wish to retain the individual measurements, you can account for pseudoreplications by including a random effect for each plot, representing the level at which measurements occur without randomization. The mixed effect model would be: <code>mod&lt;-glmmTMB(y ~ trt + block + (1|PlotID), data=dat)</code> or <code>mod&lt;-lmer(y ~ trt + block + (1|PlotID), data=dat)</code> with PlotID having 20 levels.</li>
+</ul>
+<p>This random effect accounts for the variability within plots and prevents pseudoreplications from inflating the sample size and violating the independence assumption.</p>
+</section>
+<section id="latin-square-design-lsd" class="level3">
+<h3 class="anchored" data-anchor-id="latin-square-design-lsd">Latin Square Design (LSD)</h3>
+<p>In a Latin Square design you can control for two independent gradients in x and y direction. Each treatment appears exactly once in each row and each column. This design ensures that any variation due to row and column factors is minimized, allowing a clearer analysis of the treatment effects. The number of treatments in a LSD is equal to the number of rows and columns limiting the design to a relatively small number of treatments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>outdesign.lsd <span class="ot">&lt;-</span><span class="fu">design.lsd</span>(trt, <span class="at">serie=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">1238</span>, <span class="at">kinds =</span> <span class="st">"Super-Duper"</span>,<span class="at">first=</span>T,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">randomization=</span>T)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>book.lsd<span class="ot">&lt;-</span>outdesign.lsd<span class="sc">$</span>book<span class="co"># field book</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.lsd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots row col trt
+1    11   1   1   E
+2    12   1   2   A
+3    13   1   3   D
+4    14   1   4   C
+5    15   1   5   B
+6    21   2   1   A</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>book.lsd<span class="sc">$</span>row<span class="ot">=</span><span class="fu">as.integer</span>(book.lsd<span class="sc">$</span>row)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>book.lsd, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span>trt, <span class="at">label=</span>trt))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>plots<span class="dv">-10</span>), <span class="at">nudge_y =</span> <span class="fl">0.4</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)<span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The data can be analyzed using treatment and rows and columns as factors</p>
+<ul>
+<li>in a linear model (e.g., <code>mod &lt;- lm(y ~ trt + row + col, data = dat)</code>) or</li>
+<li>in a generalized linear model (e.g., <code>mod &lt;- glm(y ~ trt + row + col, family = "poisson", data = dat)</code>).</li>
+</ul>
+</section>
+<section id="lsd-with-two-different-treatments" class="level3">
+<h3 class="anchored" data-anchor-id="lsd-with-two-different-treatments">LSD with two different treatments</h3>
+<p>Here is the code for a LSD with two different treatments, e.g.&nbsp;three genotypes (g1, g2, and g3) with two management types (m1, m2).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">expand.grid</span>(<span class="at">geno=</span><span class="fu">c</span>(<span class="st">"g1"</span>, <span class="st">"g2"</span>, <span class="st">"g3"</span>), <span class="at">man=</span><span class="fu">c</span>(<span class="st">"m1"</span>, <span class="st">"m2"</span>)) <span class="co"># generates all combinations</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>trt2<span class="ot">=</span><span class="fu">paste</span>(df<span class="sc">$</span>geno, df<span class="sc">$</span>man, <span class="at">sep=</span><span class="st">"."</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>outdesign.lsd <span class="ot">&lt;-</span><span class="fu">design.lsd</span>(trt2, <span class="at">serie=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">1238</span>, <span class="at">kinds =</span> <span class="st">"Super-Duper"</span>,<span class="at">first=</span>T,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">randomization=</span>T)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>book.lsd<span class="ot">&lt;-</span>outdesign.lsd<span class="sc">$</span>book<span class="co"># field book</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book.lsd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots row col  trt2
+1    11   1   1 g2.m2
+2    12   1   2 g3.m2
+3    13   1   3 g1.m1
+4    14   1   4 g3.m1
+5    15   1   5 g2.m1
+6    16   1   6 g1.m2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>book.lsd<span class="sc">$</span>row<span class="ot">=</span><span class="fu">as.integer</span>(book.lsd<span class="sc">$</span>row)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>book.lsd, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span>trt2, <span class="at">label=</span>trt2))<span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>plots<span class="dv">-10</span>), <span class="at">nudge_y =</span> <span class="fl">0.4</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>The data can be analyzed with geno * man main effect and interaction and rows and columns as factors</p>
+<ul>
+<li>using linear models (e.g., <code>mod &lt;- lm(y ~ geno*man + row + col, data = dat)</code>) or</li>
+<li>generalized linear models (e.g., <code>mod &lt;- glm(y ~ geno*man + row + col, family = "poisson", data = dat)</code>).</li>
+</ul>
+</section>
+<section id="split-plot-design" class="level3">
+<h3 class="anchored" data-anchor-id="split-plot-design">Split-Plot Design</h3>
+<p>In a split-plot design we have two treatments, of which one treatment is nested within the other.</p>
+<p>Example: If the machinery for sowing is not applicable for individual plots, but fertilisation can be applied to plot level, then we allocate the genotype as main-plot in a randomized complete block design, and allocate randomly the fertilisation levels as sub-plots within the main plots. Each block still contains each treatment combination exactly once, but randomization was perfromed at two different levels leading to a hierarchical design.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>geno<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"g1"</span>,<span class="st">"g2"</span>,<span class="st">"g3"</span>,<span class="st">"g4"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"low"</span>,<span class="st">"med"</span>,<span class="st">"high"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>outdesign <span class="ot">&lt;-</span><span class="fu">design.split</span>(geno,N,<span class="at">r=</span><span class="dv">4</span>,<span class="at">serie=</span><span class="dv">2</span>,<span class="at">seed=</span><span class="dv">415</span>,<span class="at">kinds =</span><span class="st">"Super-Duper"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>book<span class="ot">&lt;-</span>outdesign<span class="sc">$</span>book<span class="co"># field book</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>book<span class="sc">$</span>col<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">each=</span><span class="dv">3</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>book<span class="sc">$</span>row<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>book<span class="sc">$</span>PlotID<span class="ot">=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(book<span class="sc">$</span>row)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(book)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  plots splots block geno    N col row PlotID
+1   101      1     1   g1 high   1   1      1
+2   101      2     1   g1  med   1   2      2
+3   101      3     1   g1  low   1   3      3
+4   102      1     1   g2  low   2   1      4
+5   102      2     1   g2 high   2   2      5
+6   102      3     1   g2  med   2   3      6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>book, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span>geno, <span class="at">label=</span>N))<span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>PlotID), <span class="at">nudge_y =</span> <span class="fl">0.3</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>block, <span class="at">scales=</span><span class="st">"free"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">block=</span>label_both))<span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)<span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These data can be analysed using a linear mixed effect model with geno and N and the interaction between geno and N and Block as fixed effect, the mainplot ID as random effect to account for the Nitrogen levels nested with in genotypes. The mainplot ID is in these data in the column <code>plots</code>. You can create this information by combining the block and main-plot variable to a single variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>book<span class="sc">$</span>mainplot<span class="ot">=</span><span class="fu">factor</span>(<span class="fu">paste</span>(book<span class="sc">$</span>block, book<span class="sc">$</span>geno, <span class="at">sep=</span><span class="st">"."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>book, <span class="fu">aes</span>(<span class="at">x=</span>col, <span class="at">y=</span>row, <span class="at">fill=</span><span class="fu">factor</span>(plots), <span class="at">label=</span>mainplot))<span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>()<span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>PlotID), <span class="at">nudge_y =</span> <span class="fl">0.3</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span> </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>block, <span class="at">scales=</span><span class="st">"free"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">block=</span>label_both))<span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)<span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07_ExpDesign_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hence the model would look like:</p>
+<ul>
+<li><code>library(glmmTMB)</code>
+<ul>
+<li>for linear mixed effect model <code>mod&lt;-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat)</code> or</li>
+<li>generalised linear mixed effect model <code>mod&lt;-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat, family="poisson")</code> or</li>
+</ul></li>
+<li><code>library(lme4)</code>
+<ul>
+<li>with <code>mod&lt;-lmer(y ~ geno * N + block +  (1|mainplot), data=dat)</code> and</li>
+<li><code>mod&lt;-glmer(y ~ geno * N + block +  (1|mainplot), data=d, family="poisson")</code>.</li>
+</ul></li>
+</ul>
+<p>Alternatively the nesting can be also written like this <code>(1|block:geno)</code>.</p>
+</section>
+<section id="other-designs" class="level3">
+<h3 class="anchored" data-anchor-id="other-designs">Other designs</h3>
+<p>There are many more designs used in agricultural settings, e.g.&nbsp;with incomplete blocks. Check out the agricolae-package for more inspiration.</p>
+</section>
+<section id="export-field-book" class="level3">
+<h3 class="anchored" data-anchor-id="export-field-book">Export field book</h3>
+<p>You can export the field book and the plot of the design using <code>library(openxlsx)</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>wb <span class="ot">&lt;-</span> <span class="fu">createWorkbook</span>()</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addWorksheet</span>(wb, <span class="at">sheetName =</span> <span class="st">"book.rcbd"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeData</span>(wb, <span class="st">"book.rcbd"</span>, book.rcbd) </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">addWorksheet</span>(wb, <span class="at">sheetName =</span> <span class="st">"rcbd.plot"</span>, <span class="at">gridLines =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.rcbd)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">insertPlot</span>(wb, <span class="st">"rcbd.plot"</span>, <span class="at">xy=</span><span class="fu">c</span>(<span class="st">"B"</span>, <span class="dv">2</span>), <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">15</span>, <span class="at">fileType =</span> <span class="st">"png"</span>, <span class="at">units =</span> <span class="st">"cm"</span>) <span class="do">## </span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">saveWorkbook</span>(wb, <span class="at">file =</span> <span class="st">"rcbd_design.xlsx"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
