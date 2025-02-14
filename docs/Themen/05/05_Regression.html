@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - Regression</title>
+<title>Regression – Einführung in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,14 +94,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -104,63 +138,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Einführung in R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html" rel="" target="">
- <span class="menu-text">Allgemeines</span></a>
+    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html"> 
+<span class="menu-text">Allgemeines</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html" rel="" target="">
- <span class="menu-text">Deskriptive Statistik</span></a>
+    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html"> 
+<span class="menu-text">Deskriptive Statistik</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/03/03_Graph.html" rel="" target="">
- <span class="menu-text">Grafische Darstellungen</span></a>
+    <a class="nav-link" href="../../Themen/03/03_Graph.html"> 
+<span class="menu-text">Grafische Darstellungen</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/04/04_Anova.html" rel="" target="">
- <span class="menu-text">ANOVA</span></a>
+    <a class="nav-link" href="../../Themen/04/04_Anova.html"> 
+<span class="menu-text">ANOVA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../Themen/05/05_Regression.html" rel="" target="" aria-current="page">
- <span class="menu-text">Regression</span></a>
+    <a class="nav-link active" href="../../Themen/05/05_Regression.html" aria-current="page"> 
+<span class="menu-text">Regression</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/06/06_StatMod.html" rel="" target="">
- <span class="menu-text">Statistische Modellierung</span></a>
+    <a class="nav-link" href="../../Themen/06/06_StatMod.html"> 
+<span class="menu-text">Statistische Modellierung</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/07/07_ExpDesign.html" rel="" target="">
- <span class="menu-text">Experimental Design</span></a>
+    <a class="nav-link" href="../../Themen/07/07_ExpDesign.html"> 
+<span class="menu-text">Experimental Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/08/08_2f_LM.html" rel="" target="">
- <span class="menu-text">Two-factorial LM</span></a>
+    <a class="nav-link" href="../../Themen/08/08_2f_LM.html"> 
+<span class="menu-text">Two-factorial LM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html" rel="" target="">
- <span class="menu-text">Two-factorial GLM</span></a>
+    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html"> 
+<span class="menu-text">Two-factorial GLM</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -206,7 +240,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -233,7 +269,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Annahmen:</p>
@@ -244,7 +284,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -252,21 +296,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod.Bsp1, <span class="at">plot =</span> F)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod.Bsp2<span class="ot">=</span><span class="fu">lm</span>(yh<span class="sc">~</span>x)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod.Bsp2, <span class="at">plot =</span> F)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Nur für das erste Beispiel treffen die Annahmen für eine Regression zu. Im zweiten Beispiel tritt der Trompeteneffekt auf (Heteroskedastizität).</p>
 <section id="beispiel-anscombe-1973" class="level3">
 <h3 class="anchored" data-anchor-id="beispiel-anscombe-1973">Beispiel Anscombe 1973</h3>
-<div class="cell" data-fig.asp="1">
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Diese vier Datensätze ergeben vier Regressionsmodelle mit gleichem Intercept, Slope, R² und Stichprobenumfang. Doch nur für das Beispiel oben links werden die Annahmen für eine lineare Regression erfüllt. Dieses Beispiel verdeutlicht, dass wir unbedingt Modelldiagnostik betreiben müssen, indem wir unsere Daten und die Residuen der Modelle plotten.</p>
@@ -303,7 +359,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reg, <span class="fu">aes</span>(<span class="at">x=</span>Ert, <span class="at">y=</span>Prot)) <span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -360,7 +420,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod, <span class="at">plot =</span> F)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, scheint alles in Ordnung zu sein.</p>
@@ -373,7 +437,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput, <span class="at">form =</span> reg<span class="sc">$</span>Ert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Auch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster.</p>
@@ -383,7 +451,11 @@ Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e.&nbsp;den Wer
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(mod, <span class="at">which =</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">label.size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -419,11 +491,19 @@ Ganz schnell und einfach geht es mit dem Package <code>effects</code>.</p>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(mod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">Effect</span>(<span class="fu">c</span>(<span class="st">"Ert"</span>), mod, <span class="at">partial.residuals=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Die blaue Linie zeigt uns den <em>fit</em> (also die Regressionslinie) an, während die orangefarbene Linie ist ein <em>fit</em> durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.</p>
@@ -460,7 +540,11 @@ Ganz schnell und einfach geht es mit dem Package <code>effects</code>.</p>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> ef1, <span class="fu">aes</span>(<span class="at">x =</span> Ert, <span class="at">y =</span> fit))<span class="sc">+</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> ef1, <span class="fu">aes</span>(<span class="at">x =</span> Ert, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">ymin =</span>lower, <span class="at">ymax =</span> upper), <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="432"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Bei einer einfachen Regression kann man die Regressionslinie mit der Funktion <code>geom_smooth(method=lm)</code> einzeichnen.</p>
@@ -472,7 +556,11 @@ Ganz schnell und einfach geht es mit dem Package <code>effects</code>.</p>
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>oder <code>geom_abline(intercept = 21.26794, slope = -0.09590221)</code></p>
@@ -481,14 +569,22 @@ Ganz schnell und einfach geht es mit dem Package <code>effects</code>.</p>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept=</span> <span class="fl">21.26794</span>, <span class="at">slope=</span><span class="sc">-</span><span class="fl">0.09590221</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># oder so</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reg, <span class="fu">aes</span>(<span class="at">x=</span>Ert, <span class="at">y=</span>Prot)) <span class="sc">+</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept=</span><span class="fu">coef</span>(mod)[<span class="dv">1</span>], <span class="at">slope=</span><span class="fu">coef</span>(mod)[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Alternativ, aber etwas komplizierter, geht es auch so:<br>
@@ -577,7 +673,11 @@ Um die Regressionslinie des Modells in einen Plot “per Hand” einzuzeichnen, 
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> td, <span class="fu">aes</span>(<span class="at">x =</span> Ert, <span class="at">y =</span> fit))<span class="sc">+</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> td, <span class="fu">aes</span>(<span class="at">x =</span> Ert, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -586,7 +686,11 @@ Um die Regressionslinie des Modells in einen Plot “per Hand” einzuzeichnen, 
 <p>Mit einer linearen Regression können auch “nicht-lineare” Zusammenhänge modelliert werden.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wenn die Daten einen nicht-linearen Trend aufweisen, wir aber nur einen linearen Term modellieren, zeigen die Residuen ein Muster, i.e.&nbsp;eine Kurvatur.</p>
@@ -600,12 +704,20 @@ Um die Regressionslinie des Modells in einen Plot “per Hand” einzuzeichnen, 
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod, <span class="at">plot =</span> F)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wir können diesen Zusammenhang modellieren, indem wir einen quadratischen Term in das lineare Modell nehmen.</p>
@@ -619,16 +731,28 @@ oder<br>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod2, <span class="at">plot =</span> F)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput, <span class="at">form =</span> df<span class="sc">$</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -664,7 +788,11 @@ Tip
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x=</span>ND, <span class="at">y=</span>ERT)) <span class="sc">+</span> </span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -748,7 +876,11 @@ Tip
 : Anpassung beendet mit Schrittweitenfehler - Ergebnisse sorgfältig prüfen</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput, <span class="at">form=</span>dat<span class="sc">$</span>ND)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -756,7 +888,11 @@ Tip
 : Anpassung beendet mit Schrittweitenfehler - Ergebnisse sorgfältig prüfen</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-29-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-29-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Nein, eine deutliche Kurve in dem Residuen vs.&nbsp;fitted values Plot.</p>
@@ -768,11 +904,19 @@ Tip
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> mod2, <span class="at">plot =</span> F)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput, <span class="at">form=</span>dat<span class="sc">$</span>ND)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Besser. Die Residuen weisen kein auffälliges Muster auf.</p>
@@ -913,22 +1057,38 @@ Tip
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)    </span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(mod2))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">Effect</span>(<span class="fu">c</span>(<span class="st">"ND"</span>), mod2, <span class="at">partial.residuals=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-40-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-40-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>das “falsche Model”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(mod))   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">Effect</span>(<span class="fu">c</span>(<span class="st">"ND"</span>), mod, <span class="at">partial.residuals=</span><span class="cn">TRUE</span>))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-41-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-41-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Im Plot sehen wir nocheinmal, dass das euinfache lineare Modell (<code>mod</code>) im niedrigen und hohen N-Düngerbereich den Ertrag überschätzt.</p>
@@ -938,7 +1098,11 @@ Tip
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span> </span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">col=</span><span class="st">"green"</span>) <span class="co"># quadr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>nur zum Vergleich beider Modelle:</p>
@@ -951,7 +1115,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>hier aber noch der Code, bei dem das Modell interpretiert wird, wenn auch andere Effekte im Modell wären:</p>
@@ -985,7 +1153,11 @@ Tip
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> ef1, <span class="fu">aes</span>(<span class="at">x =</span> ND, <span class="at">y =</span> fit))<span class="sc">+</span>  </span>
 <span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> ef1, <span class="fu">aes</span>(<span class="at">x =</span> ND, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">ymin =</span>lower, <span class="at">ymax =</span> upper), <span class="at">alpha =</span> <span class="fl">0.4</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>oder so:</p>
@@ -1015,7 +1187,11 @@ Tip
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> td, <span class="fu">aes</span>(<span class="at">x =</span> ND, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">ymin =</span> lwr<span class="fl">.1</span>, </span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ymax =</span> upr<span class="fl">.1</span>), <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1029,7 +1205,11 @@ Tip
 <span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ymax =</span> upr, <span class="at">linetype=</span><span class="cn">NA</span>), <span class="at">col=</span><span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)<span class="sc">+</span></span>
 <span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1062,7 +1242,11 @@ Tip
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> td1, <span class="fu">aes</span>(<span class="at">x =</span> ND, <span class="at">y =</span> p))<span class="sc">+</span>    </span>
 <span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> td1, <span class="fu">aes</span>(<span class="at">x =</span> ND, <span class="at">y =</span> p2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05_Regression_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="05_Regression_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wir sollten das Modell immer nur für den beobachteten Wertebereich interpretieren und insbesondere bei polynomialen Modellen nicht extrapolieren.</p>
@@ -1071,6 +1255,7 @@ Tip
 </div>
 <p>Ende Übung 5</p>
 
+<p>:::</p>
 
 </section>
 </section>
@@ -1111,18 +1296,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1154,11 +1328,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1168,8 +1381,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1181,7 +1403,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1225,6 +1570,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1250,6 +1596,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1310,6 +1682,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
 
 
 

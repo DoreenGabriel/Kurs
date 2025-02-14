@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - Grafische Darstellungen</title>
+<title>Grafische Darstellungen – Einführung in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -102,63 +109,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Einführung in R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html" rel="" target="">
- <span class="menu-text">Allgemeines</span></a>
+    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html"> 
+<span class="menu-text">Allgemeines</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html" rel="" target="">
- <span class="menu-text">Deskriptive Statistik</span></a>
+    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html"> 
+<span class="menu-text">Deskriptive Statistik</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../Themen/03/03_Graph.html" rel="" target="" aria-current="page">
- <span class="menu-text">Grafische Darstellungen</span></a>
+    <a class="nav-link active" href="../../Themen/03/03_Graph.html" aria-current="page"> 
+<span class="menu-text">Grafische Darstellungen</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/04/04_Anova.html" rel="" target="">
- <span class="menu-text">ANOVA</span></a>
+    <a class="nav-link" href="../../Themen/04/04_Anova.html"> 
+<span class="menu-text">ANOVA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/05/05_Regression.html" rel="" target="">
- <span class="menu-text">Regression</span></a>
+    <a class="nav-link" href="../../Themen/05/05_Regression.html"> 
+<span class="menu-text">Regression</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/06/06_StatMod.html" rel="" target="">
- <span class="menu-text">Statistische Modellierung</span></a>
+    <a class="nav-link" href="../../Themen/06/06_StatMod.html"> 
+<span class="menu-text">Statistische Modellierung</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/07/07_ExpDesign.html" rel="" target="">
- <span class="menu-text">Experimental Design</span></a>
+    <a class="nav-link" href="../../Themen/07/07_ExpDesign.html"> 
+<span class="menu-text">Experimental Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/08/08_2f_LM.html" rel="" target="">
- <span class="menu-text">Two-factorial LM</span></a>
+    <a class="nav-link" href="../../Themen/08/08_2f_LM.html"> 
+<span class="menu-text">Two-factorial LM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html" rel="" target="">
- <span class="menu-text">Two-factorial GLM</span></a>
+    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html"> 
+<span class="menu-text">Two-factorial GLM</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -274,7 +281,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich. Wir nutzen hierfür den Datensatz <a href="https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx" target="_blank">potato.xlsx</a>, wie schon in der vorherigen Kapiteln. Ich füge zusätzlich für die als <code>character</code> eingelesenen Spalten, Variablen als Faktoren ein (<code>variety.f</code>, <code>method.f</code>, <code>infection.f</code>) und ändere für <code>variety.f2</code> die Reihenfolge der Faktorlevels, i.e.&nbsp;<code>Unica</code> ist nun das erste Level.</p>
 <div class="cell">
@@ -314,7 +323,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -329,7 +342,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="achsenbeschriftung-labs" class="level2">
@@ -340,7 +357,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -352,7 +373,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">15</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">350</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -364,7 +389,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen pro Pflanze"</span>)<span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">15</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">350</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -373,14 +402,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Durch das Argument <code>shape=</code> in der Funktion <code>geom_point()</code> können die Plotsymbole geändert werden. Folgende Symbole werden durch die Zahlen 0 bis 24 abgebildet.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -390,7 +427,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers, <span class="at">shape=</span>variety)) <span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -402,7 +443,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -413,7 +458,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -421,7 +470,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="farbe-des-plotsymbols-col">Farbe des Plotsymbols <code>col</code></h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Mit <code>col=3</code> werden die Symbole grün dargestellt. Farben kann man durch die Zahlen 1 bis 7 wählen oder benennen z.B. “green”, “darkgreen”, “red”. Alle möglichen Farben findet ihr mit der Funktion <code>colors()</code>oder auf <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf" target="_blank">http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf</a></p>
@@ -429,30 +482,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">colors</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>], <span class="at">ncol=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">colors</span>()[<span class="dv">152</span><span class="sc">:</span><span class="dv">253</span>], <span class="at">ncol=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">pal_hue</span>()(<span class="dv">49</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">pal_viridis</span>()(<span class="dv">49</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">topo.colors</span>(<span class="dv">49</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid" width="960"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">20</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">"#287C8EFF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Auch RGB-Farben können gewählt werden. Hier ein Beispiel für das JKI blau:</p>
@@ -465,7 +542,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">20</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">35</span>,<span class="dv">80</span>,<span class="dv">150</span>, <span class="at">max =</span> <span class="dv">255</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -475,7 +556,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers, <span class="at">color=</span>variety)) <span class="sc">+</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -483,7 +568,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"royalblue"</span>, <span class="st">"orange"</span>, <span class="st">"olivedrab"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Die Sorten entsprechend JKI-Farbwelt.</p>
@@ -494,7 +583,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">rgb</span>(<span class="dv">35</span>,<span class="dv">80</span>,<span class="dv">150</span>, <span class="at">max =</span> <span class="dv">255</span>), </span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">rgb</span>(<span class="dv">240</span>,<span class="dv">215</span>,<span class="dv">35</span>, <span class="at">max =</span> <span class="dv">255</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wenn keine Zuordnung der Werte zu den Farben erfolgt, dann werden die Farben entsprechend der Reihenfolge der Faktorlevels abgebildet (alphanumerisch).</p>
@@ -506,7 +599,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Unica"</span><span class="ot">=</span><span class="fu">rgb</span>(<span class="dv">35</span>,<span class="dv">80</span>,<span class="dv">150</span>, <span class="at">max =</span> <span class="dv">255</span>), </span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Costanera"</span><span class="ot">=</span><span class="fu">rgb</span>(<span class="dv">240</span>,<span class="dv">215</span>,<span class="dv">35</span>, <span class="at">max =</span> <span class="dv">255</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -518,13 +615,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="624"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variety)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="624"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -535,13 +640,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(infection<span class="sc">~</span>variety)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="624"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(infection<span class="sc">~</span>variety, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">.multi_line =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid" width="624"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -558,7 +671,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -572,7 +689,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -583,7 +704,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>)) <span class="co"># formula=y ~ x+I(x^2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -594,7 +719,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>)) <span class="co"># formula=y ~ x+I(x^2)+I(x^3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -611,7 +740,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -625,7 +758,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -637,7 +774,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"glm.nb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -652,7 +793,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -669,7 +814,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#probit</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>humidity, <span class="at">y=</span>infection)) <span class="sc">+</span></span>
@@ -679,7 +828,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cloglog</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>humidity, <span class="at">y=</span>infection)) <span class="sc">+</span></span>
@@ -689,7 +842,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-32-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -704,7 +861,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>und hier ein Modelfit ohne Berücksichtigung der farblich unterschiedlichen Sorten</p>
@@ -716,7 +877,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -728,7 +893,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -750,7 +919,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -806,7 +979,11 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -842,7 +1019,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(<span class="at">x=</span>KG, <span class="at">y=</span>SG, <span class="at">colour=</span>G)) <span class="sc">+</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
@@ -853,7 +1034,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-39-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-39-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -885,7 +1070,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -917,7 +1106,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(<span class="at">x=</span>KG, <span class="at">y=</span>SG, <span class="at">color=</span>G))<span class="sc">+</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
@@ -929,7 +1122,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(<span class="at">x=</span>KG, <span class="at">y=</span>SG, <span class="at">color=</span>G))<span class="sc">+</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
@@ -941,7 +1138,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(<span class="at">x=</span>KG, <span class="at">y=</span>SG, <span class="at">color=</span>G))<span class="sc">+</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
@@ -953,7 +1154,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-41-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1004,7 +1209,11 @@ Tip
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1034,7 +1243,11 @@ Tip
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight)) <span class="sc">+</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wer gerne die Whisker mit einem Querstrich begrenzen möchte, nutzt zusätzlich <code>stat_boxplot()</code>.</p>
@@ -1043,7 +1256,11 @@ Tip
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="jittered-boxplot" class="level2">
@@ -1056,7 +1273,11 @@ Tip
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">height=</span><span class="dv">0</span>, <span class="at">shape=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1071,7 +1292,11 @@ Tip
 <span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">height=</span><span class="dv">0</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="co"># Mittelwert</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1084,7 +1309,11 @@ Tip
 <span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">height=</span><span class="dv">0</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_cl_boot"</span>, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1104,7 +1333,11 @@ Tip
 <span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">geom =</span> <span class="st">"point"</span>)<span class="sc">+</span> <span class="co"># Mittelwert</span></span>
 <span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> give.n, <span class="at">geom=</span><span class="st">"text"</span>, <span class="at">colour=</span><span class="st">"gray10"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1117,14 +1350,22 @@ Tip
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
 <span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) </span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-50-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-50-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1134,7 +1375,11 @@ Tip
 <span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1148,7 +1393,11 @@ Tip
 <span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety)<span class="sc">+</span></span>
 <span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span><span class="fu">c</span>(<span class="st">"aero-</span><span class="sc">\n</span><span class="st">ponic"</span>, <span class="st">"bed"</span>, <span class="st">"hydro-</span><span class="sc">\n</span><span class="st">ponic"</span>, <span class="st">"pot"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>oder wir drehen die X-Achsenbeschriftungslevels um 45 Grad.</p>
@@ -1160,7 +1409,11 @@ Tip
 <span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span><span class="fu">c</span>(<span class="st">"aeronponic"</span>, <span class="st">"bed"</span>, <span class="st">"hydronponic"</span>, <span class="st">"pot"</span>))<span class="sc">+</span></span>
 <span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1172,7 +1425,11 @@ Tip
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Noch nicht ganz richtig. Die Punkte haben zwar unterschiedliche Farben, sind aber nicht den Boxen der Sorten zugeordnet.<br>
@@ -1185,7 +1442,11 @@ Mit dem Argument <code>position=position_jitterdodge()</code> können wir das ä
 <span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">dodge.width=</span><span class="fl">0.75</span>), </span>
 <span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape=</span><span class="dv">1</span>, <span class="at">size=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1200,7 +1461,11 @@ Mit dem Argument <code>position=position_jitterdodge()</code> können wir das ä
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
 <span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1209,7 +1474,11 @@ Mit dem Argument <code>position=position_jitterdodge()</code> können wir das ä
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Für die logarithmische Skala müssen die Werte &gt; 0 sein.</p>
@@ -1229,7 +1498,11 @@ Removed 8 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In diesem Datensatz sind Nullen enthalten und wir bekommen eine Warnmeldung, dass diese Werte nicht abgebildet werden. Hier hilft folgender Trick:</p>
@@ -1246,7 +1519,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">label=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>,<span class="dv">250</span>, <span class="dv">500</span>),</span>
 <span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">lim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">500</span>)<span class="sc">+</span><span class="dv">1</span>, <span class="at">name=</span><span class="st">"weight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Auch für die wurzeltransformierte Y-Achse können wir die Beschriftung der Achsenticks festlegen. Da wir keine Konstante addiert haben, werden die gleichen Informationen beim Argument <code>breaks</code> und <code>label</code> eingegeben:</p>
@@ -1258,7 +1535,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">label=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">400</span>), </span>
 <span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">lim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1269,7 +1550,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">label=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">20</span>, <span class="at">by=</span><span class="dv">5</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
 <span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">lim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">400</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-61-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-61-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1282,7 +1567,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
 <span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-62-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-62-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Hierfür gibt es die Möglichkeit über das Argument <code>labels</code> und die Funktion <code>number_format()</code> der <code>library(scales)</code> das Dezimalzeichen als Kommas anzeigen zu lassen.</p>
@@ -1295,7 +1584,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Gewicht in kg"</span>)<span class="sc">+</span></span>
 <span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Methode"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-63-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-63-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1310,7 +1603,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety.f2)<span class="sc">+</span></span>
 <span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-64-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-64-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>alternativer Code mit der <code>library(forcats)</code> und der Funktion <code>fct_relevel()</code>.</p>
@@ -1322,7 +1619,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span><span class="fu">fct_relevel</span>(variety, <span class="st">"Unica"</span>, <span class="st">"Mariva"</span>))<span class="sc">+</span><span class="co"># hier neue Reihenfolge eingeben</span></span>
 <span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-65-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-65-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1334,7 +1635,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety, <span class="at">labeller =</span> label_both)<span class="sc">+</span></span>
 <span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1349,7 +1654,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>variety, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">variety =</span> Sorten.labs))<span class="sc">+</span></span>
 <span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-67-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-67-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1377,7 +1686,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label), <span class="at">col=</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-69-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-69-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1397,7 +1710,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">10</span>, </span>
 <span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Es gibt eine Reihe von abgestimmten <code>themes()</code>:</p>
@@ -1410,7 +1727,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-71-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-71-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1422,7 +1743,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1435,7 +1760,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>(<span class="at">base_size =</span> <span class="dv">12</span>, <span class="at">border =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1450,7 +1779,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_grey</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-74-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-74-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1462,7 +1795,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">"Blues"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-75-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-75-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>weitere Beispiele <a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" target="_blank">https://ggplot2.tidyverse.org/reference/scale_brewer.html</a></p>
@@ -1475,19 +1812,31 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.6</span>))<span class="sc">+</span></span>
 <span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.8</span>))<span class="sc">+</span></span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.8</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">fill=</span>variety)) <span class="sc">+</span></span>
 <span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="dv">1</span>))<span class="sc">+</span></span>
 <span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-76-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1503,7 +1852,11 @@ Removed 8 rows containing non-finite outside the scale range
 <span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>, </span>
 <span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-77-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-77-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1514,12 +1867,20 @@ Removed 8 rows containing non-finite outside the scale range
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight))<span class="sc">+</span> </span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-78-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-78-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight))<span class="sc">+</span> </span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">trim=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-78-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-78-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1548,7 +1909,11 @@ Tip
 <span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
 <span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Geschlecht"</span>, <span class="at">y=</span><span class="st">"Körpergröße in cm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1574,7 +1939,11 @@ Tip
 <span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
 <span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wir könne den Plot noch schöner gestalten, indem wir die Farben und die Beschriftungen anpassen und die Legende unter den Plot legen.</p>
@@ -1587,7 +1956,11 @@ Tip
 <span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Männer"</span>, <span class="st">"Frauen"</span>))<span class="sc">+</span></span>
 <span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-81-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-81-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(md, <span class="fu">aes</span>(<span class="at">x=</span>G, <span class="at">y=</span>KG, <span class="at">fill=</span>AF))<span class="sc">+</span></span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
@@ -1598,7 +1971,11 @@ Tip
 <span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>AF)<span class="sc">+</span></span>
 <span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-81-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-81-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1633,7 +2010,11 @@ wichtig
 <span id="cb126-9"><a href="#cb126-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Männer"</span>, <span class="st">"Frauen"</span>))<span class="sc">+</span></span>
 <span id="cb126-10"><a href="#cb126-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(md, <span class="fu">aes</span>(<span class="at">x=</span>G, <span class="at">y=</span>KG, <span class="at">fill=</span>AF))<span class="sc">+</span></span>
 <span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.75</span>))<span class="sc">+</span></span>
@@ -1647,7 +2028,11 @@ wichtig
 <span id="cb127-10"><a href="#cb127-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>AF)<span class="sc">+</span></span>
 <span id="cb127-11"><a href="#cb127-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-82-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-82-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1674,7 +2059,11 @@ wichtig
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-83-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-83-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="mit-bins-und-binwidth-die-anzahl-der-balken-klassen-ändern" class="level2">
@@ -1684,12 +2073,20 @@ wichtig
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight)) <span class="sc">+</span> </span>
 <span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-84-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-84-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight)) <span class="sc">+</span> </span>
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-84-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-84-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1701,7 +2098,11 @@ wichtig
 <span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">25</span>, <span class="at">col=</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> variety)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-85-1.png" class="img-fluid" width="624"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-85-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1712,76 +2113,75 @@ wichtig
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight)) <span class="sc">+</span> </span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-86-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-86-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight, <span class="at">colour=</span>variety, <span class="at">fill=</span>variety)) <span class="sc">+</span> </span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">5</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-87-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-87-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Das Paket <code>ggridges</code> bietet tolle Densityplots an.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
-<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(<span class="at">scale =</span> <span class="dv">3</span>, <span class="at">rel_min_height =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
-<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">name =</span> <span class="st">"weigth of method:"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="co"># Farbschema über Option A bis H </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Picking joint bandwidth of 12.5</code></pre>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in library(ggridges): es gibt kein Paket namens 'ggridges'</code></pre>
 </div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-88-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(<span class="at">scale =</span> <span class="dv">3</span>, <span class="at">rel_min_height =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">name =</span> <span class="st">"weigth of method:"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="co"># Farbschema über Option A bis H </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01): konnte Funktion "geom_density_ridges_gradient" nicht finden</code></pre>
 </div>
 </div>
 <p>Allerdings wird im Densityplot der Wertebereich weiter dargestellt als beobachtet.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">col=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span></span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">jittered_points =</span> <span class="cn">TRUE</span>,  </span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">yoffset =</span> <span class="sc">-</span><span class="fl">0.2</span>),</span>
-<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">scale =</span> <span class="fl">0.7</span>)<span class="sc">+</span> </span>
-<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"weight of method"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="sc">+</span></span>
-<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Picking joint bandwidth of 12.5</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-89-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">col=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">jittered_points =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">yoffset =</span> <span class="sc">-</span><span class="fl">0.2</span>),</span>
+<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">scale =</span> <span class="fl">0.7</span>)<span class="sc">+</span> </span>
+<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"weight of method"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="sc">+</span></span>
+<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in geom_density_ridges(jittered_points = TRUE, position = position_points_jitter(width = 0, : konnte Funktion "geom_density_ridges" nicht finden</code></pre>
 </div>
 </div>
 <p>daher können wir auch die Beobachtungen plotten</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">col=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span></span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">5</span>), <span class="at">col=</span><span class="st">"grey20"</span>)<span class="sc">+</span></span>
-<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">5</span>), <span class="at">col=</span><span class="st">"grey20"</span>)<span class="sc">+</span></span>
-<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">jittered_points =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">yoffset =</span> <span class="sc">-</span><span class="fl">0.2</span>),</span>
-<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">scale =</span> <span class="fl">0.9</span>)<span class="sc">+</span> </span>
-<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"weight"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="sc">+</span></span>
-<span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_viridis_d</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Picking joint bandwidth of 12.5</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-90-1.png" class="img-fluid" width="768"></p>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">col=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">5</span>), <span class="at">col=</span><span class="st">"grey20"</span>)<span class="sc">+</span></span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">5</span>), <span class="at">col=</span><span class="st">"grey20"</span>)<span class="sc">+</span></span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">jittered_points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.1</span>, <span class="at">yoffset =</span> <span class="sc">-</span><span class="fl">0.2</span>),</span>
+<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">scale =</span> <span class="fl">0.9</span>)<span class="sc">+</span> </span>
+<span id="cb141-7"><a href="#cb141-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"weight"</span>, <span class="at">option =</span> <span class="st">"D"</span>)<span class="sc">+</span></span>
+<span id="cb141-8"><a href="#cb141-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_viridis_d</span>(<span class="at">guide=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in geom_density_ridges(jittered_points = TRUE, position = position_points_jitter(width = 0, : konnte Funktion "geom_density_ridges" nicht finden</code></pre>
 </div>
 </div>
 <p>zusammen mit einen Boxplot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
-<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">2</span>), </span>
-<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"grey20"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">2</span>), </span>
-<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"grey20"</span>,<span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges2</span>(<span class="fu">aes</span>(<span class="at">point_shape =</span> method), <span class="at">alpha =</span> .<span class="dv">5</span>, <span class="at">point_alpha =</span> <span class="dv">1</span>, <span class="at">jittered_points =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb141-7"><a href="#cb141-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>()<span class="sc">+</span></span>
-<span id="cb141-8"><a href="#cb141-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_discrete_manual</span>(<span class="at">aesthetics =</span> <span class="st">"point_shape"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">24</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Picking joint bandwidth of 12.5</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-91-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pot, <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> method, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span><span class="st">"errorbar"</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">2</span>), </span>
+<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"grey20"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>, <span class="at">width=</span><span class="fl">0.15</span>, <span class="at">position=</span> <span class="fu">position_nudge</span>(<span class="at">y=</span><span class="sc">-</span>.<span class="dv">2</span>), </span>
+<span id="cb143-5"><a href="#cb143-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"grey20"</span>,<span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb143-6"><a href="#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges2</span>(<span class="fu">aes</span>(<span class="at">point_shape =</span> method), <span class="at">alpha =</span> .<span class="dv">5</span>, <span class="at">point_alpha =</span> <span class="dv">1</span>, <span class="at">jittered_points =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb143-7"><a href="#cb143-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>()<span class="sc">+</span></span>
+<span id="cb143-8"><a href="#cb143-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_discrete_manual</span>(<span class="at">aesthetics =</span> <span class="st">"point_shape"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">24</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in geom_density_ridges2(aes(point_shape = method), alpha = 0.5, : konnte Funktion "geom_density_ridges2" nicht finden</code></pre>
 </div>
 </div>
 </section>
@@ -1793,24 +2193,28 @@ wichtig
 <li>Temperatur als Punkte und verbundene Linie mit <code>geom_line()</code> und <code>geom_point()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>w<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">Monat=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"März"</span>, <span class="st">"April"</span>, <span class="st">"Mai"</span>, <span class="st">"Juni"</span>, <span class="st">"Juli"</span>, <span class="st">"Aug"</span>, <span class="st">"Sept"</span>, <span class="st">"Okt"</span>, <span class="st">"Nov"</span>, <span class="st">"Dez"</span>),</span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"März"</span>, <span class="st">"April"</span>, <span class="st">"Mai"</span>, <span class="st">"Juni"</span>, <span class="st">"Juli"</span>, <span class="st">"Aug"</span>, <span class="st">"Sept"</span>, <span class="st">"Okt"</span>, <span class="st">"Nov"</span>, <span class="st">"Dez"</span>)),</span>
-<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">Temp=</span><span class="fu">c</span>(<span class="fl">5.0</span>, <span class="fl">6.3</span>, <span class="fl">6.0</span>, <span class="fl">10.7</span>, <span class="fl">12.2</span>, <span class="fl">17.9</span>, <span class="fl">17.5</span>, <span class="fl">20.8</span>, <span class="fl">15.3</span>, <span class="fl">11.6</span>, <span class="fl">7.7</span>, <span class="fl">4.5</span>),</span>
-<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">Nied=</span><span class="fu">c</span>(<span class="fl">25.7</span>, <span class="fl">108.3</span>, <span class="fl">37.4</span>, <span class="fl">13.8</span>, <span class="fl">18.9</span>, <span class="fl">43.6</span>, <span class="fl">63.1</span>, <span class="fl">63.0</span>, <span class="fl">48.7</span>, <span class="fl">61.7</span>, <span class="fl">9.9</span>, <span class="fl">35.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>w<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">Monat=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"März"</span>, <span class="st">"April"</span>, <span class="st">"Mai"</span>, <span class="st">"Juni"</span>, <span class="st">"Juli"</span>, <span class="st">"Aug"</span>, <span class="st">"Sept"</span>, <span class="st">"Okt"</span>, <span class="st">"Nov"</span>, <span class="st">"Dez"</span>),</span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"März"</span>, <span class="st">"April"</span>, <span class="st">"Mai"</span>, <span class="st">"Juni"</span>, <span class="st">"Juli"</span>, <span class="st">"Aug"</span>, <span class="st">"Sept"</span>, <span class="st">"Okt"</span>, <span class="st">"Nov"</span>, <span class="st">"Dez"</span>)),</span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">Temp=</span><span class="fu">c</span>(<span class="fl">5.0</span>, <span class="fl">6.3</span>, <span class="fl">6.0</span>, <span class="fl">10.7</span>, <span class="fl">12.2</span>, <span class="fl">17.9</span>, <span class="fl">17.5</span>, <span class="fl">20.8</span>, <span class="fl">15.3</span>, <span class="fl">11.6</span>, <span class="fl">7.7</span>, <span class="fl">4.5</span>),</span>
+<span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">Nied=</span><span class="fu">c</span>(<span class="fl">25.7</span>, <span class="fl">108.3</span>, <span class="fl">37.4</span>, <span class="fl">13.8</span>, <span class="fl">18.9</span>, <span class="fl">43.6</span>, <span class="fl">63.1</span>, <span class="fl">63.0</span>, <span class="fl">48.7</span>, <span class="fl">61.7</span>, <span class="fl">9.9</span>, <span class="fl">35.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Mit der Funktion <code>scale_y_continuous</code> und dem Argument <code>sec.axis</code> erzeugen wir eine zweite y-Achse für die Temperatur. In den Funktionen <code>geom_line()</code> und <code>geom_point()</code> multipliziere ich die Temperatur mit 5, um sie besser in den Plot zu integrieren und verwende dann die Funktion <code>sec.axis</code>, um die Skala der zweiten Achse entsprechend anzupassen, i.e.&nbsp;die Werte wieder durch 5 dividieren.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(w, <span class="fu">aes</span>(<span class="at">x =</span> Monat)) <span class="sc">+</span></span>
-<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Nied), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp<span class="sc">*</span><span class="dv">5</span> , <span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp<span class="sc">*</span><span class="dv">5</span>), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Niederschlag (mm)"</span>, <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dv">50</span>,<span class="dv">75</span>,<span class="dv">100</span>),</span>
-<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span>.<span class="sc">/</span><span class="dv">5</span>, <span class="at">name =</span> <span class="st">"Temperatur (°C)"</span>)) <span class="sc">+</span></span>
-<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monatlicher Niederschlag und Tagestemperatur in Braunschweig 2020"</span>,</span>
-<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Monat"</span>) <span class="sc">+</span></span>
-<span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(w, <span class="fu">aes</span>(<span class="at">x =</span> Monat)) <span class="sc">+</span></span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Nied), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp<span class="sc">*</span><span class="dv">5</span> , <span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp<span class="sc">*</span><span class="dv">5</span>), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb146-5"><a href="#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Niederschlag (mm)"</span>, <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dv">50</span>,<span class="dv">75</span>,<span class="dv">100</span>),</span>
+<span id="cb146-6"><a href="#cb146-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span>.<span class="sc">/</span><span class="dv">5</span>, <span class="at">name =</span> <span class="st">"Temperatur (°C)"</span>)) <span class="sc">+</span></span>
+<span id="cb146-7"><a href="#cb146-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monatlicher Niederschlag und Tagestemperatur in Braunschweig 2020"</span>,</span>
+<span id="cb146-8"><a href="#cb146-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Monat"</span>) <span class="sc">+</span></span>
+<span id="cb146-9"><a href="#cb146-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-93-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-93-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1823,14 +2227,17 @@ wichtig
 </ul>
 <p><a href="https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf" target="_blank">https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span>
-<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>variety<span class="sc">+</span>method<span class="sc">+</span>infection, <span class="at">data=</span>pot, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-94-1.png" class="img-fluid" width="576"></p>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in library(vcd): es gibt kein Paket namens 'vcd'</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>variety<span class="sc">+</span>infection, <span class="at">data=</span>pot, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-94-2.png" class="img-fluid" width="576"></p>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>variety<span class="sc">+</span>method<span class="sc">+</span>infection, <span class="at">data=</span>pot, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in mosaic(~variety + method + infection, data = pot, shade = TRUE): konnte Funktion "mosaic" nicht finden</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>variety<span class="sc">+</span>infection, <span class="at">data=</span>pot, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in mosaic(~variety + infection, data = pot, shade = TRUE): konnte Funktion "mosaic" nicht finden</code></pre>
 </div>
 </div>
 </section>
@@ -1840,7 +2247,7 @@ wichtig
 <h2 class="anchored" data-anchor-id="vier-plots-in-einer-grafik">Vier Plots in einer Grafik</h2>
 <p>Um mehrere Plots in einer Grafik abzubilden, müssen die Plots zunächst einzeln in Objekten gespeichert werden (z.B. <code>p1</code> bis <code>p4</code>), um dann mit der Funktion <code>grid.arrange(p1,p2,p3,p4, ncol=2)</code> der <code>library(gridExtra)</code> geplottet zu werden. Mit dem Argument <code>ncol</code> kann die Anzahl der Spalten bestimmt werden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attache Paket: 'gridExtra'</code></pre>
@@ -1850,52 +2257,60 @@ Attache Paket: 'gridExtra'</code></pre>
 
     combine</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
-<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)</span>
-<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
-<span id="cb150-5"><a href="#cb150-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb150-6"><a href="#cb150-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)</span>
-<span id="cb150-7"><a href="#cb150-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-8"><a href="#cb150-8" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(tubers, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
-<span id="cb150-9"><a href="#cb150-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)</span>
-<span id="cb150-10"><a href="#cb150-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-11"><a href="#cb150-11" aria-hidden="true" tabindex="-1"></a>p4<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>tubers, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
-<span id="cb150-12"><a href="#cb150-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb150-13"><a href="#cb150-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)</span>
-<span id="cb150-14"><a href="#cb150-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb150-15"><a href="#cb150-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1,p2,p3,p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)</span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
+<span id="cb156-5"><a href="#cb156-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb156-6"><a href="#cb156-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)</span>
+<span id="cb156-7"><a href="#cb156-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-8"><a href="#cb156-8" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(tubers, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
+<span id="cb156-9"><a href="#cb156-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)</span>
+<span id="cb156-10"><a href="#cb156-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-11"><a href="#cb156-11" aria-hidden="true" tabindex="-1"></a>p4<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>tubers, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
+<span id="cb156-12"><a href="#cb156-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb156-13"><a href="#cb156-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)</span>
+<span id="cb156-14"><a href="#cb156-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-15"><a href="#cb156-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1,p2,p3,p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-95-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-95-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Das ist noch nicht wirklich schön. Die Legenden nehmen zu viel Platz ein. Alle Plots haben zudem die gleiche Legende. Diese Redundanz können wir entfernen, indem wir nur im ersten Plot eine Legende zeichnen und dabei diese durch das Argument <code>theme(legend.position=c(0.8,0.7))</code> in den Plot zeichnen. Bei den anderen Plots unterdrücken wir durch <code>theme(legend.position="none")</code> die Legende.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
-<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)<span class="sc">+</span> </span>
-<span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.7</span>)) <span class="co">#Legende innerhalb der Plotoberfläche</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(weight, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)<span class="sc">+</span> </span>
+<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.7</span>)) <span class="co">#Legende innerhalb der Plotoberfläche</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
 3.5.0.
-i Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
+ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
-<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span> </span>
-<span id="cb153-4"><a href="#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="co">#ohne Legende</span></span>
-<span id="cb153-5"><a href="#cb153-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-6"><a href="#cb153-6" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(tubers, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
-<span id="cb153-7"><a href="#cb153-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)<span class="sc">+</span> </span>
-<span id="cb153-8"><a href="#cb153-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
-<span id="cb153-9"><a href="#cb153-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-10"><a href="#cb153-10" aria-hidden="true" tabindex="-1"></a>p4<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>tubers, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
-<span id="cb153-11"><a href="#cb153-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb153-12"><a href="#cb153-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span> </span>
-<span id="cb153-13"><a href="#cb153-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
-<span id="cb153-14"><a href="#cb153-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-15"><a href="#cb153-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1,p2,p3,p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>weight, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span> </span>
+<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="co">#ohne Legende</span></span>
+<span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-6"><a href="#cb159-6" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(tubers, <span class="at">colour=</span>method, <span class="at">fill=</span>method)) <span class="sc">+</span> </span>
+<span id="cb159-7"><a href="#cb159-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust=</span>.<span class="dv">75</span>, <span class="at">alpha=</span>.<span class="dv">2</span>)<span class="sc">+</span> </span>
+<span id="cb159-8"><a href="#cb159-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
+<span id="cb159-9"><a href="#cb159-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-10"><a href="#cb159-10" aria-hidden="true" tabindex="-1"></a>p4<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>method, <span class="at">y=</span>tubers, <span class="at">colour=</span>method)) <span class="sc">+</span></span>
+<span id="cb159-11"><a href="#cb159-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb159-12"><a href="#cb159-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width=</span><span class="fl">0.25</span>, <span class="at">shape=</span><span class="dv">1</span>)<span class="sc">+</span> </span>
+<span id="cb159-13"><a href="#cb159-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
+<span id="cb159-14"><a href="#cb159-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-15"><a href="#cb159-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1,p2,p3,p4, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-96-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-96-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Schon besser.</p>
@@ -1904,43 +2319,59 @@ i Please use the `legend.position.inside` argument of `theme()` instead.</code><
 <h2 class="anchored" data-anchor-id="vier-plots-in-einer-grafik-mit-einer-legende-mit-libraryggpubr">Vier Plots in einer Grafik mit einer Legende mit <code>library(ggpubr)</code></h2>
 <p>Eine weitere Möglichkeit bietet die <code>library(ggpubr)</code> mit der Funktion <code>ggarrange()</code>. Hier können auch die einzelnen Plots z.B. mit a), b), c) und d) beschriftet werden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
-<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
+<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-97-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-97-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Das Argument <code>align="hv"</code> richtet die Plots horizontal und vertikal aus (vgl. a) und c) oben mit dieser Grafik unten).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>, <span class="at">align=</span><span class="st">"hv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>, <span class="at">align=</span><span class="st">"hv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-98-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-98-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Ausserdem kann auch die relative Breite der Plots geändert werden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
-<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>, <span class="at">align=</span><span class="st">"hv"</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">0.6</span>,<span class="fl">0.4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"a)"</span>, <span class="st">"b)"</span>, <span class="st">"c)"</span>, <span class="st">"d)"</span>), <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"plain"</span>),</span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>, <span class="at">align=</span><span class="st">"hv"</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">0.6</span>,<span class="fl">0.4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-99-1.png" class="img-fluid" width="768"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-99-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="r-logo-im-plot" class="level2">
 <h2 class="anchored" data-anchor-id="r-logo-im-plot">R-Logo im Plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>R_png <span class="ot">&lt;-</span> png<span class="sc">::</span><span class="fu">readPNG</span>(<span class="st">"R_logo.png"</span>, <span class="at">native =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
-<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">inset_element</span>(<span class="at">p =</span> R_png,</span>
-<span id="cb157-5"><a href="#cb157-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">left =</span> <span class="fl">0.01</span>,</span>
-<span id="cb157-6"><a href="#cb157-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">bottom =</span> <span class="fl">0.8</span>,</span>
-<span id="cb157-7"><a href="#cb157-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">right =</span> <span class="fl">0.15</span>,</span>
-<span id="cb157-8"><a href="#cb157-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">top =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>R_png <span class="ot">&lt;-</span> png<span class="sc">::</span><span class="fu">readPNG</span>(<span class="st">"R_logo.png"</span>, <span class="at">native =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
+<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb163-4"><a href="#cb163-4" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">inset_element</span>(<span class="at">p =</span> R_png,</span>
+<span id="cb163-5"><a href="#cb163-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">left =</span> <span class="fl">0.01</span>,</span>
+<span id="cb163-6"><a href="#cb163-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">bottom =</span> <span class="fl">0.8</span>,</span>
+<span id="cb163-7"><a href="#cb163-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">right =</span> <span class="fl">0.15</span>,</span>
+<span id="cb163-8"><a href="#cb163-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">top =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-100-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-100-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1949,14 +2380,14 @@ i Please use the `legend.position.inside` argument of `theme()` instead.</code><
 <h1>Abbildung speichern</h1>
 <p>Alle Abbildungen, die mit <code>ggplot()</code> erstellt werden, können als pdf, tiff, jpg, eps usw. im <em>working directory</em> gespeichert werden. Zudem kann man über die Argumente die Größe und die Auflösung bestimmen. Das Argument <code>scale</code> skaliert die Punkte und Buchstaben relativ zur Plotgröße.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
-<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen"</span>)</span>
-<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot1.pdf"</span>)</span>
-<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>)</span>
-<span id="cb158-6"><a href="#cb158-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.1.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">scale=</span><span class="fl">1.3</span>)</span>
-<span id="cb158-7"><a href="#cb158-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.2.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">scale=</span><span class="fl">0.7</span>)</span>
-<span id="cb158-8"><a href="#cb158-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot3.tiff"</span>, <span class="at">dpi=</span><span class="dv">600</span>, <span class="at">width =</span><span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">compression=</span><span class="st">"lzw"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>pot, <span class="fu">aes</span>(<span class="at">x=</span>weight, <span class="at">y=</span>tubers)) <span class="sc">+</span></span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Gewicht in g"</span>, <span class="at">y=</span><span class="st">"Anzahl Kartoffelknollen"</span>)</span>
+<span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot1.pdf"</span>)</span>
+<span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>)</span>
+<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.1.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">scale=</span><span class="fl">1.3</span>)</span>
+<span id="cb164-7"><a href="#cb164-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot2.2.pdf"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">scale=</span><span class="fl">0.7</span>)</span>
+<span id="cb164-8"><a href="#cb164-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"plot3.tiff"</span>, <span class="at">dpi=</span><span class="dv">600</span>, <span class="at">width =</span><span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">compression=</span><span class="st">"lzw"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="übung-3.3." class="level1">
@@ -1978,13 +2409,17 @@ Tip
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(KG)) <span class="sc">+</span></span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(KG)) <span class="sc">+</span></span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-102-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-102-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -2006,14 +2441,18 @@ Tip
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(KG, <span class="at">fill=</span>G)) <span class="sc">+</span></span>
-<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">col=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Anzahl"</span>)<span class="sc">+</span></span>
-<span id="cb161-4"><a href="#cb161-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Körpergröße in cm"</span>)<span class="sc">+</span></span>
-<span id="cb161-5"><a href="#cb161-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> G)<span class="sc">+</span></span>
-<span id="cb161-6"><a href="#cb161-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">"Geschlecht"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>md, <span class="fu">aes</span>(KG, <span class="at">fill=</span>G)) <span class="sc">+</span></span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">col=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Anzahl"</span>)<span class="sc">+</span></span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Körpergröße in cm"</span>)<span class="sc">+</span></span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> G)<span class="sc">+</span></span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">"Geschlecht"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-103-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="03_Graph_files/figure-html/unnamed-chunk-103-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -2035,14 +2474,17 @@ Tip
 <div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span>
-<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>G<span class="sc">+</span>AF, <span class="at">data=</span>md, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-104-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in library(vcd): es gibt kein Paket namens 'vcd'</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>AF<span class="sc">+</span>G, <span class="at">data=</span>md, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03_Graph_files/figure-html/unnamed-chunk-104-2.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>G<span class="sc">+</span>AF, <span class="at">data=</span>md, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in mosaic(~G + AF, data = md, shade = TRUE): konnte Funktion "mosaic" nicht finden</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(<span class="sc">~</span>AF<span class="sc">+</span>G, <span class="at">data=</span>md, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in mosaic(~AF + G, data = md, shade = TRUE): konnte Funktion "mosaic" nicht finden</code></pre>
 </div>
 </div>
 </div>
@@ -2051,6 +2493,7 @@ Tip
 <p>Ende Übung 3.3.</p>
 <hr>
 
+<p>:::</p>
 
 </section>
 
@@ -2090,18 +2533,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2133,11 +2565,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -2147,8 +2618,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -2160,7 +2640,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -2204,6 +2807,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2229,6 +2833,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2289,6 +2919,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ <p>All content licensed under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
 
 
 
