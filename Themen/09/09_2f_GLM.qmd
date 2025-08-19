@@ -6,7 +6,6 @@ title: "Analysis of two-factorial experiments with generalised linear (mixed eff
 knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
 ```
 
-
 ```{r, message=F, warning=F}
 library(ggplot2)# plotting
 library(dplyr)# data management and summary statistics
@@ -27,11 +26,9 @@ conflicts_prefer(lmerTest::lmer)
 options(dplyr.summarise.inform = FALSE)
 ```
 
+We use the same data file as before. [data_YSM.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/08/data_YSM.xlsx){target="_blank"} But let's assume we have measured the number of `pests` per trap in the experimental plots.
 
-We use the same data file as before. [data_YSM.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/08/data_YSM.xlsx){target="_blank"}
-But let's assume we have measured the number of `pests` per trap in the experimental plots. 
-
-Import data and convert `geno` and `N` to factors, levels of N should not be in alphabetical order 
+Import data and convert `geno` and `N` to factors, levels of N should not be in alphabetical order
 
 ```{r}
 df<-read.xlsx("data_YSM.xlsx")
@@ -58,7 +55,6 @@ model <- lm(pests ~ geno * N + block, data = df)
 summary(model)
 ```
 
-
 ```{r}
 library(DHARMa)
 simulationOutput <- simulateResiduals(fittedModel = model, plot = F)
@@ -70,20 +66,19 @@ plotResiduals(simulationOutput, form = df$geno)
 plotResiduals(simulationOutput, form = df$N)
 ```
 
-We observe that variance in residuals increases with increasing nitrogen fertilisation. Hence the assumption on variance homogeneity is not met. 
-
+We observe that variance in residuals increases with increasing nitrogen fertilisation. Hence the assumption on variance homogeneity is not met.
 
 ```{r}
 plotResiduals(simulationOutput, form = df$block)
 ```
-
 
 ```{r}
 emmeans(model, ~geno*N)
 CIs=cld(emmeans(model, ~N|geno), method="pairwise", adjust="sidak", Letters=letters)
 CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)
 ```
-Negative confidence interval. But we cannot measure -1 pests per trap. 
+
+Negative confidence interval. But we cannot measure -1 pests per trap.
 
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests, x=N, col=N)) +
@@ -108,38 +103,36 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
   xlab("Nitrogen fertilisation")
 ```
 
-Do you think that these confidence interval match the observed data? 
-
+Do you think that these confidence interval match the observed data?
 
 ### Sometimes we run into problems with applying linear models to data:
 
-+ no homogeneous variances 
-+ no approximate normal distribution of residuals
-+ unrealistic predicted values or confidence intervals
-    + e.g. negative values in count data (-2 aphids)
-    + proportions above 100% (101% mortality)
-+ curvature in residuals
+-   no homogeneous variances
+-   no approximate normal distribution of residuals
+-   unrealistic predicted values or confidence intervals
+    -   e.g. negative values in count data (-2 aphids)
+    -   proportions above 100% (101% mortality)
+-   curvature in residuals
 
-Sometimes a transformation of the response helps: 
+Sometimes a transformation of the response helps:
 
-+ for count data: log(y) or sqrt(y) or log(y+k)
-+ for proportions logit(y): log(p/(1-p))
+-   for count data: log(y) or sqrt(y) or log(y+k)
+-   for proportions logit(y): log(p/(1-p))
 
 ### But using a **generalized linear model (GLM)** might be a better option.
 
-A generalized linear model (GLM) is an extension of the general linear model that allows for the response variable to have a different **distribution** other than the normal distribution. It enables the modeling of various types of data, such as binary, count, and proportion data, by using a **link function** that transforms the **linear combination of predictors** into a suitable scale for the response variable. 
+A generalized linear model (GLM) is an extension of the general linear model that allows for the response variable to have a different **distribution** other than the normal distribution. It enables the modeling of various types of data, such as binary, count, and proportion data, by using a **link function** that transforms the **linear combination of predictors** into a suitable scale for the response variable.
 
 ::: callout-important
-Please note that also for linear models, the assumption of the approximate normal distribution of the response is not related to your y with treatment effects, but for y at any given mean. And we check this assumption by looking at the residuals (where the treatment effect is removed). 
+Please note that also for linear models, the assumption of the approximate normal distribution of the response is not related to your y with treatment effects, but for y at any given mean. And we check this assumption by looking at the residuals (where the treatment effect is removed).
 :::
 
-### Typical distributions for GLMs 
+### Typical distributions for GLMs
 
-+ Poisson: for count data
-+ Negative binomal: for clustered count data (not strictly exponential family but used in the GLM framework)
-+ Binomial: for binary or proportion data
-+ Gamma: for positive, continuous data
-
+-   Poisson: for count data
+-   Negative binomal: for clustered count data (not strictly exponential family but used in the GLM framework)
+-   Binomial: for binary or proportion data
+-   Gamma: for positive, continuous data
 
 ```{r, echo=FALSE}
 # Load required libraries
@@ -190,8 +183,7 @@ plot_gamma <- ggplot(data.frame(x_gamma, y_gamma), aes(x = x_gamma, y = y_gamma)
 grid.arrange(plot_pois, plot_nb, plot_bin, plot_gamma, nrow = 2)
 ```
 
-
-The distributions can have different shapes. 
+The distributions can have different shapes.
 
 ```{r, echo=FALSE}
 # Lade benötigte Pakete
@@ -260,8 +252,8 @@ grid.arrange(plot_pois, plot_nb, plot_bin, plot_gamma, nrow = 2)
 ```
 
 ### Link function
-The link function relates the mean of the response variable to the linear predictor. This function is what allows GLMs to accommodate non-normal data. Common link functions include the log function for count data (Poisson GLM, negative binomial) and strictly positive data (Gamma GLM) and the logit, probit and cloglog function for binary or proportion data (binomial GLM) and the inverse link for Gamma GLM.  
 
+The link function relates the mean of the response variable to the linear predictor. This function is what allows GLMs to accommodate non-normal data. Common link functions include the log function for count data (Poisson GLM, negative binomial) and strictly positive data (Gamma GLM) and the logit, probit and cloglog function for binary or proportion data (binomial GLM) and the inverse link for Gamma GLM.
 
 ```{r, echo=FALSE}
 # Define a range of eta values
@@ -314,10 +306,9 @@ plot_inverse <- ggplot() +
 grid.arrange(plot_identity, plot_log, plot_logit, plot_inverse, nrow = 2)
 ```
 
-
 ## Generalized linear model for count data
 
-We use the function `glm` and specify the distribution with the family-argument `poisson` for count data. By default poisson GLMs use the log link. 
+We use the function `glm` and specify the distribution with the family-argument `poisson` for count data. By default poisson GLMs use the log link.
 
 ```{r}
 model2=glm(pests ~ geno * N + block, data = df, family="poisson")
@@ -326,17 +317,16 @@ Anova(model2)
 drop1(model2, test="Chi")
 ```
 
-In Poisson GLMs we need to look at the dispersion and assess whether the model assumptions are valid. Since the Poisson distribution is defined by a single parameter lamda which represents both the mean and the variance, we expect the ratio of the mean and the variance to be 1.  As a quick check you  can devide the residual deviance by the degrees of freedom from the model summary above or use the function `testDispersion()` from the `library(DHARMa)`. 
+In Poisson GLMs we need to look at the dispersion and assess whether the model assumptions are valid. Since the Poisson distribution is defined by a single parameter lamda which represents both the mean and the variance, we expect the ratio of the mean and the variance to be 1. As a quick check you can devide the residual deviance by the degrees of freedom from the model summary above or use the function `testDispersion()` from the `library(DHARMa)`.
 
-Hence overdispersion indicated that observed variance is greater than the mean and this can lead to underestimated standard errors, too narrow confidence intervals and invalid p-values. 
+Hence overdispersion indicated that observed variance is greater than the mean and this can lead to underestimated standard errors, too narrow confidence intervals and invalid p-values.
 
-Overdispersion can occur if 
+Overdispersion can occur if
 
-+ the model misses important explanatory variables or 
-+ due to presence of outliers, non-linear pattern or zero-inflation. 
+-   the model misses important explanatory variables or
+-   due to presence of outliers, non-linear pattern or zero-inflation.
 
-Possible solutions are extending the model by important explanatory variables (however do not overfit), applying quasipoisson or negative binomial GLMs, or fitting a zero-inflation term (in `glmmmTM`). 
-
+Possible solutions are extending the model by important explanatory variables (however do not overfit), applying quasipoisson or negative binomial GLMs, or fitting a zero-inflation term (in `glmmmTM`).
 
 ```{r}
 simulationOutput <- simulateResiduals(fittedModel = model2, plot = F)
@@ -347,7 +337,7 @@ plotResiduals(simulationOutput, form = df$N)
 plotResiduals(simulationOutput, form = df$block)
 ```
 
-When calculating the estimated marginal means we now can differentiate between the link scale (at which data were modeled) and the response scale, which is the back-transformed original scale.  
+When calculating the estimated marginal means we now can differentiate between the link scale (at which data were modeled) and the response scale, which is the back-transformed original scale.
 
 ```{r}
 emmeans(model2, ~N*geno)
@@ -358,12 +348,12 @@ For a Poisson model, this means exponentiating the log-transformed values, so th
 ```{r}
 emmeans(model2, ~N*geno, type="response")
 ```
-We can also interpret the ratios of counts in the Poisson GLM. A ratio greater than 1 indicates that the count for one level of N is higher than the count for the other level. 
+
+We can also interpret the ratios of counts in the Poisson GLM. A ratio greater than 1 indicates that the count for one level of N is higher than the count for the other level.
 
 ```{r}
 contrast(emmeans(model2, ~N|geno, type="response"), method="trt.vs.ctrl", infer=c(T,T))
 ```
-
 
 ```{r}
 CI2s=cld(emmeans(model2, ~N|geno, type="response"), method="pairwise", adjust="sidak", Letters=letters)
@@ -394,7 +384,7 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
   xlab("Nitrogen fertilisation")
 ```
 
-The confidence intervals reflect nicely the data, in particular the wider spread with increasing mean. 
+The confidence intervals reflect nicely the data, in particular the wider spread with increasing mean.
 
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests, x=N, col=N)) +
@@ -415,6 +405,7 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
   ylab("Number of pests per trap and 48h")+
   xlab("Nitrogen fertilisation")
 ```
+
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests, x=N, col=N)) +
   geom_point(shape=1, size=1.5)+
@@ -438,15 +429,15 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
 
 I prefer to scale the y-axis using square root or logarithmic intervals to better reflect the analysis (e.g., a GLM with a log link). This approach highlights differences in the lower range of values, making smaller effects more visible, while preventing higher values from dominating the presentation.
 
-
 ## Generalized linear mixed effect model with block as random effect (glmmTMB)
+
 ```{r}
 library(glmmTMB)
 library(car)
-model3 <- glmmTMB(pests ~ geno * N + (1|block), data = df, REML=T, family="poisson")
+model3 <- glmmTMB(pests ~ geno * N + (1|block), data = df, family="poisson")
 summary(model3)
-drop1(model3, test="Chisq")
 Anova(model3)
+drop1(model3, test="Chisq")
 ```
 
 ```{r}
@@ -454,7 +445,6 @@ CI3s=cld(emmeans(model3, ~N|geno, type="response"), method="pairwise", adjust="s
 CI3s$.group =gsub(" ", "", CI3s$.group, fixed = TRUE)
 CI3s
 ```
-
 
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests, x=N, col=N)) +
@@ -477,11 +467,7 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
   scale_y_sqrt(breaks=c(0,3,10,20,40,60))
 ```
 
-
-
 ## Generalized linear mixed effect model with block as random effect (lme4)
-
-
 
 ```{r}
 model4 <- glmer(pests ~ geno * N + (1|block), data = df, family="poisson")
@@ -490,14 +476,11 @@ Anova(model4)
 drop1(model4, test="Chisq")
 ```
 
-
-
 ```{r}
 CI4s=cld(emmeans(model4, ~N|geno, type="response"), method="pairwise", adjust="sidak", Letters=letters)
 CI4s$.group =gsub(" ", "", CI4s$.group, fixed = TRUE)
 CI4s
 ```
-
 
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests, x=N, col=N)) +
@@ -520,16 +503,14 @@ ggplot(df, aes(y=pests, x=N, col=N)) +
   scale_y_sqrt(breaks=c(0,3,10,20,40,60))
 ```
 
-
 ### Comparison of all 4 models
+
 ```{r}
 colnames(CIs)[1:8]<-colnames(CI2s)
 CI.comp=rbind(CIs, CI2s, CI3s, CI4s)
 CI.comp$model=factor(rep(c("lm", "glm", "glmmTMB",  "glmer"), each=12), levels = c("lm", "glm", "glmmTMB",  "glmer"))
 
 ```
-
-
 
 ```{r, fig.height=4}
 ggplot(data=CI.comp, aes(y=rate, x=N, col=model, group=model))+
@@ -541,24 +522,22 @@ ggplot(data=CI.comp, aes(y=rate, x=N, col=model, group=model))+
   theme(legend.position="bottom")
 ```
 
-
 Confidence intervals of
 
-+ lm negative 
-+ lm constant across fitted values (does not represent natural behavior of count data)
-+ glm(m) do not differ much
+-   lm negative
+-   lm constant across fitted values (does not represent natural behavior of count data)
+-   glm(m) do not differ much
 
 use mixed effect models
 
-+ many blocks and if you are not interested in block effect 
-+ interest in predictions without block effect
-+ repeated measurements
-+ incomplete block design 
+-   many blocks and if you are not interested in block effect
+-   interest in predictions without block effect
+-   repeated measurements
+-   incomplete block design
 
+## Excercise
 
-### Excercise
-
-Fit a model to explain `pests.A` and perform model diagnostics.  
+Fit a model to explain `pests.A` and perform model diagnostics.
 
 ::: {.callout-tip collapse="true"}
 ```{r, fig.height=4}
@@ -583,7 +562,6 @@ plotResiduals(simulationOutput, form = df$N)
 plotResiduals(simulationOutput, form = df$block)
 ```
 
-
 ```{r}
 model.A=glmmTMB(pests.A ~ geno * N + block, data = df, family="nbinom2")
 summary(model.A)
@@ -596,9 +574,10 @@ plotResiduals(simulationOutput, form = df$block)
 ```
 :::
 
-Fit a model to explain `pests.B` and perform model diagnostics.  
+Fit a model to explain `pests.B` and perform model diagnostics.
 
 ::: {.callout-tip collapse="true"}
+
 ```{r, fig.height=4}
 ggplot(df, aes(y=pests.B, x=N, col=N)) +
   geom_point(shape=1, size=1.5)+
@@ -635,7 +614,8 @@ plotResiduals(simulationOutput, form = df$geno)
 plotResiduals(simulationOutput, form = df$N)
 plotResiduals(simulationOutput, form = df$block)
 ```
-Compare models by AICc. The lower the better. 
+
+Compare models by AICc. The lower the better.
 
 ```{r, message=FALSE}
 library(bbmle)
@@ -643,4 +623,7 @@ AICctab(model.B, model.B1, base=T)
 ```
 
 
-:::
+
+
+
+

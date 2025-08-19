@@ -60,16 +60,16 @@ wenn der Effekt einer Erklärungsvariable von dem Wert der anderen Erklärungsva
 
 ## Mehrere Erklärungsvariablen im Modell
 
-| Nr  | Modellformel                    | Modellparameter                                          |
-|---------------|---------------|-------------------------------------------|
-| 1   | `lm(y~x+z)`                     | zwei Erklärungsvariablen                                 |
-| 2   | `lm(y~x*z)`                     | zwei Erklärungsvariablen und deren Interaktion           |
-| 3   | `lm(y~x+z+x:z)`                 | zwei Erklärungsvariablen und deren Interaktion           |
-| 4   | `lm(y~x+z+w)`                   | drei Erklärungsvariablen                                 |
-| 5   | `lm(y~x+z+w+x:z+z:w+w:x)`       | drei Erklärungsvariablen und alle Zweifach-Interaktionen |
-| 6   | `lm(y~(x+z+w)^2)`               | drei Erklärungsvariablen und alle Zweifach-Interaktionen |
-| 7   | `lm(y~x+z+w+x:z+z:w+w:x+z:w:x)` | drei Erklärungsvariablen und alle Interaktionen          |
-| 8   | `lm(y~x*z*w)`                   | drei Erklärungsvariablen und alle Interaktionen          |
+| Nr | Modellformel | Modellparameter |
+|----|----|----|
+| 1 | `lm(y~x+z)` | zwei Erklärungsvariablen |
+| 2 | `lm(y~x*z)` | zwei Erklärungsvariablen und deren Interaktion |
+| 3 | `lm(y~x+z+x:z)` | zwei Erklärungsvariablen und deren Interaktion |
+| 4 | `lm(y~x+z+w)` | drei Erklärungsvariablen |
+| 5 | `lm(y~x+z+w+x:z+z:w+w:x)` | drei Erklärungsvariablen und alle Zweifach-Interaktionen |
+| 6 | `lm(y~(x+z+w)^2)` | drei Erklärungsvariablen und alle Zweifach-Interaktionen |
+| 7 | `lm(y~x+z+w+x:z+z:w+w:x+z:w:x)` | drei Erklärungsvariablen und alle Interaktionen |
+| 8 | `lm(y~x*z*w)` | drei Erklärungsvariablen und alle Interaktionen |
 
 Modell Nr. 2 und 3 sind identische Modelle, ebenso Nr. 5 und 6 und Nr. 7 und 8.
 

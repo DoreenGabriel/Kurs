@@ -6,9 +6,7 @@ title: "Grafische Darstellungen"
 knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
 ```
 
-Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich.
-Wir nutzen hierfür den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx){target="_blank"}, wie schon in der vorherigen Kapiteln. 
-Ich füge zusätzlich für die als `character` eingelesenen Spalten, Variablen als Faktoren ein (`variety.f`, `method.f`, `infection.f`) und ändere für `variety.f2` die Reihenfolge der Faktorlevels, i.e. `Unica` ist nun das erste Level.   
+Bevor Daten statistisch analysiert werden, sollten sie grafisch dargestellt werden, um mögliche Fehler, Ausreißer oder Muster zu erkennen. Darüber hinaus ist die grafische Darstellung der Daten für die Präsentation und Interpretation statistischer Modelle unerlässlich. Wir nutzen hierfür den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/potato.xlsx){target="_blank"}, wie schon in der vorherigen Kapiteln. Ich füge zusätzlich für die als `character` eingelesenen Spalten, Variablen als Faktoren ein (`variety.f`, `method.f`, `infection.f`) und ändere für `variety.f2` die Reihenfolge der Faktorlevels, i.e. `Unica` ist nun das erste Level.
 
 ```{r, message=FALSE}
 library(openxlsx)
@@ -25,8 +23,7 @@ str(pot)
 # ggplot
 
 Die folgenden Abbildungen werden mit der `library(ggplot2)` erstellt. Einen Schummelzettel zur `library(ggplot2)` findet ihr unter:\
-[https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf){target="_blank"}
-Und ein ganzes Buch mit Erklärungen gibt es unter  [https://ggplot2-book.org/](https://ggplot2-book.org/){target="_blank"}
+[https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/data-visualization_de.pdf){target="_blank"} Und ein ganzes Buch mit Erklärungen gibt es unter [https://ggplot2-book.org/](https://ggplot2-book.org/){target="_blank"}
 
 Zunächst laden wir die `library(ggplot2)` ein.
 
@@ -346,7 +343,6 @@ ggplot(data=pot, aes(x=weight, y=tubers)) +
   geom_smooth(method=lm)
 ```
 
-
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, colour=variety)) +
   geom_point()+
@@ -369,16 +365,14 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-
 # Übung 3.1.
 
-
-
-Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`. 
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`.
 
 ::: {.callout-tip collapse="true"}
 ### Daten einlesen und prüfen
-Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein.
 
 ```{r}
 library(openxlsx)
@@ -386,7 +380,6 @@ md<-read.xlsx("Kursteilnehmer.xlsx", sheet=1, startRow = 2)
 str(md)
 ```
 :::
-
 
 Lerne folgende Funktionen kennen:
 
@@ -401,11 +394,10 @@ plot(md)
 Plotte:
 
 -   den Zusammenhang zwischen Körpergröße und Schuhgröße mit
-    -   unterschiedlichen Farben für die Frauen und Männer und 
+    -   unterschiedlichen Farben für die Frauen und Männer und
     -   Regressionslinien
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 library(ggplot2)
 ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
@@ -419,7 +411,6 @@ ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
   labs(x="Körpergröße in cm", y="Schuhgröße")+
   scale_color_manual(values=c("darkblue", "red"))
 ```
-
 :::
 
 Zusatzaufgaben:
@@ -427,7 +418,6 @@ Zusatzaufgaben:
 -   verwende statt geom_point() die Funktion geom_count()
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
   geom_count()+
@@ -436,7 +426,6 @@ ggplot(data=md, aes(x=KG, y=SG, colour=G)) +
   scale_color_manual(values=c("darkblue", "red"))
 ```
 :::
-
 
 -   finde heraus, was mit dem Argument `scales` der Funktion `facet_wrap()` geändert werden kann
 
@@ -471,13 +460,11 @@ ggplot(data=md, aes(x=KG, y=SG, color=G))+
   facet_wrap(~G, scales="free")
 
 ```
-
 :::
 
--   plotte erst Frauen (links) und dann Männer (rechts) 
+-   plotte erst Frauen (links) und dann Männer (rechts)
 
 ::: {.callout-tip collapse="true"}
-
 Hierfür erstelle ich eine neue Variable `G2` in `md`, die ein Faktor mit den levels w und m ist (statt der alphanumerischen Reihenfolge)
 
 ```{r}
@@ -488,7 +475,6 @@ levels(md$G2)
 table(md$G, md$G2)
 ```
 
-
 ```{r}
 ggplot(data=md, aes(x=KG, y=SG, color=G))+
   geom_count()+geom_smooth(method=lm)+
@@ -497,8 +483,6 @@ ggplot(data=md, aes(x=KG, y=SG, color=G))+
   scale_color_manual(values=c("darkblue", "red"))
 ```
 :::
-  
-
 
 Ende Übung 3.1.
 
@@ -568,7 +552,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
 
 ### Stichprobenumfang bzw. Anzahl Wiederholungen je Gruppe
 
-[https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot](https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot){target="_blank"}  
+[https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot](https://stackoverflow.com/questions/42822273/adding-sample-size-to-a-box-plot-at-the-min-or-max-of-the-facet-in-ggplot){target="_blank"}
 
 ```{r}
 give.n<-function(x)
@@ -605,7 +589,9 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot() +
   facet_grid(~variety)
 ```
+
 ## x-Achsenlevels
+
 In diesem Beispiel ist die Beschriftung der x-Achsenlevels sehr lang. Mit `\n` können wir einen Zeilenumbruch erzeugen:
 
 ```{r}
@@ -616,7 +602,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   scale_x_discrete(labels =c("aero-\nponic", "bed", "hydro-\nponic", "pot"))
 ```
 
-oder wir drehen die X-Achsenbeschriftungslevels um 45 Grad. 
+oder wir drehen die X-Achsenbeschriftungslevels um 45 Grad.
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight)) +
@@ -648,7 +634,7 @@ ggplot(data=pot, aes(x=method, y=weight, colour=variety)) +
               shape=1, size=1)
 ```
 
-## Transformation der Achsenabstände scale_._()
+## Transformation der Achsenabstände scale\_.\_()
 
 Häufig weisen Daten eine (Rechts-) Schiefe auf, d.h. es gibt viele kleine und wenige große Werte. Dies ist bei Zähldaten häufig der Fall, die poisson oder negative binomial verteilt sein können oder bei streng positiven diskreten Daten, wie z.B. Biomasse, die gamma-verteilt sein kann. Dabei nimmt die Varianz (die Streuung) häufig mit steigendem Mittelwert zu.
 
@@ -669,6 +655,7 @@ ggplot(data=pot, aes(x=method, y=weight)) +
   geom_boxplot() +
   scale_y_sqrt(limits=c(0,400))
 ```
+
 Für die logarithmische Skala müssen die Werte \> 0 sein.
 
 ```{r}
@@ -715,7 +702,7 @@ ggplot(data=pot, aes(x=method, y=weight))+
 
 ## Komma statt Punkte in Y-Achse
 
-Wenn wir Abbildungen in Deutsch verfassen, sollten die Dezimalstellen als Komma dargestellt werden.  
+Wenn wir Abbildungen in Deutsch verfassen, sollten die Dezimalstellen als Komma dargestellt werden.
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight/1000))+ 
@@ -726,7 +713,6 @@ ggplot(data=pot, aes(x=method, y=weight/1000))+
 
 Hierfür gibt es die Möglichkeit über das Argument `labels` und die Funktion `number_format()` der `library(scales)` das Dezimalzeichen als Kommas anzeigen zu lassen.
 
-
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight/1000))+ 
   stat_boxplot(geom ="errorbar", width = 0.5)+
@@ -736,10 +722,12 @@ ggplot(data=pot, aes(x=method, y=weight/1000))+
   ylab("Gewicht in kg")+
   xlab("Methode")
 ```
+
 ## `facet_grid()` und `facet_wrap()`
+
 ### Reihenfolge ändern
-Die Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert.  Ich habe nun nach dem Einlesen der Daten den Faktor `variety.f2` mit dem Code `variety.f2=factor(variety, levels=c("Unica" , "Costanera", "Mariva"))` in der Funktion `mutate()` eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne `mutate()` `pot$variety.f2=factor(pot$variety, levels=c("Unica" , "Costanera", "Mariva"))`
-Weitere tolle Möglichkeiten, um Fakoren zu manipulieren, bietet die `library(forcats)` [https://forcats.tidyverse.org/](https://forcats.tidyverse.org/){target="_blank"}.  
+
+Die Reihenfolge der facets (oder auch der Levels im Boxplot) könnt ihr am einfachsten ändern, indem ihr die Reihenfolge der Faktorlevels definiert. Diese werden per default alphanumerisch sortiert. Ich habe nun nach dem Einlesen der Daten den Faktor `variety.f2` mit dem Code `variety.f2=factor(variety, levels=c("Unica" , "Costanera", "Mariva"))` in der Funktion `mutate()` eingepflegt und die Levelreihenfolge geändert. Alternativer Code ohne `mutate()` `pot$variety.f2=factor(pot$variety, levels=c("Unica" , "Costanera", "Mariva"))` Weitere tolle Möglichkeiten, um Fakoren zu manipulieren, bietet die `library(forcats)` [https://forcats.tidyverse.org/](https://forcats.tidyverse.org/){target="_blank"}.
 
 ```{r}
 ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
@@ -747,7 +735,9 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   facet_grid(~variety.f2)+
   theme(legend.position="bottom")
 ```
-alternativer Code mit der `library(forcats)` und der Funktion `fct_relevel()`.  
+
+alternativer Code mit der `library(forcats)` und der Funktion `fct_relevel()`.
+
 ```{r}
 library(forcats)
 pot %>% 
@@ -800,8 +790,6 @@ ggplot(data=pot, aes(x=weight, y=tubers, color=variety)) +
   theme(legend.position="bottom")
 ```
 
-
-
 ## Theme
 
 Mit der Funktion \`theme()´ können Gitterlinien, Beschriftungen, Legenden und vieles mehr angepasst werden. [https://ggplot2.tidyverse.org/reference/theme.html](https://ggplot2.tidyverse.org/reference/theme.html){target="_blank"}
@@ -824,7 +812,6 @@ Es gibt eine Reihe von abgestimmten `themes()`:
 ### theme_bw
 
 white background - weißer Hintergrund und schwarze Gitterlinien
-
 
 ```{r}
 ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
@@ -872,8 +859,7 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   scale_fill_brewer(palette="Blues")
 ```
 
-weitere Beispiele [https://ggplot2.tidyverse.org/reference/scale_brewer.html](https://ggplot2.tidyverse.org/reference/scale_brewer.html){target="_blank"} 
-
+weitere Beispiele [https://ggplot2.tidyverse.org/reference/scale_brewer.html](https://ggplot2.tidyverse.org/reference/scale_brewer.html){target="_blank"}
 
 ## Abstand zwischen den Boxen
 
@@ -891,9 +877,8 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   geom_boxplot(position=position_dodge(1)) 
 ```
 
-
-
 # Alternative zum Boxplot
+
 ## Dotplot
 
 ```{r}
@@ -903,6 +888,7 @@ ggplot(data=pot, aes(x=method, y=weight, fill=variety)) +
   theme(legend.position="none", 
         axis.text.x=element_text(angle = 45, hjust = 1))
 ```
+
 ## Violinplot
 
 [http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization](http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization){target="_blank"}
@@ -921,7 +907,6 @@ Plotte:
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 ggplot(md, aes(x=G, y=KG, fill=G))+
   stat_boxplot(geom ="errorbar", width = 0.15)+
@@ -929,18 +914,17 @@ ggplot(md, aes(x=G, y=KG, fill=G))+
   labs(x="Geschlecht", y="Körpergröße in cm")
 ```
 :::
-  
+
 -   einen Boxplot für Körpergröße in Abhängigkeit von Geschlecht und Augenfarbe
 
-
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 ggplot(md, aes(x=G, y=KG, fill=AF))+
   stat_boxplot(geom ="errorbar", width = 0.15, position = position_dodge(width=0.75))+
   geom_boxplot()
 ```
-Wir könne den Plot noch schöner gestalten, indem wir die Farben und die Beschriftungen anpassen und die Legende unter den Plot legen. 
+
+Wir könne den Plot noch schöner gestalten, indem wir die Farben und die Beschriftungen anpassen und die Legende unter den Plot legen.
 
 ```{r}
 ggplot(md, aes(x=G, y=KG, fill=AF))+
@@ -961,7 +945,6 @@ ggplot(md, aes(x=G, y=KG, fill=AF))+
   theme(legend.position="bottom")
 ```
 :::
-  
 
 Zusatzaufgabe:
 
@@ -969,7 +952,8 @@ Zusatzaufgabe:
 
 ::: {.callout-tip collapse="true"}
 ## wichtig
-Wenn die Beobachtungen als *jittered* Punkte dargestellt werden, muss in `geom_boxplot()` das Argument `outlier.shape=NA` gesetzt werden, damit die *Ausreißer* nicht doppelt erscheinen. Für eine korrekte Zuordnung der Punkte zu den  Gruppen muss das Argument `position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, dodge.width=0.75)` gesetzt werden. 
+
+Wenn die Beobachtungen als *jittered* Punkte dargestellt werden, muss in `geom_boxplot()` das Argument `outlier.shape=NA` gesetzt werden, damit die *Ausreißer* nicht doppelt erscheinen. Für eine korrekte Zuordnung der Punkte zu den Gruppen muss das Argument `position=position_jitterdodge(jitter.width = 0.1, jitter.height = 0, dodge.width=0.75)` gesetzt werden.
 
 ```{r}
 ggplot(md, aes(x=G, y=KG, fill=AF))+
@@ -1099,12 +1083,11 @@ ggplot(pot, aes(x = weight, y = method, fill = method)) +
   scale_discrete_manual(aesthetics = "point_shape", values = c(21, 22, 23, 24))
 ```
 
-
 # Barplot mit zwei Y-Achsen
 
-- z.B. zur Darstellung von Wetterdaten (Niederschlag und Temperatur)
-- Niederschlag als Balkendiagramm mit Funktion `geom_bar()`
-- Temperatur als Punkte und verbundene Linie mit `geom_line()` und `geom_point()` 
+-   z.B. zur Darstellung von Wetterdaten (Niederschlag und Temperatur)
+-   Niederschlag als Balkendiagramm mit Funktion `geom_bar()`
+-   Temperatur als Punkte und verbundene Linie mit `geom_line()` und `geom_point()`
 
 ```{r}
 w=data.frame(Monat=factor(c("Jan", "Feb", "März", "April", "Mai", "Juni", "Juli", "Aug", "Sept", "Okt", "Nov", "Dez"),
@@ -1114,7 +1097,6 @@ w=data.frame(Monat=factor(c("Jan", "Feb", "März", "April", "Mai", "Juni", "Juli
 ```
 
 Mit der Funktion `scale_y_continuous` und dem Argument `sec.axis` erzeugen wir eine zweite y-Achse für die Temperatur. In den Funktionen `geom_line()` und `geom_point()` multipliziere ich die Temperatur mit 5, um sie besser in den Plot zu integrieren und verwende dann die Funktion `sec.axis`, um die Skala der zweiten Achse entsprechend anzupassen, i.e. die Werte wieder durch 5 dividieren.
-
 
 ```{r}
 ggplot(w, aes(x = Monat)) +
@@ -1127,7 +1109,6 @@ ggplot(w, aes(x = Monat)) +
        x = "Monat") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
 
 # Mosaikplot mit `library(vcd)`
 
@@ -1144,7 +1125,6 @@ mosaic(~variety+infection, data=pot, shade = TRUE)
 ```
 
 # Layout
-
 
 ## Vier Plots in einer Grafik
 
@@ -1206,14 +1186,15 @@ ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(
           common.legend = TRUE, legend = "bottom")
 ```
 
-Das Argument `align="hv"` richtet die Plots horizontal und vertikal aus (vgl. a) und c) oben mit dieser Grafik unten). 
+Das Argument `align="hv"` richtet die Plots horizontal und vertikal aus (vgl. a) und c) oben mit dieser Grafik unten).
 
 ```{r, fig.width=8, fig.height=7.5, message=FALSE}
 ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(face="plain"),
           common.legend = TRUE, legend = "bottom", align="hv")
 ```
 
-Ausserdem kann auch die relative Breite der Plots geändert werden. 
+Ausserdem kann auch die relative Breite der Plots geändert werden.
+
 ```{r, fig.width=8, fig.height=7.5, message=FALSE}
 ggarrange(p1, p2, p3, p4, labels = c("a)", "b)", "c)", "d)"), font.label = list(face="plain"),
           common.legend = TRUE, legend = "bottom", align="hv", widths = c(0.6,0.4))
@@ -1254,19 +1235,15 @@ Plotte:
 -   ein Histogramm von Körpergröße
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 ggplot(data=md, aes(KG)) +
   geom_histogram()
 ```
 :::
-  
 
 -   ein Histogramm von Körpergröße getrennt für Frauen und Männer
 
-
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 ggplot(data=md, aes(KG, fill=G)) +
   geom_histogram(binwidth = 5, col=1)+
@@ -1277,7 +1254,7 @@ ggplot(data=md, aes(KG, fill=G)) +
 
 ```
 :::
-  
+
 -   Plotte einen Mosaikplot für das Auftreten der Kombinationen aus Augenfarbe und Geschlecht
 
 ::: {.callout-tip collapse="true"}

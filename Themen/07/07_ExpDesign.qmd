@@ -6,7 +6,6 @@ title: "Experimental Design"
 knitr::opts_chunk$set(echo = TRUE, error= TRUE, comment = NA, options(Encoding="UTF-8"))
 ```
 
-
 ```{r, message=F, warning=F}
 library(ggplot2)# plotting
 library(dplyr)# data management and summary statistics
@@ -253,7 +252,7 @@ However, challenges may arise with this CRD design if there are underlying gradi
 
 ### Randomized Complete Block Design (RCBD)
 
-In a Randomized Complete Block Design we con control for the variability among experimental plots (e.g. gradients in soil conditions) by building blocks. A block represents a relatively homogeneous set of conditions. Each block receives each treatment exactly once, which means all treatments are "completely randomized" within each block. The number of blocks represents the number of replications.
+In a Randomized Complete Block Design we can control for the variability among experimental plots (e.g. gradients in soil conditions) by building blocks. A block represents a relatively homogeneous set of conditions. Each block receives each treatment exactly once, which means all treatments are "completely randomized" within each block. The number of blocks represents the number of replications.
 
 To create a field plan in an RCBD we use the function `design.rcbd` from the library `agricolae`.
 
@@ -287,13 +286,13 @@ To analyze the data, we need to add the block effect to the linear model (e.g., 
 
 If you have many blocks (more than 5 some say more than 8), block may be also treated as random effect in a mixed effect model. To fit these models you can use:
 
-+ `library(glmmTMB)` for linear mixed effect model `mod<-glmmTMB(y ~ trt +  (1|block), data=dat)` or generalised linear mixed effect model `mod<-glmmTMB(y ~ trt + (1|block), data=dat, family="poisson")` or 
-+ `library(lme4)` with `mod<-lmer(y ~ trt + (1|block), data=dat)` and `mod<-glmer(y ~ trt + (1|block), data=d, family="poisson")`.
+-   `library(glmmTMB)` for linear mixed effect model `mod<-glmmTMB(y ~ trt +  (1|block), data=dat)` or generalised linear mixed effect model `mod<-glmmTMB(y ~ trt + (1|block), data=dat, family="poisson")` or
+-   `library(lme4)` with `mod<-lmer(y ~ trt + (1|block), data=dat)` and `mod<-glmer(y ~ trt + (1|block), data=d, family="poisson")`.
 
 These models assume a single measurement per treatment replication. However, if multiple measurements are taken within each replication (e.g., counting the number of aphids on 10 plants per plot), you have two options:
 
 -   Aggregate the data: You can calculate summary statistics, like the mean or sum, per plot to represent a single value for each replication.
--   Account for pseudoreplications: Alternatively, if you wish to retain the individual measurements, you can account for pseudoreplications by including a random effect for each plot, representing the level at which measurements occur without randomization. The mixed effect model would be: `mod<-glmmTMB(y ~ trt + block + (1|PlotID), data=dat)` or `mod<-lmer(y ~ trt + block + (1|PlotID), data=dat)` with PlotID having 20 levels. 
+-   Account for pseudoreplications: Alternatively, if you wish to retain the individual measurements, you can account for pseudoreplications by including a random effect for each plot, representing the level at which measurements occur without randomization. The mixed effect model would be: `mod<-glmmTMB(y ~ trt + block + (1|PlotID), data=dat)` or `mod<-lmer(y ~ trt + block + (1|PlotID), data=dat)` with PlotID having 20 levels.
 
 This random effect accounts for the variability within plots and prevents pseudoreplications from inflating the sample size and violating the independence assumption.
 
@@ -316,10 +315,10 @@ ggplot(data=book.lsd, aes(x=col, y=row, fill=trt, label=trt))+
   coord_fixed()
 ```
 
-The data can be analyzed using treatment and rows and columns as factors 
+The data can be analyzed using treatment and rows and columns as factors
 
-+ in a linear model (e.g., `mod <- lm(y ~ trt + row + col, data = dat)`) or 
-+ in a generalized linear model (e.g., `mod <- glm(y ~ trt + row + col, family = "poisson", data = dat)`).
+-   in a linear model (e.g., `mod <- lm(y ~ trt + row + col, data = dat)`) or
+-   in a generalized linear model (e.g., `mod <- glm(y ~ trt + row + col, family = "poisson", data = dat)`).
 
 ### LSD with two different treatments
 
@@ -341,14 +340,14 @@ ggplot(data=book.lsd, aes(x=col, y=row, fill=trt2, label=trt2))+
   theme(legend.position = "bottom")
 ```
 
-The data can be analyzed with geno * man main effect and interaction and rows and columns as factors 
+The data can be analyzed with geno \* man main effect and interaction and rows and columns as factors
 
-+ using linear models  (e.g., `mod <- lm(y ~ geno*man + row + col, data = dat)`) or 
-+ generalized linear models (e.g., `mod <- glm(y ~ geno*man + row + col, family = "poisson", data = dat)`).
+-   using linear models (e.g., `mod <- lm(y ~ geno*man + row + col, data = dat)`) or
+-   generalized linear models (e.g., `mod <- glm(y ~ geno*man + row + col, family = "poisson", data = dat)`).
 
 ### Split-Plot Design
 
-In a split-plot design we have two treatments, of which one treatment is nested within the other. 
+In a split-plot design we have two treatments, of which one treatment is nested within the other.
 
 Example: If the machinery for sowing is not applicable for individual plots, but fertilisation can be applied to plot level, then we allocate the genotype as main-plot in a randomized complete block design, and allocate randomly the fertilisation levels as sub-plots within the main plots. Each block still contains each treatment combination exactly once, but randomization was perfromed at two different levels leading to a hierarchical design.
 
@@ -391,14 +390,14 @@ ggplot(data=book, aes(x=col, y=row, fill=factor(plots), label=mainplot))+
   guides(fill = guide_legend(nrow = 1))
 ```
 
-Hence the model would look like: 
+Hence the model would look like:
 
-+ `library(glmmTMB)` 
-  + for linear mixed effect model `mod<-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat)` or 
-  + generalised linear mixed effect model `mod<-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat, family="poisson")` or 
-+ `library(lme4)` 
-  + with `mod<-lmer(y ~ geno * N + block +  (1|mainplot), data=dat)` and 
-  + `mod<-glmer(y ~ geno * N + block +  (1|mainplot), data=d, family="poisson")`.
+-   `library(glmmTMB)`
+    -   for linear mixed effect model `mod<-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat)` or
+    -   generalised linear mixed effect model `mod<-glmmTMB(y ~ geno * N + block +  (1|mainplot), data=dat, family="poisson")` or
+-   `library(lme4)`
+    -   with `mod<-lmer(y ~ geno * N + block +  (1|mainplot), data=dat)` and
+    -   `mod<-glmer(y ~ geno * N + block +  (1|mainplot), data=d, family="poisson")`.
 
 Alternatively the nesting can be also written like this `(1|block:geno)`.
 

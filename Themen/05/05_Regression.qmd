@@ -11,22 +11,20 @@ library(ggfortify)
 library(DHARMa)
 ```
 
-
 **Lineare Regression**
 
-+ gerichtete Abhängigkeit zwischen zwei Variablen
-+ ${x}$ beeinflusst ${y}$ 
-+ ${x}$ unabhängige Variable (independent, predictor, explanatory variable)
-+ ${y}$ abhängige Variable (dependent, response variable)
-+ sowohl Abhängige als auch Erklärungsvariable sind kontinuierlich
-+ ${y=f(x)}$  oder `y ~ x`
-+ ${y = a + bx}$
-+ Parameter ${a}$ Intercept (Achsenabschnitt)
-+ Parameter ${b}$ Slope (Steigung)
-+ `mod<-lm(Abhängige~Erklärungsvariable, data=md)`
-+ Differenz zwischen gemessenem ${y}$  (`observed` oder `measured`) und dem vom Modell vorhergesagten Wert $\hat{y}$  (`fitted` oder `predicted`) beim gleichen Wert ${x}$ nennt man Residuen (`residuals`)
-+ Residuen haben die gleiche Einheit wie ${y}$ (parallel zur y-Achse)  
-
+-   gerichtete Abhängigkeit zwischen zwei Variablen
+-   ${x}$ beeinflusst ${y}$
+-   ${x}$ unabhängige Variable (independent, predictor, explanatory variable)
+-   ${y}$ abhängige Variable (dependent, response variable)
+-   sowohl Abhängige als auch Erklärungsvariable sind kontinuierlich
+-   ${y=f(x)}$ oder `y ~ x`
+-   ${y = a + bx}$
+-   Parameter ${a}$ Intercept (Achsenabschnitt)
+-   Parameter ${b}$ Slope (Steigung)
+-   `mod<-lm(Abhängige~Erklärungsvariable, data=md)`
+-   Differenz zwischen gemessenem ${y}$ (`observed` oder `measured`) und dem vom Modell vorhergesagten Wert $\hat{y}$ (`fitted` oder `predicted`) beim gleichen Wert ${x}$ nennt man Residuen (`residuals`)
+-   Residuen haben die gleiche Einheit wie ${y}$ (parallel zur y-Achse)
 
 ```{r, echo=FALSE, fig.height=3, fig.width=6, message=FALSE, warning=FALSE}
 X=0:10
@@ -44,12 +42,11 @@ ggplot(data=dat, aes(x=X))+
   theme(legend.position="right")
 ```
 
+Annahmen:
 
-Annahmen: 
-
-+ die Erklärungsvariable x wurde fehlerfrei gemessen
-+ Varianz von y ist konstant (wird nicht größer)
-+ Residuen annähernd normalverteilt 
+-   die Erklärungsvariable x wurde fehlerfrei gemessen
+-   Varianz von y ist konstant (wird nicht größer)
+-   Residuen annähernd normalverteilt
 
 ```{r, echo=FALSE}
 n=100
@@ -86,8 +83,7 @@ simulationOutput <- simulateResiduals(fittedModel = mod.Bsp2, plot = F)
 plot(simulationOutput)
 ```
 
-Nur für das erste Beispiel treffen die Annahmen für eine Regression zu. Im zweiten Beispiel tritt der Trompeteneffekt auf (Heteroskedastizität).   
-
+Nur für das erste Beispiel treffen die Annahmen für eine Regression zu. Im zweiten Beispiel tritt der Trompeteneffekt auf (Heteroskedastizität).
 
 ### Beispiel Anscombe 1973
 
@@ -110,18 +106,13 @@ for(i in 1:4) {
 }
 ```
 
-Diese vier Datensätze ergeben vier Regressionsmodelle mit gleichem Intercept, Slope, R² und Stichprobenumfang. Doch nur für das Beispiel oben links werden die Annahmen für eine lineare Regression erfüllt. 
-Dieses Beispiel verdeutlicht, dass wir unbedingt Modelldiagnostik betreiben müssen, indem wir unsere Daten und die Residuen der Modelle plotten.    
-
+Diese vier Datensätze ergeben vier Regressionsmodelle mit gleichem Intercept, Slope, R² und Stichprobenumfang. Doch nur für das Beispiel oben links werden die Annahmen für eine lineare Regression erfüllt. Dieses Beispiel verdeutlicht, dass wir unbedingt Modelldiagnostik betreiben müssen, indem wir unsere Daten und die Residuen der Modelle plotten.
 
 ## Beispiel Trade-off zwischen Ertrag und Proteingehalt
 
-
-Bei gleicher N-Düngung beobachtet man im Weizen aufgrund unterschiedlicher Sorteneigenschaften häufig einen Trade-off zwischen Ertrag und Proteingehalt. 
+Bei gleicher N-Düngung beobachtet man im Weizen aufgrund unterschiedlicher Sorteneigenschaften häufig einen Trade-off zwischen Ertrag und Proteingehalt.
 
 Frage: Wie stark reduziert sich der Proteingehalt mit steigendem Ertrag?
-
-
 
 ```{r, echo=FALSE, eval=FALSE}
 set.seed(12345)
@@ -135,12 +126,12 @@ write.xlsx(d, "Trade-off.xlsx")
 #summary(lm(Prot~Ert, data=d))
 ```
 
+# Vorgehensweise:
 
-# Vorgehensweise:  
-
-[Trade-off.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/Trade-off.xlsx){target="_blank"} 
+[Trade-off.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/Trade-off.xlsx){target="_blank"}
 
 ## Daten einlesen, kennenlernen und plotten
+
 ```{r}
 library(openxlsx)
 reg<-read.xlsx("Trade-off.xlsx")
@@ -150,7 +141,6 @@ ggplot(reg, aes(x=Ert, y=Prot)) +
   geom_point()
 ```
 
-
 ## Modell formulieren
 
 ```{r}
@@ -158,67 +148,64 @@ mod<-lm(Prot~Ert, data=reg)
 summary(mod)
 ```
 
-
-Mit jedem Anstieg des Ertrag (je dt/ha) sinkt der Proteingehalt um `r round(coef(mod)[2],2)` %. 
-Das R² des Modells beträgt `r round(summary(mod)$r.sq*100,1)`. 
-
+Mit jedem Anstieg des Ertrag (je dt/ha) sinkt der Proteingehalt um `r round(coef(mod)[2],2)` %. Das R² des Modells beträgt `r round(summary(mod)$r.sq*100,1)`.
 
 ## Signifikanztest der Modellparameter
+
 ```{r}
 drop1(mod, test="F")
 ```
 
-Signifikanter Zusammenhang zwischen Ertrag und Proteingehalt.  
+Signifikanter Zusammenhang zwischen Ertrag und Proteingehalt.
 
 ## Modelldiagnostik
+
 ```{r}
 library(DHARMa)
 simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
 plot(simulationOutput)
 ```
 
-Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, scheint alles in Ordnung zu sein.  
+Auch wenn es bei diesem kleinen Stichprobenumfang schwierig ist, diese Plots sicher zu interpretieren, scheint alles in Ordnung zu sein.
 
-+ Die Residuen sind annähernd normalverteilt (Plot oben links).
-+ Die Residuen weisen keinen Trompeteneffekt (Varianzheterogenität) auf (Plot oben rechts).
-+ Es gibt keine erkennbare Muster in den Residuen.
-+ Es gibt keine einflussreiche Punkte (keine roten Sternchen im Plot oben rechts).
+-   Die Residuen sind annähernd normalverteilt (Plot oben links).
+-   Die Residuen weisen keinen Trompeteneffekt (Varianzheterogenität) auf (Plot oben rechts).
+-   Es gibt keine erkennbare Muster in den Residuen.
+-   Es gibt keine einflussreiche Punkte (keine roten Sternchen im Plot oben rechts).
 
 ```{r}
 plotResiduals(simulationOutput, form = reg$Ert)
 ```
-Auch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster. 
 
+Auch der Plot gegen die Erklärungsvariable zeigt keine auffälligen Muster.
 
-Das Paket `ggfortify` gibt noch zwei weitere Plots zur Cook's Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook's Distance (> 1 oder 0,5) gekennzeichnet ist.  
-Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Modell ohne Ausreißer rechnen und die "neuen" Modellparameter mit den "alten" vergleichen und damit die Robustheit der Ergebnisse überprüfen.  
+Das Paket `ggfortify` gibt noch zwei weitere Plots zur Cook's Distance und Leverage aus. Hat eine Stichprobe eine hohe Leverage (i.e. Hebelwirkung, extremer Wert in x) und gleichzeitig ein großes Residuum (große Differenz zwischen beobachtetem und erwartetem Wert), dann spricht man von einem einflussreichem Punkt, der evtl. ein Ausreißer ist und durch eine hohe Cook's Distance (\> 1 oder 0,5) gekennzeichnet ist.\
+Entsprechend kann man auf diese Werte nochmal genauer schauen (i.e. den Wert auf Eingabefehler überprüfen) und ggfls. das Modell ohne Ausreißer rechnen und die "neuen" Modellparameter mit den "alten" vergleichen und damit die Robustheit der Ergebnisse überprüfen.
 
 ```{r, fig.height=3.5}
 library(ggfortify)
 autoplot(mod, which =c(4,6), ncol = 2, label.size = 3)
 ```
 
-
 ## Modellinterpretation
 
-Die `predict`-Funktion rechnet uns die Erwartungswerte basierend auf den Modellkoeffizienten aus. Gibt man kein weiteres Argument in die `predict`-Funktion, dann werden die Originaldaten zur Vorhersage genutzt.  
+Die `predict`-Funktion rechnet uns die Erwartungswerte basierend auf den Modellkoeffizienten aus. Gibt man kein weiteres Argument in die `predict`-Funktion, dann werden die Originaldaten zur Vorhersage genutzt.
 
 ```{r}
 predict(mod) 
 reg$Ert
 ```
 
-Bei einem Ertrag von 90.4 dt/ha schätzt unser Modell einen Proteingehalt von 12.59 %, bei einem Ertrag von 101.3 dt/ha schätzt es einen Proteingehalt von 11.6 %. 
+Bei einem Ertrag von 90.4 dt/ha schätzt unser Modell einen Proteingehalt von 12.59 %, bei einem Ertrag von 101.3 dt/ha schätzt es einen Proteingehalt von 11.6 %.
 
-Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (`r `coef(mod)`) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für `Ert` und x der Ertrag ist:  
-
+Wir können uns nun fragen, wie hoch der Proteingehalt bei einem Ertrag von 80 dt/ha ist. Hierzu müssen wir die geschätzten Koeffizienten (`r`coef(mod)`) in die Modellgleichung (y = a + b*x) einsetzen, wobei a der Intercept, b der Koeffizient für`Ert\` und x der Ertrag ist:
 
 ```{r}
 predict(mod, newdata=data.frame(Ert=80))
 ```
 
-Jetzt fehlt nur noch eine Abbildung zum Zusammenhang zwischen Wachstum und Ertrag.  
-Ganz schnell und einfach geht es mit dem Package `effects`.  
+Jetzt fehlt nur noch eine Abbildung zum Zusammenhang zwischen Wachstum und Ertrag.\
+Ganz schnell und einfach geht es mit dem Package `effects`.
 
 ```{r, message=FALSE, warning=FALSE}
 library(effects)
@@ -226,10 +213,9 @@ plot(allEffects(mod))
 plot(Effect(c("Ert"), mod, partial.residuals=TRUE))
 ```
 
-Die blaue Linie zeigt uns den *fit* (also die Regressionslinie) an, während die orangefarbene Linie ist ein *fit* durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.  
+Die blaue Linie zeigt uns den *fit* (also die Regressionslinie) an, während die orangefarbene Linie ist ein *fit* durch die Residuen und sollte entlang der blauen Linie laufen und keine Kurvatur aufweisen.
 
-
-Eine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die `library(effects)`. 
+Eine weitere Alternative für die Abbildung der Originalwerte zusammen mit den Vorhersagewerten und Konfidenzintervalle des Modells bietet die `library(effects)`.
 
 ```{r}
 ef=allEffects(mod, xlevels=100)
@@ -238,7 +224,7 @@ head(ef1)
 tail(ef1)
 ```
 
-Durch das Argument `xlevels=100` werden 100 Einträge für die Erklärungsvariablen im beobachteten Werteberich erzeugt. Die Spalte `fit` zeigt die `fitted values` (Vorhersagewerte) und in `lower` und  `upper` sind die Grenzen des Konfidenzintervalls aufgeführt.  
+Durch das Argument `xlevels=100` werden 100 Einträge für die Erklärungsvariablen im beobachteten Werteberich erzeugt. Die Spalte `fit` zeigt die `fitted values` (Vorhersagewerte) und in `lower` und `upper` sind die Grenzen des Konfidenzintervalls aufgeführt.
 
 Nun plotten wir die Originalwerte und zeichnen dann die Daten aus `ef1` mit den Funktionen `geom_line()` und `geom_ribbon()` ein.
 
@@ -249,15 +235,13 @@ ggplot(reg, aes(x=Ert, y=Prot)) +
   geom_ribbon(data = ef1, aes(x = Ert, y = NULL, ymin =lower, ymax = upper), alpha = 0.4)
 ```
 
+Bei einer einfachen Regression kann man die Regressionslinie mit der Funktion `geom_smooth(method=lm)` einzeichnen.
 
-
-Bei einer einfachen Regression kann man die Regressionslinie  mit der Funktion `geom_smooth(method=lm)` einzeichnen.  
 ```{r}
 ggplot(reg, aes(x=Ert, y=Prot)) +
   geom_point()+
   geom_smooth(method=lm)
 ```
-
 
 oder `geom_abline(intercept = 21.26794, slope = -0.09590221)`
 
@@ -271,10 +255,10 @@ ggplot(reg, aes(x=Ert, y=Prot)) +
   geom_abline(intercept=coef(mod)[1], slope=coef(mod)[2])
 ```
 
-Alternativ, aber etwas komplizierter, geht es auch so:  
-Um die Regressionslinie des Modells in einen Plot "per Hand" einzuzeichnen, erstellen wir einen Testdatensatz, der alle Erklärungsvariablen des Modells in einem realistischen Wertebereich (Minimum bis Maximum) enthält. In diesem Beispiel ist das sehr einfach, da  `Ert` die einzige Erklärungsvariable ist.  
+Alternativ, aber etwas komplizierter, geht es auch so:\
+Um die Regressionslinie des Modells in einen Plot "per Hand" einzuzeichnen, erstellen wir einen Testdatensatz, der alle Erklärungsvariablen des Modells in einem realistischen Wertebereich (Minimum bis Maximum) enthält. In diesem Beispiel ist das sehr einfach, da `Ert` die einzige Erklärungsvariable ist.
 
-Wir benennen den Testdatensatz `td` und nutzen die `predict`-Funktion mit dem Argument `newdata=td` um die Erwartungswerte `td$p` zu berechnen. 
+Wir benennen den Testdatensatz `td` und nutzen die `predict`-Funktion mit dem Argument `newdata=td` um die Erwartungswerte `td$p` zu berechnen.
 
 ```{r}
 range(reg$Ert)
@@ -291,10 +275,10 @@ td
 str(td)
 ```
 
-Jetzt plotten wir die Originaldaten und zeichnen   
+Jetzt plotten wir die Originaldaten und zeichnen
 
-+ die Regressionslinie durch die `geom_line()`-Funktion der vorhergesagten Werte `td$fit` und
-+ das Konfidenzintervall durch die `geom_ribbon`-Funktion der vorhergesagten Werte `td$lwr` und `td$upr` ein.  
+-   die Regressionslinie durch die `geom_line()`-Funktion der vorhergesagten Werte `td$fit` und
+-   das Konfidenzintervall durch die `geom_ribbon`-Funktion der vorhergesagten Werte `td$lwr` und `td$upr` ein.
 
 ```{r}
 ggplot(reg, aes(x=Ert, y=Prot)) +
@@ -303,11 +287,10 @@ ggplot(reg, aes(x=Ert, y=Prot)) +
   geom_ribbon(data = td, aes(x = Ert, y = NULL, ymin = lwr, ymax = upr), alpha = 0.4)
 ```
 
+## Polynomiale Regression: Quadratischer Term
 
+Mit einer linearen Regression können auch "nicht-lineare" Zusammenhänge modelliert werden.
 
-## Polynomiale Regression: Quadratischer Term  
-
-Mit einer linearen Regression können auch "nicht-lineare" Zusammenhänge modelliert werden.  
 ```{r, fig.height=5.5, fig.width=6, echo=FALSE}
 x <- seq(0,10,0.5)
 y1 <- 4 + 2 * x - 0.1 * x^2
@@ -326,8 +309,7 @@ plot(x,y4,type="l",ylim=c(0,15),ylab="y",col="red")
 mtext("y=1+0.5x+0.1x²", side=1, line=-2, col=2, adj=0.9, cex=0.8)
 ```
 
-Wenn die Daten einen nicht-linearen Trend aufweisen, wir aber nur einen linearen Term modellieren, zeigen die Residuen ein Muster, i.e. eine Kurvatur.    
-
+Wenn die Daten einen nicht-linearen Trend aufweisen, wir aber nur einen linearen Term modellieren, zeigen die Residuen ein Muster, i.e. eine Kurvatur.
 
 ```{r}
 set.seed(123)
@@ -339,14 +321,14 @@ simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
 plot(simulationOutput)
 ```
 
+Wir können diesen Zusammenhang modellieren, indem wir einen quadratischen Term in das lineare Modell nehmen.
 
-Wir können diesen Zusammenhang modellieren, indem wir einen quadratischen Term in das lineare Modell nehmen.  
+`mod<-lm(Abhängige~poly(Erklärungsvariable, 2), data=md)`\
+oder\
+`mod<-lm(Abhängige~Erklärungsvariable+I(Erklärungsvariable^2), data=md)`
 
-`mod<-lm(Abhängige~poly(Erklärungsvariable, 2), data=md)`  
-oder  
-`mod<-lm(Abhängige~Erklärungsvariable+I(Erklärungsvariable^2), data=md)`  
+Das I (Großbuchstabe i) steht für "as is".
 
-Das I (Großbuchstabe i) steht für "as is". 
 ```{r}
 mod2=lm(y3~x+I(x^2), df)
 ggplot(data=df, aes(y=y3, x=x))+
@@ -357,33 +339,27 @@ plot(simulationOutput)
 plotResiduals(simulationOutput, form = df$x)
 ```
 
-
 ## Übung 5
 
-+ Importiere die Daten [NDuenger.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/NDuenger.xlsx){target="_blank"} und mach dich mit den Daten vertraut. 
+-   Importiere die Daten [NDuenger.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/05/NDuenger.xlsx){target="_blank"} und mach dich mit den Daten vertraut.
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 library(openxlsx)
 dat=read.xlsx("NDuenger.xlsx")
 str(dat)
 ```
 
-
 ```{r}
 library(ggplot2)
 ggplot(dat, aes(x=ND, y=ERT)) +	
   geom_point()
 ```
-  
 :::
 
-
-+ Führe eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?
+-   Führe eine Regression durch, um den Einfluss der N-Düngung auf den Ertrag zu modellieren. Was ist die Abhängige (y), was die Erklärungsvariable (x)?
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 mod<-lm(ERT~ND, data=dat)
 drop1(mod, test="F")
@@ -391,10 +367,9 @@ summary(mod)
 ```
 :::
 
-+ Stimmen die Annahmen für eine lineare Regression?
+-   Stimmen die Annahmen für eine lineare Regression?
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 library(DHARMa)
 simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
@@ -404,12 +379,11 @@ plotResiduals(simulationOutput, form=dat$ND)
 
 Nein, eine deutliche Kurve in dem Residuen vs. fitted values Plot.
 
-Ich fitte nun ein polynomiales Modell mit quadratischem Term. Man könnte auch die Abhängige und/oder die Erklärungsvariablen transformieren (z.B. Wurzel oder log) und dann Modelle fitten und die Residuen überprüfen. Ich denke aber, dass ein polynomiales Modell den Zusammenhang ganz gut widerspigeln könnte. 
- 
+Ich fitte nun ein polynomiales Modell mit quadratischem Term. Man könnte auch die Abhängige und/oder die Erklärungsvariablen transformieren (z.B. Wurzel oder log) und dann Modelle fitten und die Residuen überprüfen. Ich denke aber, dass ein polynomiales Modell den Zusammenhang ganz gut widerspigeln könnte.
+
 ```{r}
 mod2<-lm(ERT~ND+I(ND^2), data=dat)
 ```
- 
 
 ```{r}
 simulationOutput <- simulateResiduals(fittedModel = mod2, plot = F)
@@ -417,39 +391,38 @@ plot(simulationOutput)
 plotResiduals(simulationOutput, form=dat$ND)
 ```
 
-Besser. Die Residuen weisen kein auffälliges Muster auf. 
-
+Besser. Die Residuen weisen kein auffälliges Muster auf.
 
 ```{r}
 drop1(mod2, test="F")
 ```
-Beide Terme sind signifikannt. 
 
+Beide Terme sind signifikannt.
 
 ```{r}
 summary(mod2)
 ```
-Das Modell hat ein R² von 95,7%. 
 
-Wir können auch beide Modelle mit der anova()-Funktion (F-test) vergleichen und sehne hier, dass `mod2` signifikant besser fitted. 
+Das Modell hat ein R² von 95,7%.
+
+Wir können auch beide Modelle mit der anova()-Funktion (F-test) vergleichen und sehne hier, dass `mod2` signifikant besser fitted.
 
 ```{r}
 anova(mod, mod2)
 ```
 
-Auch ein Vergleich der AIC-Werte zeigt, dass `mod2` einen niedrigeren AIC im Vergleich zu `mod` hat und entsprechend damit einen besseren fit aufweist. Mehr Informationen zum AIC und Modellvergleich findest du im Kapitel [Statistische Modellierung](https://doreengabriel.github.io/Kurs/Themen/06/06_StatMod.html#modellselektion-basierend-auf-informationskriterien){target="_blank"}. 
-
+Auch ein Vergleich der AIC-Werte zeigt, dass `mod2` einen niedrigeren AIC im Vergleich zu `mod` hat und entsprechend damit einen besseren fit aufweist. Mehr Informationen zum AIC und Modellvergleich findest du im Kapitel [Statistische Modellierung](https://doreengabriel.github.io/Kurs/Themen/06/06_StatMod.html#modellselektion-basierend-auf-informationskriterien){target="_blank"}.
 
 ```{r}
 AIC(mod, mod2)
 ```
 :::
 
-+ Wie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?
+-   Wie hoch ist laut Modell der zu erwartende Ertrag bei 120 kg N?
 
 ::: {.callout-tip collapse="true"}
-
 Um diese Frage zu beantworten, sollten wir das polynomiale Modell nutzen. Wir können entweder die 120 kg N in die Modellgleichung einsetzten
+
 ```{r}
 coef(mod2)
 ```
@@ -458,24 +431,24 @@ coef(mod2)
 coef(mod2)[1]+120*coef(mod2)[2]+120^2*coef(mod2)[3]
 ```
 
-oder die Funktion `predict()`nutzen: 
+oder die Funktion `predict()`nutzen:
+
 ```{r}
 predict(mod2, newdata=data.frame(ND=120))
 ```
 
-Wir sollten nicht das lineare Modell interpretieren, da dies keinen guten fit aufweist (trotz hohem R²). 
+Wir sollten nicht das lineare Modell interpretieren, da dies keinen guten fit aufweist (trotz hohem R²).
+
 ```{r}
 predict(mod, newdata=data.frame(ND=120))
 ```
-
-
 :::
 
-+ Plotte die Regressionslinie des Modells/der Modelle.  
+-   Plotte die Regressionslinie des Modells/der Modelle.
 
 ::: {.callout-tip collapse="true"}
+schnelle Interpretation:
 
-schnelle Interpretation: 
 ```{r}
 library(effects)	
 plot(allEffects(mod2))	
@@ -483,14 +456,15 @@ plot(Effect(c("ND"), mod2, partial.residuals=TRUE))
 ```
 
 das "falsche Model"
+
 ```{r}
 plot(allEffects(mod))	
 plot(Effect(c("ND"), mod, partial.residuals=TRUE))	
 ```
-Im Plot sehen wir nocheinmal, dass das euinfache lineare Modell (`mod`) im niedrigen und hohen N-Düngerbereich den Ertrag überschätzt. 
 
+Im Plot sehen wir nocheinmal, dass das euinfache lineare Modell (`mod`) im niedrigen und hohen N-Düngerbereich den Ertrag überschätzt.
 
-Zu Interpretation dieses einfachen Modell (ohne weitere Kovariablen) könnten wir auch geom_smooth() nutzen, um die Regressionsline einzuzeichnen. 
+Zu Interpretation dieses einfachen Modell (ohne weitere Kovariablen) könnten wir auch geom_smooth() nutzen, um die Regressionsline einzuzeichnen.
 
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
@@ -498,8 +472,8 @@ ggplot(dat, aes(x=ND, y=ERT)) +
   geom_smooth(method=lm, formula=y ~ poly(x, 2), col="green") # quadr
 ```
 
+nur zum Vergleich beider Modelle:
 
-nur zum Vergleich beider Modelle: 
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
   geom_point()+	
@@ -507,8 +481,8 @@ ggplot(dat, aes(x=ND, y=ERT)) +
   geom_smooth(method=lm, formula=y ~ poly(x, 2), col="green") # quadr
 ```
 
-hier aber noch der Code, bei dem das Modell interpretiert wird, wenn auch andere Effekte im Modell wären:  
- 
+hier aber noch der Code, bei dem das Modell interpretiert wird, wenn auch andere Effekte im Modell wären:
+
 ```{r}
 ef=allEffects(mod2, xlevels=100)	
 ef1=as.data.frame(ef[[1]])	
@@ -516,7 +490,6 @@ head(ef1)
 tail(ef1)
 ```
 
-	
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
   geom_point()+
@@ -533,7 +506,6 @@ td<-data.frame(td, predict(mod2, newdata=td, interval="confidence"))
 td[1:10,]
 ```
 
-
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
   geom_point()+
@@ -541,7 +513,6 @@ ggplot(dat, aes(x=ND, y=ERT)) +
   geom_ribbon(data = td, aes(x = ND, y = NULL, ymin = lwr.1, 
                              ymax = upr.1), alpha = 0.4)
 ```
-
 
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
@@ -554,22 +525,18 @@ ggplot(dat, aes(x=ND, y=ERT)) +
                              ymax = upr, linetype=NA), col=2, alpha = 0.2)+
   theme(legend.position = "none")
 ```
-
-
 :::
 
-Extraaufgabe:  
+Extraaufgabe:
 
-+ Extrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg. 
+-   Extrapoliere die Vorhersage des Modells für eine N-Düngung von 250 kg.
 
 ::: {.callout-tip collapse="true"}
-
 ```{r}
 td1<-data.frame(ND=seq(100,250, 1))
 td1$p<-predict(mod, newdata=td1)
 td1$p2<-predict(mod2, newdata=td1)
 ```
-
 
 ```{r}
 ggplot(dat, aes(x=ND, y=ERT)) +	
@@ -578,17 +545,9 @@ ggplot(dat, aes(x=ND, y=ERT)) +
   geom_line(data = td1, aes(x = ND, y = p2))
 ```
 
-Wir sollten das Modell immer nur für den beobachteten Wertebereich interpretieren und insbesondere bei polynomialen Modellen nicht extrapolieren. 
-
+Wir sollten das Modell immer nur für den beobachteten Wertebereich interpretieren und insbesondere bei polynomialen Modellen nicht extrapolieren.
 :::
 
-Ende Übung 5  
-
-
-
-
-
-
-
+Ende Übung 5
 
 
