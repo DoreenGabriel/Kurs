@@ -53,7 +53,7 @@
     "href": "Themen/10/10_RMark.html#rmd-files-für-den-kurs",
     "title": "R Markdown",
     "section": "Rmd-Files für den Kurs",
-    "text": "Rmd-Files für den Kurs\nFolgende R Pakete benötigst Du für den Kurs.\n\ninstall.packages(c(\"palmerpenguins\", \"ggplot2\", \"dplyr\", \"knitr\", \"DHARMa\", \"emmeans\", \"multcompView\", \"multcomp\", \"broom\", \"pander\"))\n\nHier kannst du die Skripte und Dateien für den Kurs herunterladen.\nEinfuehrung_in_R_Markdown_V03.Rmd\npenguins.Rmd\npenguins.png\nWord Art RMarkdown.png"
+    "text": "Rmd-Files für den Kurs\nFolgende R Pakete werden für den Kurs benötigt.\n\ninstall.packages(c(\"palmerpenguins\", \"ggplot2\", \"dplyr\", \"knitr\", \"DHARMa\", \"emmeans\", \"multcompView\", \"multcomp\", \"broom\", \"pander\"))\n\nHier könnt ihr die Skripte und Dateien für den Kurs herunterladen.\nEinfuehrung_in_R_Markdown_V03.Rmd\npenguins.Rmd\npenguins.png\nWord Art RMarkdown.png"
   },
   {
     "objectID": "Themen/08/08_2f_LM.html",
