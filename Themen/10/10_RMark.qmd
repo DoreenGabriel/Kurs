@@ -12,17 +12,18 @@ title: "R Markdown"
 
 ## Rmd-Files für den Kurs
 
-Folgende R Pakete benötigst Du für den Kurs.
+Folgende R Pakete werden für den Kurs benötigt.
+
 ```{r, eval=FALSE}
 install.packages(c("palmerpenguins", "ggplot2", "dplyr", "knitr", "DHARMa", "emmeans", "multcompView", "multcomp", "broom", "pander"))
 ```
 
-Hier kannst du die Skripte und Dateien für den Kurs herunterladen.  
+Hier könnt ihr die Skripte und Dateien für den Kurs herunterladen.
 
-[Einfuehrung_in_R_Markdown_V03.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Einfuehrung_in_R_Markdown_V03.Rmd){target="_blank"} 
+[Einfuehrung_in_R_Markdown_V03.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Einfuehrung_in_R_Markdown_V03.Rmd){target="_blank"}
 
-[penguins.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.Rmd){target="_blank"} 
+[penguins.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.Rmd){target="_blank"}
 
-[penguins.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.png){target="_blank"} 
+[penguins.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.png){target="_blank"}
 
-[Word Art RMarkdown.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Word Art RMarkdown.png){target="_blank"}
+[Word Art RMarkdown.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Word%20Art%20RMarkdown.png){target="_blank"}
