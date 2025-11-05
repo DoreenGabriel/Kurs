@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, comment="")
 
 ```{r}
 #install.packages("palmerpenguins")
+#install.packages(c("palmerpenguins", "ggplot2", "dplyr", "knitr", "DHARMa", "emmeans", "multcompView", "multcomp", "broom", "pander"))
 ```
 
 ## Pakete laden
@@ -59,6 +60,8 @@ Wir haben `r length(df$species)` Beobachtungen.
 
 ```{r, results='hide'}
 colSums(is.na(df))
+df <- df %>%
+  mutate(species = factor(species, levels = c("Chinstrap", "Gentoo", "Adelie")))
 df1 = df %>% filter(complete.cases(.))
 df2 = df %>% filter(complete.cases(body_mass_g))
 df %>%
@@ -213,7 +216,7 @@ format_p <- function(p) {
 
 Oder wir schreiben im Text:
 
-Wir sehen, dass die Gentoo-Pinguine mit einem durchschnittlichen Körpergewicht von etwa `r round(CIs$response[CIs$species == "Gentoo"], 0)` g signifikant schwerer sind als Adelie (p \< `r format_p(CIp$p.value[CIp$contrast == "Adelie - Gentoo"])`) und Chinstrap (p \< `r format_p(CIp$p.value[CIp$contrast == "Chinstrap - Gentoo"])`) Pinguine, welche ein durchschnittliches Körpergewicht von rund `r round(CIs$response[CIs$species == "Adelie"], 0)` g und `r round(CIs$response[CIs$species == "Chinstrap"], 0)` g aufweisen. Adelie und Chinstrap unterscheiden sich nicht signifikant (p = `r round(CIp$p.value[CIp$contrast == "Adelie - Chinstrap"], 2)`).
+Wir sehen, dass die Gentoo-Pinguine mit einem durchschnittlichen Körpergewicht von etwa `r round(CIs$response[CIs$species == "Gentoo"], 0)` g signifikant schwerer sind als Adelie (p \< `r format_p(CIp$p.value[CIp$contrast == "Gentoo - Adelie"])`) und Chinstrap (p \< `r format_p(CIp$p.value[CIp$contrast == "Chinstrap - Gentoo"])`) Pinguine, welche ein durchschnittliches Körpergewicht von rund `r round(CIs$response[CIs$species == "Adelie"], 0)` g und `r round(CIs$response[CIs$species == "Chinstrap"], 0)` g aufweisen. Adelie und Chinstrap unterscheiden sich nicht signifikant (p = `r round(CIp$p.value[CIp$contrast == "Chinstrap - Adelie"], 2)`).
 
 Dank an “Artwork by @allison_horst”.
 

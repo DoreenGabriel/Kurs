@@ -1,92 +1,87 @@
---- 
+---
 title: "Einführung in R Markdown"
 author: "Dr Doreen Gabriel"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   word_document:
-
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, comment="") # Globale Anzeigeoptionen
+knitr::opts_chunk$set(echo = TRUE) # Globale Anzeigeoptionen
 ```
 
 # Infos im Netz
-https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf
-https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf
-https://bookdown.org/yihui/rmarkdown-cookbook/  
 
+<https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf> <https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf> <https://bookdown.org/yihui/rmarkdown-cookbook/>
 
 # Text Basic
-text text text  
-Text2 Text2 Text2  
+
+text text text\
+Text2 Text2 Text2
 
 Text3 Text3 Text3
 
-*kursiv wird das gedruckt*  aber nicht das.    
-**fettgedruckt**  
-hochstellt^2^  
-~~durchgestrichen~~  
+*kursiv wird das gedruckt* aber nicht das.\
+**fettgedruckt**\
+hochstellt^2^\
+~~durchgestrichen~~
 
+# Überschrift 1
 
-# Überschrift 1   
-## Überschrift 2   
-### Überschrift 3   
-#### Überschrift 4   
-##### Überschrift 5   
-###### Überschrift 6   
+## Überschrift 2
 
+### Überschrift 3
+
+#### Überschrift 4
+
+##### Überschrift 5
+
+###### Überschrift 6
 
 Formeln $A = \pi*r^{2}$
 
-*** 
+------------------------------------------------------------------------
 
+### Liste erstellen
 
-### Liste erstellen 
+-   Liste 1
+-   Liste 2
+-   Liste 3
+    -   Liste 3.1
+    -   Liste 3.2
 
-+ Liste 1
-+ Liste 2
-+ Liste 3
-   + Liste 3.1
-   + Liste 3.2
-   
-   
-   
 ### nummerierte Liste
 
-1. Punkt 1
-2. Punkt 2
-   + Punkt 2.1
-   + Punkt 2.2
-   
-   
+1.  Punkt 1
+2.  Punkt 2
+    -   Punkt 2.1
+    -   Punkt 2.2
+
 ### Tabelle erstellen
 
-TabÜ | TabÜ2
--------------|---------
-Inhalt 1 | Inhalt 2
-Inhalt 1.2 | Inhalt 2.2 
-
-
-
+| TabÜ       | TabÜ2      |
+|------------|------------|
+| Inhalt 1   | Inhalt 2   |
+| Inhalt 1.2 | Inhalt 2.2 |
 
 ### Bild einfügen
 
-![](Word Art RMarkdown.png) 
+![](Word%20Art%20RMarkdown.png)
 
-### Seitenumbruch 
+### Seitenumbruch
 
-\newpage 
-
+\newpage
 
 # R Basics
+
 ### Inline Code
 
-Zwei plus zwei ist gleich `r 2 + 2`. 
-
+Zwei plus zwei ist gleich `r 2 + 2`.
 
 ### Code Chunk
-mit strg + alt + i erzeugt man einen Chunk. R Befehle werden in den Chunk geschrieben und ausgeführt. 
+
+mit strg + alt + i erzeugt man einen Chunk. R Befehle werden in den Chunk geschrieben und ausgeführt.
+
 ```{r}
 dim(cars)
 ```
@@ -99,20 +94,20 @@ dim(cars)
 dim(cars)
 ```
 
-
 `echo=FALSE`
+
 ```{r, echo=FALSE}
 dim(cars)
 ```
 
 `comment=""`
+
 ```{r, comment=""}
 dim(cars)
 ```
 
+`include = FALSE`
 
-
-`include = FALSE`  
 ```{r, include = FALSE}
 cars$dist_m   = cars$dist * 0.3048      # Fuß -> Meter
 cars$speed_kmh = cars$speed * 1.60934    # mph -> km/h
@@ -123,31 +118,29 @@ cars
 str(cars)
 ```
 
-
-
 # YAML header
 
-### Inhaltsverzeichnis mit `toc` und `toc_depth` erstellen  
+### Inhaltsverzeichnis mit `toc` und `toc_depth` erstellen
 
-+ https://bookdown.org/yihui/rmarkdown/pdf-document.html
-+ https://bookdown.org/yihui/rmarkdown/html-document.html  
+-   <https://bookdown.org/yihui/rmarkdown/pdf-document.html>
+-   <https://bookdown.org/yihui/rmarkdown/html-document.html>
 
 ### Outputstyle mit `reference_docx` ändern
 
-#### Kurze Anleitung: 
+#### Kurze Anleitung:
 
-1. Neues Word Dokument öffnen. 
-2. Formatvorlagensatz auswählen. 
-3. (optional) 3 Zeilen Text in 3 Überschriften-Ebenen formatieren. 
-4. Das Word dokument in den gleichen Ordner speichern, in dem das RMD gespeichert wird. 
-5. Den YAML header entsprechend dieser Vorgabe ändern:  
+1.  Neues Word Dokument öffnen.
+2.  Formatvorlagensatz auswählen.
+3.  (optional) 3 Zeilen Text in 3 Überschriften-Ebenen formatieren.
+4.  Das Word dokument in den gleichen Ordner speichern, in dem das RMD gespeichert wird.
+5.  Den YAML header entsprechend dieser Vorgabe ändern:
 
-+ https://bookdown.org/yihui/rmarkdown-cookbook/word-template.html
-+ https://bookdown.org/yihui/rmarkdown/word-document.html#other-features-1
+-   <https://bookdown.org/yihui/rmarkdown-cookbook/word-template.html>
+-   <https://bookdown.org/yihui/rmarkdown/word-document.html#other-features-1>
 
-### Datum einfügen 
+### Datum einfügen
 
-+ `format(Sys.Date(), '%d %B %Y')` date: "`r format(Sys.Date(), '%d %B %Y')`"
-+ date: "6. November 2025"
+-   `format(Sys.Date(), '%d %B %Y')` date: "`r format(Sys.Date(), '%d %B %Y')`"
+-   date: "6. November 2025"
 
 \newpage

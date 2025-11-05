@@ -28,6 +28,8 @@ website:
         href: Themen/08/08_2f_LM.qmd
       - text: Two-factorial GLM
         href: Themen/09/09_2f_GLM.qmd
+      - text: R Markdown
+        href: Themen/10/10_RMark.qmd
 
   page-footer: 
     right:
