@@ -1,0 +1,28 @@
+---
+title: "R Markdown"
+---
+
+## Infos im Netz
+
+[https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf){target="_blank"}\
+
+[https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf](https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf){target="_blank"}\
+
+[https://bookdown.org/yihui/rmarkdown-cookbook/](https://bookdown.org/yihui/rmarkdown-cookbook/){target="_blank"}\
+
+## Rmd-Files für den Kurs
+
+Folgende R Pakete benötigst Du für den Kurs.
+```{r, eval=FALSE}
+install.packages(c("palmerpenguins", "ggplot2", "dplyr", "knitr", "DHARMa", "emmeans", "multcompView", "multcomp", "broom", "pander"))
+```
+
+Hier kannst du die Skripte und Dateien für den Kurs herunterladen.  
+
+[Einfuehrung_in_R_Markdown_V03.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Einfuehrung_in_R_Markdown_V03.Rmd){target="_blank"} 
+
+[penguins.Rmd](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.Rmd){target="_blank"} 
+
+[penguins.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/penguins.png){target="_blank"} 
+
+[Word Art RMarkdown.png](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/10/Word Art RMarkdown.png){target="_blank"}

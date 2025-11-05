@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Doreen Gabriel">
+<meta name="dcterms.date" content="2025-11-05">
 
-<title>Über diese Webseite – Einführung in R</title>
+<title>Einführung in R Markdown – Einführung in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +22,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-140ffca498ee3e2c840e99f4b38ab42d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-140ffca498ee3e2c840e99f4b38ab42d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,8 +105,37 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -79,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Einführung in R</span>
     </a>
   </div>
@@ -90,47 +156,47 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/01/01_Allgemeines.html"> 
+    <a class="nav-link" href="../../Themen/01/01_Allgemeines.html"> 
 <span class="menu-text">Allgemeines</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/02/02_DeskriptiveStats.html"> 
+    <a class="nav-link" href="../../Themen/02/02_DeskriptiveStats.html"> 
 <span class="menu-text">Deskriptive Statistik</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/03/03_Graph.html"> 
+    <a class="nav-link" href="../../Themen/03/03_Graph.html"> 
 <span class="menu-text">Grafische Darstellungen</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/04/04_Anova.html"> 
+    <a class="nav-link" href="../../Themen/04/04_Anova.html"> 
 <span class="menu-text">ANOVA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/05/05_Regression.html"> 
+    <a class="nav-link" href="../../Themen/05/05_Regression.html"> 
 <span class="menu-text">Regression</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/06/06_StatMod.html"> 
+    <a class="nav-link" href="../../Themen/06/06_StatMod.html"> 
 <span class="menu-text">Statistische Modellierung</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/07/07_ExpDesign.html"> 
+    <a class="nav-link" href="../../Themen/07/07_ExpDesign.html"> 
 <span class="menu-text">Experimental Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/08/08_2f_LM.html"> 
+    <a class="nav-link" href="../../Themen/08/08_2f_LM.html"> 
 <span class="menu-text">Two-factorial LM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/09/09_2f_GLM.html"> 
+    <a class="nav-link" href="../../Themen/09/09_2f_GLM.html"> 
 <span class="menu-text">Two-factorial GLM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Themen/10/10_Rmark.qmd"> 
+    <a class="nav-link" href="../../Themen/10/10_Rmark.qmd"> 
 <span class="menu-text">R Markdown</span></a>
   </li>  
 </ul>
@@ -144,22 +210,64 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#infos-im-netz" id="toc-infos-im-netz" class="nav-link active" data-scroll-target="#infos-im-netz">Infos im Netz</a></li>
+  <li><a href="#text-basic" id="toc-text-basic" class="nav-link" data-scroll-target="#text-basic">Text Basic</a></li>
+  <li><a href="#überschrift-1" id="toc-überschrift-1" class="nav-link" data-scroll-target="#überschrift-1">Überschrift 1</a>
+  <ul class="collapse">
+  <li><a href="#überschrift-2" id="toc-überschrift-2" class="nav-link" data-scroll-target="#überschrift-2">Überschrift 2</a>
+  <ul class="collapse">
+  <li><a href="#überschrift-3" id="toc-überschrift-3" class="nav-link" data-scroll-target="#überschrift-3">Überschrift 3</a></li>
+  <li><a href="#liste-erstellen" id="toc-liste-erstellen" class="nav-link" data-scroll-target="#liste-erstellen">Liste erstellen</a></li>
+  <li><a href="#nummerierte-liste" id="toc-nummerierte-liste" class="nav-link" data-scroll-target="#nummerierte-liste">nummerierte Liste</a></li>
+  <li><a href="#tabelle-erstellen" id="toc-tabelle-erstellen" class="nav-link" data-scroll-target="#tabelle-erstellen">Tabelle erstellen</a></li>
+  <li><a href="#bild-einfügen" id="toc-bild-einfügen" class="nav-link" data-scroll-target="#bild-einfügen">Bild einfügen</a></li>
+  <li><a href="#seitenumbruch" id="toc-seitenumbruch" class="nav-link" data-scroll-target="#seitenumbruch">Seitenumbruch</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#r-basics" id="toc-r-basics" class="nav-link" data-scroll-target="#r-basics">R Basics</a>
+  <ul class="collapse">
+  <li><a href="#inline-code" id="toc-inline-code" class="nav-link" data-scroll-target="#inline-code">Inline Code</a></li>
+  <li><a href="#code-chunk" id="toc-code-chunk" class="nav-link" data-scroll-target="#code-chunk">Code Chunk</a></li>
+  </ul></li>
+  <li><a href="#yaml-header" id="toc-yaml-header" class="nav-link" data-scroll-target="#yaml-header">YAML header</a>
+  <ul class="collapse">
+  <li><a href="#inhaltsverzeichnis-mit-toc-und-toc_depth-erstellen" id="toc-inhaltsverzeichnis-mit-toc-und-toc_depth-erstellen" class="nav-link" data-scroll-target="#inhaltsverzeichnis-mit-toc-und-toc_depth-erstellen">Inhaltsverzeichnis mit <code>toc</code> und <code>toc_depth</code> erstellen</a></li>
+  <li><a href="#outputstyle-mit-reference_docx-ändern" id="toc-outputstyle-mit-reference_docx-ändern" class="nav-link" data-scroll-target="#outputstyle-mit-reference_docx-ändern">Outputstyle mit <code>reference_docx</code> ändern</a></li>
+  <li><a href="#datum-einfügen" id="toc-datum-einfügen" class="nav-link" data-scroll-target="#datum-einfügen">Datum einfügen</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Über diese Webseite</h1>
+<h1 class="title">Einführung in R Markdown</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Doreen Gabriel </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 5, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -169,12 +277,177 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Diese Webseite ist die Grundlage für meine Kurse, die ich für Wissenschaftler*innen am JKI gebe. Sie soll den Einstieg in die Arbeit mit R erleichtern und anhand von Beispielen Lösungswege und -möglichkeiten für häufig auftretende statistische Fragestellungen aufzeigen. Sie ist als eine Art Kochbuch zu verstehen. Man kann die Rezepte verwenden und selbst kreativ werden.</p>
-<p>Die Inhalte dieser Webseite dienen ausschließlich informatorischen Zwecken. Diese werden kontinuierlich aktualisiert und erweitert. Eine <em>Garantie</em> für die Aktualität, Richtigkeit und Vollständigkeit der zur Verfügung gestellten Informationen ist jedoch ausgeschlossen.</p>
-<p>Bei Fragen und Anmerkungen kontaktiert mich bitte: doreen.gabriel@julius-kuehn.de</p>
-<p><img src="Word Art Teil1.png" class="img-fluid"></p>
+<section id="infos-im-netz" class="level1">
+<h1>Infos im Netz</h1>
+<p><a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf" class="uri">https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf</a> <a href="https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf" class="uri">https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf</a> <a href="https://bookdown.org/yihui/rmarkdown-cookbook/" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/</a></p>
+</section>
+<section id="text-basic" class="level1">
+<h1>Text Basic</h1>
+<p>text text text<br>
+Text2 Text2 Text2</p>
+<p>Text3 Text3 Text3</p>
+<p><em>kursiv wird das gedruckt</em> aber nicht das.<br>
+<strong>fettgedruckt</strong><br>
+hochstellt<sup>2</sup><br>
+<del>durchgestrichen</del></p>
+</section>
+<section id="überschrift-1" class="level1">
+<h1>Überschrift 1</h1>
+<section id="überschrift-2" class="level2">
+<h2 class="anchored" data-anchor-id="überschrift-2">Überschrift 2</h2>
+<section id="überschrift-3" class="level3">
+<h3 class="anchored" data-anchor-id="überschrift-3">Überschrift 3</h3>
+<section id="überschrift-4" class="level4">
+<h4 class="anchored" data-anchor-id="überschrift-4">Überschrift 4</h4>
+<section id="überschrift-5" class="level5">
+<h5 class="anchored" data-anchor-id="überschrift-5">Überschrift 5</h5>
+<section id="überschrift-6" class="level6">
+<h6 class="anchored" data-anchor-id="überschrift-6">Überschrift 6</h6>
+<p>Formeln <span class="math inline">\(A = \pi*r^{2}\)</span></p>
+<hr>
+</section>
+</section>
+</section>
+</section>
+<section id="liste-erstellen" class="level3">
+<h3 class="anchored" data-anchor-id="liste-erstellen">Liste erstellen</h3>
+<ul>
+<li>Liste 1</li>
+<li>Liste 2</li>
+<li>Liste 3
+<ul>
+<li>Liste 3.1</li>
+<li>Liste 3.2</li>
+</ul></li>
+</ul>
+</section>
+<section id="nummerierte-liste" class="level3">
+<h3 class="anchored" data-anchor-id="nummerierte-liste">nummerierte Liste</h3>
+<ol type="1">
+<li>Punkt 1</li>
+<li>Punkt 2
+<ul>
+<li>Punkt 2.1</li>
+<li>Punkt 2.2</li>
+</ul></li>
+</ol>
+</section>
+<section id="tabelle-erstellen" class="level3">
+<h3 class="anchored" data-anchor-id="tabelle-erstellen">Tabelle erstellen</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>TabÜ</th>
+<th>TabÜ2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Inhalt 1</td>
+<td>Inhalt 2</td>
+</tr>
+<tr class="even">
+<td>Inhalt 1.2</td>
+<td>Inhalt 2.2</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bild-einfügen" class="level3">
+<h3 class="anchored" data-anchor-id="bild-einfügen">Bild einfügen</h3>
+<p><img src="Word Art RMarkdown.png" class="img-fluid"></p>
+</section>
+<section id="seitenumbruch" class="level3">
+<h3 class="anchored" data-anchor-id="seitenumbruch">Seitenumbruch</h3>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+</section>
+<section id="r-basics" class="level1">
+<h1>R Basics</h1>
+<section id="inline-code" class="level3">
+<h3 class="anchored" data-anchor-id="inline-code">Inline Code</h3>
+<p>Zwei plus zwei ist gleich 4.</p>
+</section>
+<section id="code-chunk" class="level3">
+<h3 class="anchored" data-anchor-id="code-chunk">Code Chunk</h3>
+<p>mit strg + alt + i erzeugt man einen Chunk. R Befehle werden in den Chunk geschrieben und ausgeführt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50  2</code></pre>
+</div>
+</div>
+<section id="optionen-im-chunk" class="level4">
+<h4 class="anchored" data-anchor-id="optionen-im-chunk">Optionen im Chunk</h4>
+<p><code>eval=FALSE</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>echo=FALSE</code></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50  2</code></pre>
+</div>
+</div>
+<p><code>comment=""</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50  2</code></pre>
+</div>
+</div>
+<p><code>include = FALSE</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   50 obs. of  4 variables:
+ $ speed    : num  4 4 7 7 8 9 10 10 10 11 ...
+ $ dist     : num  2 10 4 22 16 10 18 26 34 17 ...
+ $ dist_m   : num  0.61 3.05 1.22 6.71 4.88 ...
+ $ speed_kmh: num  6.44 6.44 11.27 11.27 12.87 ...</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="yaml-header" class="level1">
+<h1>YAML header</h1>
+<section id="inhaltsverzeichnis-mit-toc-und-toc_depth-erstellen" class="level3">
+<h3 class="anchored" data-anchor-id="inhaltsverzeichnis-mit-toc-und-toc_depth-erstellen">Inhaltsverzeichnis mit <code>toc</code> und <code>toc_depth</code> erstellen</h3>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown/pdf-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/pdf-document.html</a></li>
+<li><a href="https://bookdown.org/yihui/rmarkdown/html-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html</a></li>
+</ul>
+</section>
+<section id="outputstyle-mit-reference_docx-ändern" class="level3">
+<h3 class="anchored" data-anchor-id="outputstyle-mit-reference_docx-ändern">Outputstyle mit <code>reference_docx</code> ändern</h3>
+<section id="kurze-anleitung" class="level4">
+<h4 class="anchored" data-anchor-id="kurze-anleitung">Kurze Anleitung:</h4>
+<ol type="1">
+<li>Neues Word Dokument öffnen.</li>
+<li>Formatvorlagensatz auswählen.</li>
+<li>(optional) 3 Zeilen Text in 3 Überschriften-Ebenen formatieren.</li>
+<li>Das Word dokument in den gleichen Ordner speichern, in dem das RMD gespeichert wird.</li>
+<li>Den YAML header entsprechend dieser Vorgabe ändern:</li>
+</ol>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown-cookbook/word-template.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/word-template.html</a></li>
+<li><a href="https://bookdown.org/yihui/rmarkdown/word-document.html#other-features-1" class="uri">https://bookdown.org/yihui/rmarkdown/word-document.html#other-features-1</a></li>
+</ul>
+</section>
+</section>
+<section id="datum-einfügen" class="level3">
+<h3 class="anchored" data-anchor-id="datum-einfügen">Datum einfügen</h3>
+<ul>
+<li><code>format(Sys.Date(), '%d %B %Y')</code> date: “05 November 2025”</li>
+<li>date: “6. November 2025”</li>
+</ul>
+<div style="page-break-after: always;"></div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
