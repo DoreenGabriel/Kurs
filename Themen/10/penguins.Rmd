@@ -1,0 +1,230 @@
+---
+title: "Einführung in R Markdown - Penguins"
+date: "2025-11-05"
+output:
+  word_document:
+   # toc: true
+   # toc_depth: 3
+   # reference_docx: "ref.docx"
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment="")
+```
+
+```{r}
+#install.packages("palmerpenguins")
+```
+
+## Pakete laden
+
+```{r, message=FALSE, warning=FALSE}
+library(palmerpenguins)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+library(DHARMa)
+library(emmeans)
+library(multcompView)
+library(multcomp)
+library(broom)
+library(pander)
+```
+
+## Daten laden
+
+```{r}
+data(penguins)
+df=penguins
+```
+
+## Struktur prüfen & Daten kennenlernen
+
+```{r, results='hide'}
+str(df)
+summary(df)
+```
+
+Wir haben 344 Beobachtungen.
+
+Wir haben `r length(df$species)` Beobachtungen.
+
+-   3 Faktoren
+-   5 kontinuierliche Variablen
+-   3 Arten
+-   3 Inseln
+-   Missing values
+
+```{r, results='hide'}
+colSums(is.na(df))
+df1 = df %>% filter(complete.cases(.))
+df2 = df %>% filter(complete.cases(body_mass_g))
+df %>%
+  count(species, island)
+```
+
+### Tabelle Summary Statistics
+
+```{r, eval=T}
+df %>%
+  group_by(species) %>%
+  summarise(
+    n = sum(!is.na(body_mass_g)),
+    mean_body_mass_g = round(mean(body_mass_g, na.rm = TRUE), 1),
+    sd_body_mass_g   = round(sd(body_mass_g, na.rm = TRUE), 1),
+    median_body_mass_g = round(median(body_mass_g, na.rm = TRUE), 1),
+    min_body_mass_g  = min(body_mass_g, na.rm = TRUE),
+    max_body_mass_g  = max(body_mass_g, na.rm = TRUE)
+  )
+```
+
+mit `library(knitr)` und der Funktion `kable()`
+
+```{r}
+df %>%
+  group_by(species) %>%
+  summarise(
+    n = sum(!is.na(body_mass_g)),
+    mean_body_mass_g = round(mean(body_mass_g, na.rm = TRUE), 1),
+    sd_body_mass_g   = round(sd(body_mass_g, na.rm = TRUE), 1),
+    median_body_mass_g = round(median(body_mass_g, na.rm = TRUE), 1),
+    min_body_mass_g  = min(body_mass_g, na.rm = TRUE),
+    max_body_mass_g  = max(body_mass_g, na.rm = TRUE)
+  ) %>%
+  kable(
+    caption = "Zusammenfassung der Körpermasse pro Pinguinart (in g)",
+    col.names = c("Art", "n", "Mittelwert", "StdAbw", "Median", "Min", "Max")
+  )
+```
+
+### Abbildungen
+
+```{r, echo=FALSE}
+species_colors <- c(
+  "Adelie" = "#FF8C00",
+  "Chinstrap" = "#800080",
+  "Gentoo" = "#008B8B"
+)
+```
+
+
+
+```{r, fig.width=5, fig.height=3.5, dpi = 300, fig.cap = "Abb. 1: Körpergewicht je Pinguinart", warning=F}
+ggplot(df, aes(x = species, y = body_mass_g, fill = species)) +
+  stat_boxplot(geom ="errorbar", width = 0.3)+
+  geom_boxplot(outlier.shape=NA, width=0.5) +
+  geom_jitter(width=0.1, height=0, shape=16, alpha=0.5)+
+  stat_summary(fun = "mean", colour = 1, fill="grey", size = 1, shape=21) +
+  scale_y_sqrt()+
+  scale_fill_manual(values = species_colors)+
+  labs(x = "Art",
+       y = "Körpergewicht (g)") +
+  theme_bw()+
+  theme(legend.position = "none")
+```
+
+## ANOVA
+
+### Modell formulieren
+
+```{r}
+mod<-lm(sqrt(body_mass_g) ~ species, data=df)
+anova(mod)
+summary(mod)
+```
+
+### Modellannahmen prüfen
+
+```{r, fig.width=8.25, fig.height=4.5}
+simulationOutput <- simulateResiduals(fittedModel = mod, plot = F)
+plot(simulationOutput)
+```
+
+
+```{r, fig.width=4, fig.height=4}
+plotResiduals(simulationOutput, form = df2$species)# NAs in df, besser gleich mit df2 rechnen
+```
+
+### Modell interpretieren
+
+#### geschätzte Koeffizienten
+
+```{r}
+mod%>%
+  tidy() %>%
+  kable(col.names = c("Predictor", "Est", "SE", "t", "p-value"),
+               digits=c(0,2,2,1,4))
+```
+
+Die Modellkoeffizienten beziehen sich auf das wurzel-transformierte Körpergewicht in g. Das R² des Modells beträgt `r round(summary(mod)$r.sq*100,1)`.
+
+#### PostHoc-Test
+
+```{r}
+CIs=cld(emmeans(mod, ~species, type="response"), adjust="sidak", sort = FALSE, Letters=letters)
+CIs$.group # hier sind noch Leerzeichen enthalten, die die Zentrierung der Buchstaben erschwert
+CIs$.group =gsub(" ", "", CIs$.group, fixed = TRUE)# entfernen der Leerzeichen
+CIs$.group # besser
+str(CIs)
+CIs
+CIp=data.frame(pairs(regrid(emmeans(mod, ~species)), adjust="sidak"))
+CIp
+```
+
+#### Abbildung Daten und geschätzte Mittelwerte und Konfidenzintervall
+
+```{r, fig.width=6, fig.height=4, dpi = 300, fig.cap = "Abb. 1: Körpergewicht je Pinguinart"}
+ggplot(df, aes(x = species, y = body_mass_g, fill = species)) +
+  stat_boxplot(geom ="errorbar", width = 0.3)+
+  geom_boxplot(outlier.shape=NA, width=0.5) +
+  geom_jitter(width=0.1, height=0, shape=16, alpha=0.5)+
+  geom_errorbar(data=CIs, aes(y=response, ymin=lower.CL, ymax=upper.CL), 
+                width=0.1, col="grey50", position = position_nudge(x = 0.4))+
+  geom_point(data=CIs, aes(y=response), 
+             shape=16,  size=2, col="grey50", 
+             position = position_nudge(x = 0.4))+
+    geom_text(data=CIs, aes(y = 7000, label =.group))+
+  scale_y_sqrt()+
+  scale_fill_manual(values = species_colors)+
+  labs(x = "Art",
+       y = "Körpergewicht (g)") +
+  theme_bw()+
+  theme(legend.position = "none")
+```
+
+Die geschätzten mittleren Körpermassen (mit 95%-Konfidenzintervallen) sind:
+
+```{r}
+kable(CIs[,c(1,2,5,6)], caption = "Geschätztes mittlere Körpergewicht pro Art (g) .",
+      col.names = c("Art", "geschätzter Mittelwert", "Untere 95%-Konfidenzgrenze", "Obere 95%-Konfidenzgrenze"))
+```
+
+```{r, results="hide", echo=FALSE}
+format_p <- function(p) {
+  if (p < 0.0001) {
+    return("0.0001")
+  } else {
+    return(sprintf("%.4f", p))
+  }
+}
+```
+
+Oder wir schreiben im Text:
+
+Wir sehen, dass die Gentoo-Pinguine mit einem durchschnittlichen Körpergewicht von etwa `r round(CIs$response[CIs$species == "Gentoo"], 0)` g signifikant schwerer sind als Adelie (p \< `r format_p(CIp$p.value[CIp$contrast == "Adelie - Gentoo"])`) und Chinstrap (p \< `r format_p(CIp$p.value[CIp$contrast == "Chinstrap - Gentoo"])`) Pinguine, welche ein durchschnittliches Körpergewicht von rund `r round(CIs$response[CIs$species == "Adelie"], 0)` g und `r round(CIs$response[CIs$species == "Chinstrap"], 0)` g aufweisen. Adelie und Chinstrap unterscheiden sich nicht signifikant (p = `r round(CIp$p.value[CIp$contrast == "Adelie - Chinstrap"], 2)`).
+
+Dank an “Artwork by @allison_horst”.
+
+![](penguins.png)
+
+```{r, comment=""}
+citation("palmerpenguins")
+```
+
+**Abschließende sessionInfo**
+
+```{r}
+sessionInfo()
+```

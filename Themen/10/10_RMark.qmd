@@ -1,0 +1,12 @@
+---
+title: "R Markdown"
+---
+
+# Infos im Netz
+[https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/german/rmarkdown_de.pdf){target="_blank"}\
+
+[https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf](https://posit.co/wp-content/uploads/2022/10/rmarkdown-1.pdf){target="_blank"}\
+
+[https://bookdown.org/yihui/rmarkdown-cookbook/](https://bookdown.org/yihui/rmarkdown-cookbook/){target="_blank"}\
+
+
