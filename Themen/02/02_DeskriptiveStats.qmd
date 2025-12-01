@@ -12,7 +12,7 @@ Diese Daten sind die leicht modifizierten und erweiterten `greenhouse`-Daten aus
 
 In einem Versuch wurden verschiedene Kartoffelsorten (`variety`) in verschiedenen Anbaumethoden (`method`) kultiviert und die Anzahl Knollen (`tubers`), deren Gewicht (`weight`), der Krankheitsbefall (`infection` 1=ja, 0=nein) und die mittlere Luftfeuchte (`humidity`) ermittelt.
 
-Zunächst lesen wir den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/potato.xlsx){target="_blank"}  mit der Funktion `read.xlsx` aus der `library(openxlsx)` ein und benennen den `data.frame` mit `pot` und machen uns mit ihm vertraut.
+Zunächst lesen wir den Datensatz [potato.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/potato.xlsx){target="_blank"} mit der Funktion `read.xlsx` aus der `library(openxlsx)` ein und benennen den `data.frame` mit `pot` und machen uns mit ihm vertraut.
 
 ```{r}
 library(openxlsx)
@@ -175,7 +175,7 @@ Häufig arbeitet man mit großen Datensätzen und vielen Variablen.
 
 ### select
 
-Mit der Funktion `select` kann man Variablen auswählen, indem ich sie durch Komme getrennt aufliste:
+Mit der Funktion `select` kann man Variablen auswählen, indem ich sie durch Komma getrennt aufliste:
 
 ```{r}
 pot.sub %>% select(variety, method, tubers, weight)
@@ -306,11 +306,12 @@ pot1
 
 ## Übung 2.1.
 
-Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/02/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`.
 
 ::: {.callout-tip collapse="true"}
 ### Daten einlesen und prüfen
-Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein.
 
 ```{r}
 library(openxlsx)
@@ -319,14 +320,11 @@ str(md)
 ```
 :::
 
-Erstelle einen neuen Datensatz mit Beobachtungen von Kursteilnehmern mit jeweils: 
+Erstelle einen neuen Datensatz mit Beobachtungen von Kursteilnehmern mit jeweils:
 
-+ blauen Augen (`md1`)
-
-
+-   blauen Augen (`md1`)
 
 ::: {.callout-tip collapse="true"}
- 
 ```{r}
 library(dplyr)
 md1 = md %>% filter(AF=="blau")
@@ -334,7 +332,7 @@ md1
 ```
 :::
 
-+ Körpergröße größer 1,70 m (`md2`)
+-   Körpergröße größer 1,70 m (`md2`)
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -343,7 +341,7 @@ md2
 ```
 :::
 
-+ blauen und grünen Augen (`md3`)
+-   blauen und grünen Augen (`md3`)
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -352,7 +350,7 @@ md3
 ```
 :::
 
-+ ohne Schuhgröße (`md4`)
+-   ohne Schuhgröße (`md4`)
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -360,7 +358,6 @@ md4 = md %>% select(-SG)
 md4
 ```
 :::
-
 
 Ende Übung 2.1.
 
@@ -426,6 +423,7 @@ ftable(pot$variety, pot$method, pot$infection)
 ## Quantitative Daten
 
 ### Mittelwert und Median
+
 -   Arithmetischer Mittelwert `mean()`
 -   Median `median()`: Wert, der an der mittleren (zentralen) Stelle steht, wenn man die Werte der Größe nach sortiert
 -   Median besser als arithmetischer Mittelwert bei:
@@ -450,8 +448,9 @@ mean(pot$tubers)
 median(pot$tubers)
 ```
 
-### Varianz und Standardabweichung 
-sind Maße, die die Streuung der Daten beschreiben. 
+### Varianz und Standardabweichung
+
+sind Maße, die die Streuung der Daten beschreiben.
 
 -   Varianz `var()`
 -   Standardabweichung `sd()`
@@ -471,7 +470,8 @@ var(pot$tubers)
 sd(pot$tubers)
 ```
 
-### Standardfehler des Mittelwertes (sem) 
+### Standardfehler des Mittelwertes (sem)
+
 beschreibt die Genauigkeit der Berechnung des Stichproben-Mittelwertes.
 
 -   sem = sd/sqrt(n)
@@ -507,8 +507,6 @@ quantile(pot$tubers, p=c(0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.90, 0.95, 0.99))
 #Funktion für Variationskoeffizienten
 CV <- function(x) {sd(x, na.rm=TRUE)/mean(x, na.rm=TRUE)} 
 ```
-
-
 
 ```{r}
 pot %>% 
@@ -627,13 +625,14 @@ pot %>%  group_by(method) %>%
   relocate(variable)
 ```
 
-
 ## Übung 2.2.
-Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R  und benenne den data.frame mit `md`. 
+
+Die Körpergröße, Schuhgröße, Geschlecht und Augenfarbe von Kursteilnehmer wurde ermittelt. Importiere bitte die Daten [Kursteilnehmer.xlsx](https://github.com/DoreenGabriel/Kurs/blob/main/Themen/03/Kursteilnehmer.xlsx){target="_blank"} in R und benenne den data.frame mit `md`.
 
 ::: {.callout-tip collapse="true"}
 ### Daten einlesen und prüfen
-Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein. 
+
+Der Datensatz hat in der ersten Zeile eine detaillierte und in der zweiter Zeile die kurze Variablenbezeichnung. Daher lese ich die Daten mit dem Argument `startRow = 2` erst ab der zweiten Zeile ein.
 
 ```{r}
 library(openxlsx)
@@ -642,8 +641,7 @@ str(md)
 ```
 :::
 
-
-+ Nutze die Funktion `summary(md)`, um die Daten zu beschreiben.
+-   Nutze die Funktion `summary(md)`, um die Daten zu beschreiben.
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -651,7 +649,7 @@ summary(md)
 ```
 :::
 
-+ Ermittele die Anzahl Frauen und Männer für jede Augenfarbe.
+-   Ermittele die Anzahl Frauen und Männer für jede Augenfarbe.
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -660,7 +658,7 @@ md %>% count(AF, G) %>%
 ```
 :::
 
-+ Berechne die mittlere Körpergröße für Männer und Frauen.
+-   Berechne die mittlere Körpergröße für Männer und Frauen.
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -669,7 +667,7 @@ md %>% group_by(G) %>%
 ```
 :::
 
-+ Berechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.
+-   Berechne den Quotienten aus Körpergröße und Schuhgröße für jeden Teilnehmer und füge diesen in den data.frame ein.
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -679,7 +677,7 @@ md1
 ```
 :::
 
-+ Exportiere die Daten z.B. mit `write.xlsx()`.
+-   Exportiere die Daten z.B. mit `write.xlsx()`.
 
 ::: {.callout-tip collapse="true"}
 ```{r, eval=F}
@@ -687,10 +685,9 @@ write.xlsx(md1, "KT_export.xlsx", overwrite = TRUE)
 ```
 :::
 
-
 Zusatzaufgabe
 
-+ Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einem xlsx-file mit zwei Tabellenblätter.
+-   Exportiere sowohl die Daten als auch eine Summary Statistics der Daten in einem xlsx-file mit zwei Tabellenblätter.
 
 ::: {.callout-tip collapse="true"}
 ```{r}
@@ -710,7 +707,6 @@ md.sum=md %>%  group_by(G) %>%
 md.sum
 ```
 
-
 ```{r, eval=F}
 wb <- createWorkbook()
 addWorksheet(wb, sheetName = "KT")
@@ -720,5 +716,3 @@ writeData(wb, "summary statistics", md.sum)
 saveWorkbook(wb, file = "KT_export1.xlsx", overwrite = TRUE)
 ```
 :::
-
-

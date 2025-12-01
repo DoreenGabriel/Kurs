@@ -61,7 +61,7 @@ wenn der Effekt einer Erklärungsvariable von dem Wert der anderen Erklärungsva
 ## Mehrere Erklärungsvariablen im Modell
 
 | Nr | Modellformel | Modellparameter |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | 1 | `lm(y~x+z)` | zwei Erklärungsvariablen |
 | 2 | `lm(y~x*z)` | zwei Erklärungsvariablen und deren Interaktion |
 | 3 | `lm(y~x+z+x:z)` | zwei Erklärungsvariablen und deren Interaktion |

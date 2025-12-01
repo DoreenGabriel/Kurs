@@ -26,13 +26,181 @@ options(dplyr.summarise.inform = FALSE)
 
 4.  **Randomization**: Randomization is a key principle that helps eliminate bias by ensuring that all experimental subjects or units have an equal chance of receiving any treatment.
 
-5.  **Blocking and Nesting (Split Plot Design)**: Blocking and nesting are techniques used to control for variability by grouping similar experimental units, allowing for more precise measurement of treatment effects.
+5.  **Blocking and Nesting (Randomized Complete Block Design, Split Plot Design)**: Blocking and nesting are techniques used to control for variability by grouping similar experimental units, allowing for more precise measurement of treatment effects.
 
 6.  **What to Measure** (Dependent or Explanatory Variables, Probability Distribution): Identifying what to measure involves selecting the dependent (response) and explanatory (independent) variables, as well as determining the appropriate probability distribution for analyzing the data.
 
 ## Replication
 
--   to distinguish systematic treatment effects from random variation
+In experimental design and statistics, a replication is an **independent experimental unit** that receives a treatment.
+
+- Replications must be independent of each other.
+- They allow us to estimate natural variability between experimental units.
+- Replication is essential for judging whether a treatment effect is real.
+
+Example:
+If you test two fertilizer (`A` and `B`) on 10 separate plants, you have 5 replications per treatment.
+
+```{r, meassage=F, fig.width=7, fig.height=3, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+df_replication <- data.frame(
+  plant = factor(1:10),
+  treatment = rep(c("A", "B"), each = 5),
+  y = 1
+)
+set.seed(1234)
+df_replication$plant=sample(df_replication$plant, replace=F)
+
+ggplot(df_replication, aes(x = plant, y = y, color = treatment)) +
+  geom_point(size = 6) +
+  scale_y_continuous(limits = c(0.75, 1.25)) +
+  labs(title = "True Replication",
+       subtitle = "Each point = 1 independent experimental unit",
+       x = "Plant (independent experimental units)",
+       y = "") +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "top")
+
+```
+
+--- 
+
+A **repeated measurement** occurs when you take multiple observations from the same experimental unit.
+
+- They are not independent, because they come from the same subject.
+- They improve measurement precision but do **not** increase replication.
+
+Example:
+If you measure the height of the same plant every week, you have repeated measures — not independent replications.
+
+
+```{r, meassage=F, fig.width=7, fig.height=3, warning=FALSE}
+#| code-fold: true
+#| 
+df_repeated <- merge(
+  df_replication,
+  data.frame(measurement = 1:5),
+  by = NULL
+)
+ggplot(df_repeated, aes(x = plant, y = measurement, group = plant, color = treatment)) +
+  geom_point(size = 3) +
+  geom_line(alpha = 0.5) +
+  labs(title = "Repeated Measurements",
+       subtitle = "Two treatments, five plants each, multiple measurements per plant",
+       x = "Plant (experimental unit)",
+       y = "Measurement number") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+---
+
+**Pseudoreplication** occurs when non-independent observations are treated as if they were independent replications.
+
+This leads to: 
+
+- artificially small standard errors
+- inflated significance
+- invalid statistical conclusions
+
+Example:
+
+You apply fertilizer `A` to one pot containing 5 plants and fertilzer `B` to another pot with 5 plants. Then you measure the weight of each plant. You cannot treat the 5 measurements as independent replicates since they all grew in the same pot. This is pseudoreplication.
+
+```{r, meassage=F, fig.width=7, fig.height=3, warning=FALSE}
+#| code-fold: true
+#|
+df_pseudo <- data.frame(
+  pot = rep(c("Pot A", "Pot B"), each = 5),
+  plant = factor(1:10),
+  treatment = rep(c("A","B"), each = 5)
+)
+
+ggplot(df_pseudo, aes(y = pot, x= plant, color = treatment)) +
+  geom_point(size = 6) +
+  labs(title = "Pseudoreplication",
+       subtitle = "Multiple non-independent measurements treated as independent replicates",
+      y = "Pot \n(the true experimental unit)",
+       x = "Plant") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+
+*It is still valuable to have five measurements of each individual plant*. But you need to increase the number of pots to increase sample size. 
+
+
+
+Example:
+
+You collect 10 soil samples from a plot, mix them into a single composite sample, and then split this mixture into three subsamples for laboratory analysis. Although you obtain three lab results, they all originate from the same composite soil sample. These measurements reflect only analytical (lab) variability, not variation among independent samples from the plot. Therefore, the three results are not independent replicates of the plot.
+
+--- 
+
+## Randomization
+
+Most classical statistical methods (ANOVA, t-tests, regression) assume that treatments were assigned randomly.
+
+**Randomization eliminates systematic bias**
+
+Without randomization, treatment groups might accidentally differ in important ways other than the treatment itself. 
+Hence randomization ensures that: 
+
+- soil quality
+- sunlight
+- operator effects
+- temperature
+- sample handling
+- measurement order
+
+are not consistently linked to one treatment.
+
+This prevents hidden biases from influencing results.
+
+
+```{r, meassage=F, fig.width=7, fig.height=3, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+set.seed(42)
+df_ran <- data.frame(
+  plant = rep(factor(1:10), times=3),
+  treatment =c(rep(c("A", "B"), each = 5),
+               rep(c("A", "B"), times = 5), 
+               sample(rep(c("A", "B"), each = 5), replace=F)),
+  y = rep(c(1,2,3), each= 10)
+)
+
+ggplot(df_ran, aes(x = plant, y = y, color = treatment)) +
+  geom_point(size = 6) +
+  scale_y_reverse(limits = c(0.75, 3.25), breaks=c(1,2,3), 
+                  labels=c("1st case: no" ,"2nd case: no", "3rd case: yes!"))+
+  labs(title = "Dos and Don'ts: Randomizsation",
+       subtitle = "order in space or time of experimental unit",
+       x = "independent Plant",
+       y = "")+ 
+    theme_minimal() +
+  theme(legend.position = "top")
+
+```
+
+
+Assume you have a gradient in soil quality or sunlight with better growing conditions with increasing Plant ID ... the first and second case would strongly bias the plant growth towards treatment `B`. 
+
+
+**Randomization balances unknown variables**
+
+There are always factors you cannot measure or do not even know about.
+Randomization spreads these unknowns equally across treatment groups.
+
+This is why randomized experiments still work even when not all confounding variables are controlled.
+
+
+## Sample size: 
+
 -   the more samples you have:
     -   the more precise you estimate the mean of the samples (reducing uncertainty in the results and increasing confidence in the conclusions)
     -   less dramatic when missing data occur (e.g. destroyed trap, broken test tube, farmer leaves the project, wrong application of treatment)
@@ -139,7 +307,7 @@ ggplot(example_data, aes(x = group, y = value, fill = group)) +
 ```
 
 ::: callout-important
-#### Excersise
+#### Excercise
 
 Copy the code and repeat 10 times. Note for each run and sample size, how often you observe a significant effect.
 :::
@@ -226,7 +394,8 @@ Suppose we want to test 5 varieties (A, B, C, D, E) with 4 replications each, di
 
 ```{r}
 trt=c("A","B","C","D","E")
-outdesign.crd <-design.crd(trt,r=4, serie=1, seed=1234)
+n=4
+outdesign.crd <-design.crd(trt,r=n, serie=1, seed=1234)
 book.crd<-outdesign.crd$book # field book
 head(book.crd)
 ```
@@ -234,8 +403,8 @@ head(book.crd)
 We get a field book with plot numbers and treatment allocation. To plot this design, I add columns and rows and use the function `ggplot()` from `library(ggplot2)`. *Note, that I have chosen 5 rows x 4 columns. We could also use 2 rows x 10 columns or 1 row x 20 columns depending on the field proportions.*
 
 ```{r}
-book.crd$col=rep(1:4, times=5)
-book.crd$row=rep(1:5, each=4)
+book.crd$col=rep(1:n, times=length(trt))
+book.crd$row=rep(1:length(trt), each=n)
 head(book.crd)
 
 ggplot(data=book.crd, aes(x=col, y=row, fill=trt, label=trt))+
@@ -250,6 +419,21 @@ This design is highly flexible, allowing for a varying number of treatments and 
 
 However, challenges may arise with this CRD design if there are underlying gradients among experimental plots that affect the response, such as soil heterogeneity, which can introduce unwanted variability into the results.
 
+::: {.callout-tip collapse="true"}
+
+Most of the designs you can easily create by yourself using the `sample()` function with the argument `replace=FALSE`.  
+
+```{r, message=FALSE}
+sample(trt, replace = F)
+df.crd=data.frame(PlotID=1:(length(trt)*n), 
+                  trt=sample(rep(trt, each=n), 
+                  replace=F))
+df.crd
+```
+:::
+
+
+
 ### Randomized Complete Block Design (RCBD)
 
 In a Randomized Complete Block Design we can control for the variability among experimental plots (e.g. gradients in soil conditions) by building blocks. A block represents a relatively homogeneous set of conditions. Each block receives each treatment exactly once, which means all treatments are "completely randomized" within each block. The number of blocks represents the number of replications.
@@ -258,7 +442,8 @@ To create a field plan in an RCBD we use the function `design.rcbd` from the lib
 
 ```{r}
 trt=c("A","B","C","D","E")
-outdesign.rcbd <-design.rcbd(trt, r=4,serie=1, seed=1236, "Wichmann-Hill")
+n=4
+outdesign.rcbd <-design.rcbd(trt, r=n,serie=1, seed=1236, "Wichmann-Hill")
 book.rcbd<-outdesign.rcbd$book# field book
 head(book.rcbd)
 ```
@@ -266,7 +451,7 @@ head(book.rcbd)
 Columns represent now the number of levels in the treatment (but not the treatment levels). Rows are the block numbers.
 
 ```{r}
-book.rcbd$col=rep(1:5, 4)
+book.rcbd$col=rep(1:length(trt), n)
 book.rcbd$row=as.numeric(book.rcbd$block)
 head(book.rcbd)
 
@@ -281,6 +466,11 @@ p.rcbd
 ```
 
 Assume that the field has a gradient in soil fertility from North to South (i.e. from row 1 to row 4): Each treatment is now tested on the poorer and the fertile soil.
+
+Building blocks is even useful when there are no obvious gradients. Due to similarity in space (or time) things are more similar and hence treatment effects are better comparable and blocks can be an insurance against unforeseen accidents. 
+
+If you use a RCBD for the spatial layout, you should also take the measurements block-wise. This reduces environmental or temporal variability during measurement, ensures that any short-term changes (e.g., light, temperature, operator effects) affect all treatments equally within a block, and preserves the design structure, so that treatment comparisons remain valid and unbiased.
+
 
 To analyze the data, we need to add the block effect to the linear model (e.g., `mod <- lm(y ~ trt + block, data = dat)`) or to the generalized linear model (e.g., `mod <- glm(y ~ trt + block, family = "poisson", data = dat)`). This way, the treatment effect can be separated from the block effect in the analysis, making it easier to detect differences among treatments.
 
@@ -354,10 +544,11 @@ Example: If the machinery for sowing is not applicable for individual plots, but
 ```{r, fig.width=7, fig.height=6}
 geno<-c("g1","g2","g3","g4")
 N<-c("low","med","high")
-outdesign <-design.split(geno,N,r=4,serie=2,seed=415,kinds ="Super-Duper")
+n=4
+outdesign <-design.split(geno,N,r=n,serie=2,seed=415,kinds ="Super-Duper")
 book<-outdesign$book# field book
-book$col=rep(1:4, each=3)
-book$row=rep(1:3)
+book$col=rep(1:n, each=length(N))
+book$row=rep(1:length(N))
 book$PlotID=1:length(book$row)
 head(book)
 
@@ -378,7 +569,7 @@ These data can be analysed using a linear mixed effect model with geno and N and
 book$mainplot=factor(paste(book$block, book$geno, sep="."))
 ```
 
-```{r}
+```{r, fig.width=7, fig.height=6}
 ggplot(data=book, aes(x=col, y=row, fill=factor(plots), label=mainplot))+
   geom_tile(colour=1)+
   geom_text()+
@@ -387,7 +578,7 @@ ggplot(data=book, aes(x=col, y=row, fill=factor(plots), label=mainplot))+
   facet_wrap(~block, scales="free",
              labeller = labeller(block=label_both))+
   theme(legend.position = "bottom")+
-  guides(fill = guide_legend(nrow = 1))
+  guides(fill = guide_legend(nrow = 2))
 ```
 
 Hence the model would look like:
@@ -401,9 +592,98 @@ Hence the model would look like:
 
 Alternatively the nesting can be also written like this `(1|block:geno)`.
 
+### Incomplete block design 
+
+Imagine the JKI is organizing a wine-tasting study.
+By now, you know that each person should evaluate each wine in a randomized order (to avoid order effects such as fatigue or palate adaptation).
+Let’s assume all wines are white wines, so colour is not a factor.
+
+But now we face a practical constraint:
+
+We want to compare six wines, but each person can only reliably taste 4 wines.
+
+This means a complete block design is not possible, because a complete block would require each taster to evaluate all wines.
+
+This is exactly the situation where incomplete block designs (IBD) are useful.
+
+#### Balanced Incomplete Block Design (BIBD)
+```{r}
+trt=c("A","B","C","D","E", "F") 
+k=4 
+outdesign.bib <- design.bib(trt,k, seed=123)
+book.bibd=outdesign.bib$book
+book.bibd$row=rep(1:k, max(as.integer(book.bibd$block)))
+book.bibd$col=as.numeric(book.bibd$block)
+#book.bibd
+```
+
+```{r, fig.width=10, fig.height=4.5}
+ggplot(data=book.bibd, aes(x=block, y=row, fill=trt, label=trt))+
+  geom_tile(colour=1)+
+  geom_text()+
+  geom_text(aes(label=plots), nudge_y = 0.4, nudge_x = -0.4, size=4)+ 
+  scale_y_reverse(breaks=1:4)+
+  facet_grid(~block, scales="free", labeller = labeller(block=label_both))+
+  theme(legend.position = "bottom")+ 
+  guides(fill = guide_legend(nrow = 1))
+```
+
+```{r}
+table(book.bibd$trt)
+```
+
+So each wine is rated by ten people.
+
+Problem: Wine B and C are tested only once in the first run and wine A is not included in the second tasting round (i.e. row). This creates an imbalance across blocks (rows).
+
+To analyze the data from BIBD, we need to add the block as random effect to the linear mixed effect model:  
+
+-   `library(glmmTMB)` for linear mixed effect model `mod<-glmmTMB(y ~ trt +  (1|block), data=dat)` or generalised linear mixed effect model `mod<-glmmTMB(y ~ trt + (1|block), data=dat, family="poisson")` or
+-   `library(lme4)` with `mod<-lmer(y ~ trt + (1|block), data=dat)` and `mod<-glmer(y ~ trt + (1|block), data=d, family="poisson")` 
+- `library(ordinal)` for ordinal respone (as in wine tasting) `mod<-clmm(y ~ trt +  (1|block), data=dat)`
+
+
+#### Cyclic Incomplete Block Design
+
+To avoid this imbalance, we can use a cyclic design, which systematically rotates treatments through blocks.
+
+```{r}
+trt=c("A","B","C","D","E", "F") 
+outdesign.cyc <- design.cyclic(trt, k=4, r=8, seed=123, serie=2, rowcol = TRUE)
+book.cyc=outdesign.cyc$book
+book.cyc$row=rep(1:4, max(as.integer(book.cyc$block)))
+book.cyc$col=as.numeric(book.cyc$block)
+```
+
+
+```{r, fig.width=10, fig.height=4.5}
+ggplot(data=book.cyc, aes(x=block, y=row, fill=trt, label=trt))+
+  geom_tile(colour=1)+
+  geom_text()+
+  geom_text(aes(label=plots), nudge_y = 0.4, nudge_x = -0.4, size=4)+ 
+  scale_y_reverse(breaks=1:4)+
+  facet_grid(~block, scales="free", labeller = labeller(block=label_both))+
+  theme(legend.position = "bottom")+ 
+  guides(fill = guide_legend(nrow = 1))
+
+```
+
+Each wine is included the same number of times across blocks (balanced replication). Each block (row) contains a fair distribution of wines: no wine is missing from early rounds, and no wine is overrepresented in later rounds.
+
+In this example, each wine appears twice per run, making the tasting schedule more even and logistically fair. 
+This produces a more regular and predictable structure, reducing the risk of block-specific biases.
+
+
+To analyze the data from cyclic design, we need to add the row and the block (col) as random effect to the linear mixed effect model:  
+
+-   `library(glmmTMB)` for linear mixed effect model `mod<-glmmTMB(y ~ trt + (1|row) +  (1|block), data=dat)` or generalised linear mixed effect model `mod<-glmmTMB(y ~ trt + (1|row) + (1|block), data=dat, family="poisson")` or
+-   `library(lme4)` with `mod<-lmer(y ~ trt + (1|row) + (1|block), data=dat)` and `mod<-glmer(y ~ trt + (1|row) + (1|block), data=d, family="poisson")` 
+- `library(ordinal)` for ordinal respone (as in wine tasting) `mod<-clmm(y ~ trt + (1|row) +  (1|block), data=dat)`
+
+
 ### Other designs
 
-There are many more designs used in agricultural settings, e.g. with incomplete blocks. Check out the agricolae-package for more inspiration.
+There are many more designs used in agricultural settings. Check out the agricolae-package for more inspiration.
 
 ### Export field book
 
